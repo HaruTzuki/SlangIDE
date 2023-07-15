@@ -1,0 +1,4 @@
+{
+  "usings": "",
+  "code": "#add \"system\" \n\n\n\n\n void main() {\n\t let a = 1; \n\t let b = 2; \n\r \t print(a+b); \n\r}"
+}

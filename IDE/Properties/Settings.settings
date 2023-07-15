@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="IDE.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="RecentFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">recent_projects.json</Value>
+    </Setting>
+    <Setting Name="FileFolder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">files</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

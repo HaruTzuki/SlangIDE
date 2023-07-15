@@ -1,4 +1,5 @@
 ﻿using IDE.Helper;
+using IDE.Helper.Custom;
 using IDE.Preferences;
 using IDE.Properties;
 using Newtonsoft.Json;
@@ -6,12 +7,13 @@ using System;
 using System.Collections.Generic;
 namespace IDE.Views
 {
-    public partial class FrmStartup : Form
+    public partial class FrmStartup : SlangIDEForm
     {
         public FrmStartup()
         {
             InitializeComponent();
             LoadRecent();
+            TitleLabel.Text = "Slang IDE";
         }
 
         private void LoadRecent()
@@ -32,9 +34,9 @@ namespace IDE.Views
             using var streamReader = new StreamReader(filePath);
             var projects = JsonConvert.DeserializeObject<IEnumerable<RecentProject>>(streamReader.ReadToEnd());
 
-            
 
-            foreach (var project in projects.OrderBy(x=>x.CreatedOn))
+
+            foreach (var project in projects.OrderBy(x => x.CreatedOn))
             {
                 var btn = new Button
                 {

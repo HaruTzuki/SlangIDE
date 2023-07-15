@@ -1,4 +1,5 @@
 ﻿using IDE.Helper;
+using IDE.Helper.Custom;
 using IDE.Preferences;
 using Newtonsoft.Json;
 using System;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 
 namespace IDE.Views
 {
-    public partial class FrmProjectsList : Form
+    public partial class FrmProjectsList : SlangIDEForm
     {
         public FrmProjectsList()
         {

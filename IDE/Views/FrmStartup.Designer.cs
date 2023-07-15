@@ -39,9 +39,11 @@
             groupBox1.Controls.Add(panel1);
             groupBox1.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(12, 12);
+            groupBox1.Location = new Point(10, 39);
+            groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(392, 513);
+            groupBox1.Padding = new Padding(3, 2, 3, 2);
+            groupBox1.Size = new Size(343, 355);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Recent Project";
@@ -50,9 +52,10 @@
             // 
             panel1.AutoScroll = true;
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(3, 27);
+            panel1.Location = new Point(3, 22);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(386, 483);
+            panel1.Size = new Size(337, 331);
             panel1.TabIndex = 0;
             // 
             // BtnNewProject
@@ -62,9 +65,10 @@
             BtnNewProject.FlatStyle = FlatStyle.Flat;
             BtnNewProject.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             BtnNewProject.ForeColor = Color.White;
-            BtnNewProject.Location = new Point(410, 75);
+            BtnNewProject.Location = new Point(359, 56);
+            BtnNewProject.Margin = new Padding(3, 2, 3, 2);
             BtnNewProject.Name = "BtnNewProject";
-            BtnNewProject.Size = new Size(383, 97);
+            BtnNewProject.Size = new Size(335, 73);
             BtnNewProject.TabIndex = 1;
             BtnNewProject.Text = "Create New Project";
             BtnNewProject.UseVisualStyleBackColor = false;
@@ -72,12 +76,17 @@
             // 
             // FrmStartup
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AllowResizing = false;
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(36, 36, 36);
-            ClientSize = new Size(805, 537);
+            BorderColour = Color.DarkSlateBlue;
+            ClientSize = new Size(704, 403);
             Controls.Add(BtnNewProject);
             Controls.Add(groupBox1);
+            FormClosingOperations = Helper.Custom.FormClosingOperations.CloseApplication;
+            FormTitle = "Slang IDE";
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FrmStartup";

@@ -171,18 +171,22 @@ namespace IDE.Helper.Custom
             TitleLabel.Dock = DockStyle.Fill;
             TitleLabel.TextAlign = ContentAlignment.MiddleLeft;
             TitleLabel.ForeColor = Color.WhiteSmoke;
+            TitleLabel.MouseDown += TitleBar_MouseDown;
+            TitleLabel.MouseMove += TitleBar_MouseMove;
+            TitleLabel.MouseUp += TitleBar_MouseUp;
 
             TitleBar.Controls.Add(TitleLabel);
             TitleBar.Controls.Add(MinimizeWindow);
             TitleBar.Controls.Add(MaximizeWindow);
             TitleBar.Controls.Add(CloseWindow);
 
-            this.Controls.Add(TitleBar);
-
             /* Panel Body */
-            //Body = new Panel();
-            //TitleBar.Name = "Body";
-            //TitleBar.Dock = DockStyle.Fill;
+            Body = new Panel();
+            Body.Name = "Body";
+            Body.Dock = DockStyle.Fill;
+
+            this.Controls.Add(TitleBar);
+            this.Controls.Add(Body);
 
             //Controls.Add(Body);
             Controls.Add(TitleBar);

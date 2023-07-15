@@ -12,6 +12,12 @@ namespace IDE.Views
         public FrmStartup()
         {
             InitializeComponent();
+            AllowMaximize = false;
+            AllowMinimize = false;
+            AllowResizing = false;
+            this.Body.Controls.Add(groupBox1);
+            this.Body.Controls.Add(BtnNewProject);
+
             LoadRecent();
             TitleLabel.Text = "Slang IDE";
         }

@@ -20,13 +20,24 @@ namespace IDE.Views
         public FrmProjectsList()
         {
             InitializeComponent();
+            AllowMaximize = false;
+            AllowMinimize = false;
+            AllowResizing = false;
+            this.Body.Controls.Add(TemplatesListView);
+            this.Body.Controls.Add(LblProjectName);
+            this.Body.Controls.Add(TxtProjectName);
+            this.Body.Controls.Add(LblPath);
+            this.Body.Controls.Add(TxtFilePath);
+            this.Body.Controls.Add(BtnProjectPath);
+            this.Body.Controls.Add(BtnOK);
+
             TxtFilePath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "GoSlang");
-            listView1.Items[0].Selected = true;
+            TemplatesListView.Items[0].Selected = true;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            var selectedProjectType = ReadPredefineProject(this.listView1.SelectedItems[0].Tag.ToString()!);
+            var selectedProjectType = ReadPredefineProject(this.TemplatesListView.SelectedItems[0].Tag.ToString()!);
             selectedProjectType.Name = TxtProjectName.Text;
 
             Functions.CreateProject(TxtFilePath.Text, TxtProjectName.Text, selectedProjectType);

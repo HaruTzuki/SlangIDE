@@ -31,32 +31,32 @@
             components = new System.ComponentModel.Container();
             ListViewItem listViewItem1 = new ListViewItem("Empty Project", "file-regular.png");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmProjectsList));
-            listView1 = new ListView();
+            TemplatesListView = new ListView();
             imageList1 = new ImageList(components);
             BtnOK = new Button();
-            label1 = new Label();
+            LblProjectName = new Label();
             TxtProjectName = new TextBox();
             TxtFilePath = new TextBox();
-            label2 = new Label();
+            LblPath = new Label();
             BtnProjectPath = new Button();
             SuspendLayout();
             // 
-            // listView1
+            // TemplatesListView
             // 
-            listView1.BackColor = Color.FromArgb(61, 61, 61);
-            listView1.BorderStyle = BorderStyle.FixedSingle;
-            listView1.ForeColor = Color.WhiteSmoke;
+            TemplatesListView.BackColor = Color.FromArgb(61, 61, 61);
+            TemplatesListView.BorderStyle = BorderStyle.FixedSingle;
+            TemplatesListView.ForeColor = Color.WhiteSmoke;
             listViewItem1.Tag = "{92138572-796A-496F-A104-BBF2B29C5148}";
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem1 });
-            listView1.LargeImageList = imageList1;
-            listView1.Location = new Point(16, 34);
-            listView1.Margin = new Padding(3, 2, 3, 2);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(171, 313);
-            listView1.SmallImageList = imageList1;
-            listView1.TabIndex = 0;
-            listView1.UseCompatibleStateImageBehavior = false;
-            listView1.View = View.List;
+            TemplatesListView.Items.AddRange(new ListViewItem[] { listViewItem1 });
+            TemplatesListView.LargeImageList = imageList1;
+            TemplatesListView.Location = new Point(12, 3);
+            TemplatesListView.Margin = new Padding(3, 2, 3, 2);
+            TemplatesListView.Name = "TemplatesListView";
+            TemplatesListView.Size = new Size(171, 313);
+            TemplatesListView.SmallImageList = imageList1;
+            TemplatesListView.TabIndex = 0;
+            TemplatesListView.UseCompatibleStateImageBehavior = false;
+            TemplatesListView.View = View.List;
             // 
             // imageList1
             // 
@@ -72,7 +72,7 @@
             BtnOK.FlatStyle = FlatStyle.Flat;
             BtnOK.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             BtnOK.ForeColor = Color.WhiteSmoke;
-            BtnOK.Location = new Point(591, 120);
+            BtnOK.Location = new Point(587, 88);
             BtnOK.Margin = new Padding(3, 2, 3, 2);
             BtnOK.Name = "BtnOK";
             BtnOK.Size = new Size(109, 23);
@@ -81,22 +81,22 @@
             BtnOK.UseVisualStyleBackColor = false;
             BtnOK.Click += BtnOK_Click;
             // 
-            // label1
+            // LblProjectName
             // 
-            label1.AutoSize = true;
-            label1.ForeColor = Color.WhiteSmoke;
-            label1.Location = new Point(193, 34);
-            label1.Name = "label1";
-            label1.Size = new Size(82, 15);
-            label1.TabIndex = 2;
-            label1.Text = "Project Name:";
+            LblProjectName.AutoSize = true;
+            LblProjectName.ForeColor = Color.WhiteSmoke;
+            LblProjectName.Location = new Point(189, 2);
+            LblProjectName.Name = "LblProjectName";
+            LblProjectName.Size = new Size(82, 15);
+            LblProjectName.TabIndex = 2;
+            LblProjectName.Text = "Project Name:";
             // 
             // TxtProjectName
             // 
             TxtProjectName.BackColor = Color.FromArgb(61, 61, 61);
             TxtProjectName.BorderStyle = BorderStyle.FixedSingle;
             TxtProjectName.ForeColor = Color.WhiteSmoke;
-            TxtProjectName.Location = new Point(193, 51);
+            TxtProjectName.Location = new Point(189, 19);
             TxtProjectName.Margin = new Padding(3, 2, 3, 2);
             TxtProjectName.Name = "TxtProjectName";
             TxtProjectName.Size = new Size(507, 23);
@@ -108,22 +108,22 @@
             TxtFilePath.BackColor = Color.FromArgb(61, 61, 61);
             TxtFilePath.BorderStyle = BorderStyle.FixedSingle;
             TxtFilePath.ForeColor = Color.WhiteSmoke;
-            TxtFilePath.Location = new Point(193, 93);
+            TxtFilePath.Location = new Point(189, 61);
             TxtFilePath.Margin = new Padding(3, 2, 3, 2);
             TxtFilePath.Name = "TxtFilePath";
             TxtFilePath.Size = new Size(474, 23);
             TxtFilePath.TabIndex = 5;
             TxtFilePath.Text = "New Project";
             // 
-            // label2
+            // LblPath
             // 
-            label2.AutoSize = true;
-            label2.ForeColor = Color.WhiteSmoke;
-            label2.Location = new Point(193, 76);
-            label2.Name = "label2";
-            label2.Size = new Size(34, 15);
-            label2.TabIndex = 4;
-            label2.Text = "Path:";
+            LblPath.AutoSize = true;
+            LblPath.ForeColor = Color.WhiteSmoke;
+            LblPath.Location = new Point(189, 44);
+            LblPath.Name = "LblPath";
+            LblPath.Size = new Size(34, 15);
+            LblPath.TabIndex = 4;
+            LblPath.Text = "Path:";
             // 
             // BtnProjectPath
             // 
@@ -131,7 +131,7 @@
             BtnProjectPath.FlatAppearance.BorderSize = 0;
             BtnProjectPath.FlatStyle = FlatStyle.Flat;
             BtnProjectPath.ForeColor = Color.WhiteSmoke;
-            BtnProjectPath.Location = new Point(672, 93);
+            BtnProjectPath.Location = new Point(668, 61);
             BtnProjectPath.Margin = new Padding(3, 2, 3, 2);
             BtnProjectPath.Name = "BtnProjectPath";
             BtnProjectPath.Size = new Size(28, 22);
@@ -141,18 +141,13 @@
             // 
             // FrmProjectsList
             // 
+            AllowMaximize = true;
+            AllowMinimize = true;
             AllowResizing = false;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BorderColour = Color.MediumSlateBlue;
             ClientSize = new Size(704, 359);
-            Controls.Add(BtnProjectPath);
-            Controls.Add(TxtFilePath);
-            Controls.Add(label2);
-            Controls.Add(TxtProjectName);
-            Controls.Add(label1);
-            Controls.Add(BtnOK);
-            Controls.Add(listView1);
             FormClosingOperations = Helper.Custom.FormClosingOperations.CloseApplication;
             FormTitle = "Template Selection";
             Margin = new Padding(3, 2, 3, 2);
@@ -160,18 +155,17 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "FrmProjectsList";
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private ListView listView1;
+        private ListView TemplatesListView;
         private Button BtnOK;
         private ImageList imageList1;
-        private Label label1;
+        private Label LblProjectName;
         private TextBox TxtProjectName;
         private TextBox TxtFilePath;
-        private Label label2;
+        private Label LblPath;
         private Button BtnProjectPath;
     }
 }

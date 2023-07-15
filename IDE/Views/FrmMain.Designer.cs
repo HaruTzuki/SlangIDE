@@ -334,9 +334,9 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(938, 649);
-            Controls.Add(splitContainer1);
-            Controls.Add(toolStrip1);
-            Controls.Add(menuStrip1);
+            Body.Controls.Add(splitContainer1);
+            Body.Controls.Add(toolStrip1);
+            Body.Controls.Add(menuStrip1);
             KeyPreview = true;
             MainMenuStrip = menuStrip1;
             Name = "FrmMain";

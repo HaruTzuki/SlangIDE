@@ -39,7 +39,7 @@
             groupBox1.Controls.Add(panel1);
             groupBox1.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(10, 39);
+            groupBox1.Location = new Point(10, 2);
             groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 2, 3, 2);
@@ -65,7 +65,7 @@
             BtnNewProject.FlatStyle = FlatStyle.Flat;
             BtnNewProject.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             BtnNewProject.ForeColor = Color.White;
-            BtnNewProject.Location = new Point(359, 56);
+            BtnNewProject.Location = new Point(359, 12);
             BtnNewProject.Margin = new Padding(3, 2, 3, 2);
             BtnNewProject.Name = "BtnNewProject";
             BtnNewProject.Size = new Size(335, 73);
@@ -82,8 +82,6 @@
             BackColor = Color.FromArgb(36, 36, 36);
             BorderColour = Color.DarkSlateBlue;
             ClientSize = new Size(704, 403);
-            Controls.Add(BtnNewProject);
-            Controls.Add(groupBox1);
             FormClosingOperations = Helper.Custom.FormClosingOperations.CloseApplication;
             FormTitle = "Slang IDE";
             Margin = new Padding(3, 2, 3, 2);

@@ -35,6 +35,7 @@ namespace IDE.Helper.Custom
         protected Button MinimizeWindow { get; set; }
         protected Button MaximizeWindow { get; set; }
         protected Label TitleLabel { get; set; }
+        protected MenuStrip MainMenuStrip { get; set; }
 
 
         private Color _borderColour = Color.DarkOrange;
@@ -167,15 +168,24 @@ namespace IDE.Helper.Custom
             TitleLabel = new Label();
             TitleLabel.Name = "LblTitle";
             TitleLabel.Text = this.Text;
-            TitleLabel.AutoSize = false;
-            TitleLabel.Dock = DockStyle.Fill;
+            TitleLabel.AutoSize = true;
+            TitleLabel.Dock = DockStyle.Right;
             TitleLabel.TextAlign = ContentAlignment.MiddleLeft;
             TitleLabel.ForeColor = Color.WhiteSmoke;
             TitleLabel.MouseDown += TitleBar_MouseDown;
             TitleLabel.MouseMove += TitleBar_MouseMove;
             TitleLabel.MouseUp += TitleBar_MouseUp;
 
+            /* Main Menu */
+            MainMenuStrip = new MenuStrip();
+            MainMenuStrip.Name = "MainMenu";
+            MainMenuStrip.AutoSize = true;
+            MainMenuStrip.BackColor = Color.Transparent;
+            MainMenuStrip.ForeColor = Color.WhiteSmoke;
+            MainMenuStrip.Padding = new Padding(6);
+
             TitleBar.Controls.Add(TitleLabel);
+            TitleBar.Controls.Add(MainMenuStrip);
             TitleBar.Controls.Add(MinimizeWindow);
             TitleBar.Controls.Add(MaximizeWindow);
             TitleBar.Controls.Add(CloseWindow);

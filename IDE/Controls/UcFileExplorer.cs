@@ -80,7 +80,7 @@ namespace IDE.Controls
             tabPage.Text = file.Name;
             tabPage.Controls.Add(uc_textEditor);
 
-            FrmMain.MainTabController.TabPages.Add(tabPage);
+            FrmMain.SlangTabControl.TabPages.Add(tabPage);
         }
     }
 }

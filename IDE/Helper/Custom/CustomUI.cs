@@ -84,6 +84,7 @@ namespace IDE.Helper.Custom
         {
             if (isDragging)
             {
+                //if (this.ParentForm.WindowState == FormWindowState.Maximized) this.ParentForm.WindowState = FormWindowState.Normal;
                 Point newLocation = this.ParentForm.PointToScreen(e.Location);
                 newLocation.Offset(-dragOffset.X, -dragOffset.Y);
                 this.ParentForm.Location = newLocation;
@@ -98,11 +99,15 @@ namespace IDE.Helper.Custom
 
         private void MainMenu_DoubleClick(object sender, EventArgs e)
         {
+            Maximise();
+        }
+
+        private void Maximise()
+        {
             if (this.ParentForm.WindowState == FormWindowState.Maximized)
                 this.ParentForm.WindowState = FormWindowState.Normal;
             else
                 this.ParentForm.WindowState = FormWindowState.Maximized;
-
         }
     }
 

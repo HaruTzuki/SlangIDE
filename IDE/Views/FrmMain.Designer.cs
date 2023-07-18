@@ -29,9 +29,18 @@
         private void InitializeComponent()
         {
             this.EditorsTools = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.PanelContainer = new System.Windows.Forms.SplitContainer();
             this.FileExplorer = new IDE.Controls.UcFileExplorer();
             this.CustomUI = new IDE.Helper.Custom.CustomUI();
+            this.BtnRun = new System.Windows.Forms.ToolStripButton();
+            this.BtnUndo = new System.Windows.Forms.ToolStripButton();
+            this.BtnRedo = new System.Windows.Forms.ToolStripButton();
+            this.BtnSave = new System.Windows.Forms.ToolStripButton();
+            this.BtnSaveAll = new System.Windows.Forms.ToolStripButton();
+            this.BtnDebug = new System.Windows.Forms.ToolStripButton();
+            this.EditorsTools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PanelContainer)).BeginInit();
             this.PanelContainer.Panel1.SuspendLayout();
             this.PanelContainer.SuspendLayout();
@@ -41,11 +50,32 @@
             // 
             // EditorsTools
             // 
+            this.EditorsTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.EditorsTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BtnUndo,
+            this.BtnRedo,
+            this.toolStripSeparator1,
+            this.BtnSave,
+            this.BtnSaveAll,
+            this.toolStripSeparator2,
+            this.BtnDebug,
+            this.BtnRun});
             this.EditorsTools.Location = new System.Drawing.Point(0, 0);
             this.EditorsTools.Name = "EditorsTools";
+            this.EditorsTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.EditorsTools.Size = new System.Drawing.Size(694, 25);
             this.EditorsTools.TabIndex = 2;
             this.EditorsTools.Text = "toolStrip1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // PanelContainer
             // 
@@ -57,7 +87,7 @@
             // 
             this.PanelContainer.Panel1.Controls.Add(this.FileExplorer);
             this.PanelContainer.Size = new System.Drawing.Size(694, 359);
-            this.PanelContainer.SplitterDistance = 231;
+            this.PanelContainer.SplitterDistance = 122;
             this.PanelContainer.SplitterWidth = 3;
             this.PanelContainer.TabIndex = 2;
             // 
@@ -67,7 +97,7 @@
             this.FileExplorer.Location = new System.Drawing.Point(0, 0);
             this.FileExplorer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.FileExplorer.Name = "FileExplorer";
-            this.FileExplorer.Size = new System.Drawing.Size(231, 359);
+            this.FileExplorer.Size = new System.Drawing.Size(122, 359);
             this.FileExplorer.TabIndex = 0;
             // 
             // CustomUI
@@ -97,6 +127,60 @@
             this.CustomUI.TabIndex = 0;
             this.CustomUI.Title = "%%";
             // 
+            // BtnRun
+            // 
+            this.BtnRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnRun.Image = global::IDE.Properties.Resources.ASX_Run_blue_16x;
+            this.BtnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnRun.Name = "BtnRun";
+            this.BtnRun.Size = new System.Drawing.Size(23, 22);
+            this.BtnRun.Text = "toolStripButton1";
+            // 
+            // BtnUndo
+            // 
+            this.BtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnUndo.Image = global::IDE.Properties.Resources.Undo_16x;
+            this.BtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnUndo.Name = "BtnUndo";
+            this.BtnUndo.Size = new System.Drawing.Size(23, 22);
+            this.BtnUndo.Text = "toolStripButton1";
+            // 
+            // BtnRedo
+            // 
+            this.BtnRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnRedo.Image = global::IDE.Properties.Resources.Redo_16x;
+            this.BtnRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnRedo.Name = "BtnRedo";
+            this.BtnRedo.Size = new System.Drawing.Size(23, 22);
+            this.BtnRedo.Text = "toolStripButton2";
+            // 
+            // BtnSave
+            // 
+            this.BtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnSave.Image = global::IDE.Properties.Resources.Save_16x;
+            this.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(23, 22);
+            this.BtnSave.Text = "toolStripButton1";
+            // 
+            // BtnSaveAll
+            // 
+            this.BtnSaveAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnSaveAll.Image = global::IDE.Properties.Resources.SaveAll_16x;
+            this.BtnSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnSaveAll.Name = "BtnSaveAll";
+            this.BtnSaveAll.Size = new System.Drawing.Size(23, 22);
+            this.BtnSaveAll.Text = "toolStripButton2";
+            // 
+            // BtnDebug
+            // 
+            this.BtnDebug.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnDebug.Image = global::IDE.Properties.Resources.Run_16x;
+            this.BtnDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnDebug.Name = "BtnDebug";
+            this.BtnDebug.Size = new System.Drawing.Size(23, 22);
+            this.BtnDebug.Text = "toolStripButton1";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -110,6 +194,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmMain";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.EditorsTools.ResumeLayout(false);
+            this.EditorsTools.PerformLayout();
             this.PanelContainer.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PanelContainer)).EndInit();
             this.PanelContainer.ResumeLayout(false);
@@ -127,5 +213,13 @@
         private SplitContainer PanelContainer;
         private Controls.UcFileExplorer FileExplorer;
         private Helper.Custom.CustomUI CustomUI;
+        private ToolStripButton BtnUndo;
+        private ToolStripButton BtnRedo;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton BtnSave;
+        private ToolStripButton BtnSaveAll;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripButton BtnDebug;
+        private ToolStripButton BtnRun;
     }
 }

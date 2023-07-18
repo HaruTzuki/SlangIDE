@@ -21,26 +21,18 @@ namespace IDE.Views
         public FrmMain()
         {
             InitializeComponent();
-            this.ucFileExplorer1.BuildTreeView();
+            this.FileExplorer.BuildTreeView();
             var s = new Preferences.Shortcut();
             s.Bind();
-            this.TitleLabel.Text = $"{Sessions.SlangProject.Name} - Slang IDE";
+            AllowResizing = true;
+            CustomUI.Title = $"{Sessions.SlangProject.Name} - Slang IDE";
 
             PaintAllComponents();
-
-            this.Body.Controls.AddRange(new Control[] { splitContainer2 });
         }
 
         private void PaintAllComponents()
         {
-            /* Tab Control */
-            SlangTabControl ??= new UcTabControl();
-            SlangTabControl.Name = "MainTabControl";
-            SlangTabControl.Dock = DockStyle.Fill;
-            splitContainer2.Panel2.Controls.Add(SlangTabControl);
-
             /* Menu Items */
-
             #region Headers
             var _file = new ToolStripMenuItem();
             _file.Text = "&File";
@@ -56,7 +48,7 @@ namespace IDE.Views
             _build.Text = "&Build";
             _build.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _build.Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}";
-            
+
             var _options = new ToolStripMenuItem();
             _options.Text = "&Options";
             _options.DisplayStyle = ToolStripItemDisplayStyle.Text;
@@ -66,14 +58,15 @@ namespace IDE.Views
             _title.Text = $"{Sessions.SlangProject.Name} - Slang IDE";
             _title.BackColor = Color.FromArgb(61, 61, 61);
             _title.ForeColor = Color.WhiteSmoke;
-            
-            
-
-            // Add these controls to main menu
-            MainMenuStrip.Items.Add(_title);
-            MainMenuStrip.Items.Add(new ToolStripSeparator());
-            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _build, _options });
+            //Add these controls to main menu
+            CustomUI.MainMenu.Items.Add(new ToolStripSeparator());
+            CustomUI.MainMenu.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _build, _options });
+            CustomUI.MainMenu.ForeColor = Color.WhiteSmoke;
             #endregion
+
+            SlangTabControl = new UcTabControl();
+            PanelContainer.Panel2.Controls.Add(SlangTabControl);
+            SlangTabControl.Dock = DockStyle.Fill;
 
         }
 

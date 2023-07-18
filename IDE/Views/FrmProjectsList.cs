@@ -9,7 +9,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,17 +19,7 @@ namespace IDE.Views
         public FrmProjectsList()
         {
             InitializeComponent();
-            AllowMaximize = false;
-            AllowMinimize = false;
             AllowResizing = false;
-            this.Body.Controls.Add(TemplatesListView);
-            this.Body.Controls.Add(LblProjectName);
-            this.Body.Controls.Add(TxtProjectName);
-            this.Body.Controls.Add(LblPath);
-            this.Body.Controls.Add(TxtFilePath);
-            this.Body.Controls.Add(BtnProjectPath);
-            this.Body.Controls.Add(BtnOK);
-
             TxtFilePath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "GoSlang");
             TemplatesListView.Items[0].Selected = true;
         }

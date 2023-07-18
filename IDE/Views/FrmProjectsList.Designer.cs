@@ -28,133 +28,183 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            ListViewItem listViewItem1 = new ListViewItem("Empty Project", "file-regular.png");
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Empty Project", "file-regular.png");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmProjectsList));
-            TemplatesListView = new ListView();
-            imageList1 = new ImageList(components);
-            BtnOK = new Button();
-            LblProjectName = new Label();
-            TxtProjectName = new TextBox();
-            TxtFilePath = new TextBox();
-            LblPath = new Label();
-            BtnProjectPath = new Button();
-            SuspendLayout();
+            this.TemplatesListView = new System.Windows.Forms.ListView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.BtnOK = new System.Windows.Forms.Button();
+            this.LblProjectName = new System.Windows.Forms.Label();
+            this.TxtProjectName = new System.Windows.Forms.TextBox();
+            this.TxtFilePath = new System.Windows.Forms.TextBox();
+            this.LblPath = new System.Windows.Forms.Label();
+            this.BtnProjectPath = new System.Windows.Forms.Button();
+            this.CustomUI = new IDE.Helper.Custom.CustomUI();
+            this.CustomUI.ContentsPanel.SuspendLayout();
+            this.CustomUI.SuspendLayout();
+            this.SuspendLayout();
             // 
             // TemplatesListView
             // 
-            TemplatesListView.BackColor = Color.FromArgb(61, 61, 61);
-            TemplatesListView.BorderStyle = BorderStyle.FixedSingle;
-            TemplatesListView.ForeColor = Color.WhiteSmoke;
+            this.TemplatesListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.TemplatesListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.TemplatesListView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TemplatesListView.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.TemplatesListView.HideSelection = false;
             listViewItem1.Tag = "{92138572-796A-496F-A104-BBF2B29C5148}";
-            TemplatesListView.Items.AddRange(new ListViewItem[] { listViewItem1 });
-            TemplatesListView.LargeImageList = imageList1;
-            TemplatesListView.Location = new Point(12, 3);
-            TemplatesListView.Margin = new Padding(3, 2, 3, 2);
-            TemplatesListView.Name = "TemplatesListView";
-            TemplatesListView.Size = new Size(171, 313);
-            TemplatesListView.SmallImageList = imageList1;
-            TemplatesListView.TabIndex = 0;
-            TemplatesListView.UseCompatibleStateImageBehavior = false;
-            TemplatesListView.View = View.List;
+            this.TemplatesListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1});
+            this.TemplatesListView.LargeImageList = this.imageList1;
+            this.TemplatesListView.Location = new System.Drawing.Point(9, 10);
+            this.TemplatesListView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TemplatesListView.Name = "TemplatesListView";
+            this.TemplatesListView.Size = new System.Drawing.Size(305, 417);
+            this.TemplatesListView.SmallImageList = this.imageList1;
+            this.TemplatesListView.TabIndex = 0;
+            this.TemplatesListView.UseCompatibleStateImageBehavior = false;
+            this.TemplatesListView.View = System.Windows.Forms.View.List;
             // 
             // imageList1
             // 
-            imageList1.ColorDepth = ColorDepth.Depth8Bit;
-            imageList1.ImageStream = (ImageListStreamer)resources.GetObject("imageList1.ImageStream");
-            imageList1.TransparentColor = Color.Transparent;
-            imageList1.Images.SetKeyName(0, "file-regular.png");
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "file-regular.png");
             // 
             // BtnOK
             // 
-            BtnOK.BackColor = Color.FromArgb(172, 84, 26);
-            BtnOK.FlatAppearance.BorderSize = 0;
-            BtnOK.FlatStyle = FlatStyle.Flat;
-            BtnOK.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            BtnOK.ForeColor = Color.WhiteSmoke;
-            BtnOK.Location = new Point(587, 88);
-            BtnOK.Margin = new Padding(3, 2, 3, 2);
-            BtnOK.Name = "BtnOK";
-            BtnOK.Size = new Size(109, 23);
-            BtnOK.TabIndex = 1;
-            BtnOK.Text = "Create";
-            BtnOK.UseVisualStyleBackColor = false;
-            BtnOK.Click += BtnOK_Click;
+            this.BtnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnOK.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(84)))), ((int)(((byte)(26)))));
+            this.BtnOK.FlatAppearance.BorderSize = 0;
+            this.BtnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnOK.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.BtnOK.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.BtnOK.Location = new System.Drawing.Point(654, 126);
+            this.BtnOK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnOK.Name = "BtnOK";
+            this.BtnOK.Size = new System.Drawing.Size(93, 33);
+            this.BtnOK.TabIndex = 1;
+            this.BtnOK.Text = "Create";
+            this.BtnOK.UseVisualStyleBackColor = false;
+            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
             // LblProjectName
             // 
-            LblProjectName.AutoSize = true;
-            LblProjectName.ForeColor = Color.WhiteSmoke;
-            LblProjectName.Location = new Point(189, 2);
-            LblProjectName.Name = "LblProjectName";
-            LblProjectName.Size = new Size(82, 15);
-            LblProjectName.TabIndex = 2;
-            LblProjectName.Text = "Project Name:";
+            this.LblProjectName.AutoSize = true;
+            this.LblProjectName.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.LblProjectName.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.LblProjectName.Location = new System.Drawing.Point(320, 26);
+            this.LblProjectName.Name = "LblProjectName";
+            this.LblProjectName.Size = new System.Drawing.Size(82, 15);
+            this.LblProjectName.TabIndex = 2;
+            this.LblProjectName.Text = "Project Name:";
             // 
             // TxtProjectName
             // 
-            TxtProjectName.BackColor = Color.FromArgb(61, 61, 61);
-            TxtProjectName.BorderStyle = BorderStyle.FixedSingle;
-            TxtProjectName.ForeColor = Color.WhiteSmoke;
-            TxtProjectName.Location = new Point(189, 19);
-            TxtProjectName.Margin = new Padding(3, 2, 3, 2);
-            TxtProjectName.Name = "TxtProjectName";
-            TxtProjectName.Size = new Size(507, 23);
-            TxtProjectName.TabIndex = 3;
-            TxtProjectName.Text = "New Project";
+            this.TxtProjectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TxtProjectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.TxtProjectName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtProjectName.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.TxtProjectName.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.TxtProjectName.Location = new System.Drawing.Point(320, 49);
+            this.TxtProjectName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TxtProjectName.Name = "TxtProjectName";
+            this.TxtProjectName.Size = new System.Drawing.Size(427, 25);
+            this.TxtProjectName.TabIndex = 3;
+            this.TxtProjectName.Text = "New Project";
             // 
             // TxtFilePath
             // 
-            TxtFilePath.BackColor = Color.FromArgb(61, 61, 61);
-            TxtFilePath.BorderStyle = BorderStyle.FixedSingle;
-            TxtFilePath.ForeColor = Color.WhiteSmoke;
-            TxtFilePath.Location = new Point(189, 61);
-            TxtFilePath.Margin = new Padding(3, 2, 3, 2);
-            TxtFilePath.Name = "TxtFilePath";
-            TxtFilePath.Size = new Size(474, 23);
-            TxtFilePath.TabIndex = 5;
-            TxtFilePath.Text = "New Project";
+            this.TxtFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TxtFilePath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.TxtFilePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtFilePath.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.TxtFilePath.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.TxtFilePath.Location = new System.Drawing.Point(320, 97);
+            this.TxtFilePath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TxtFilePath.Name = "TxtFilePath";
+            this.TxtFilePath.Size = new System.Drawing.Size(382, 25);
+            this.TxtFilePath.TabIndex = 5;
+            this.TxtFilePath.Text = "New Project";
             // 
             // LblPath
             // 
-            LblPath.AutoSize = true;
-            LblPath.ForeColor = Color.WhiteSmoke;
-            LblPath.Location = new Point(189, 44);
-            LblPath.Name = "LblPath";
-            LblPath.Size = new Size(34, 15);
-            LblPath.TabIndex = 4;
-            LblPath.Text = "Path:";
+            this.LblPath.AutoSize = true;
+            this.LblPath.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.LblPath.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.LblPath.Location = new System.Drawing.Point(320, 78);
+            this.LblPath.Name = "LblPath";
+            this.LblPath.Size = new System.Drawing.Size(34, 15);
+            this.LblPath.TabIndex = 4;
+            this.LblPath.Text = "Path:";
             // 
             // BtnProjectPath
             // 
-            BtnProjectPath.BackColor = Color.FromArgb(172, 84, 26);
-            BtnProjectPath.FlatAppearance.BorderSize = 0;
-            BtnProjectPath.FlatStyle = FlatStyle.Flat;
-            BtnProjectPath.ForeColor = Color.WhiteSmoke;
-            BtnProjectPath.Location = new Point(668, 61);
-            BtnProjectPath.Margin = new Padding(3, 2, 3, 2);
-            BtnProjectPath.Name = "BtnProjectPath";
-            BtnProjectPath.Size = new Size(28, 22);
-            BtnProjectPath.TabIndex = 6;
-            BtnProjectPath.Text = "...";
-            BtnProjectPath.UseVisualStyleBackColor = false;
+            this.BtnProjectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnProjectPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(84)))), ((int)(((byte)(26)))));
+            this.BtnProjectPath.FlatAppearance.BorderSize = 0;
+            this.BtnProjectPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnProjectPath.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.BtnProjectPath.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.BtnProjectPath.Location = new System.Drawing.Point(708, 95);
+            this.BtnProjectPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnProjectPath.Name = "BtnProjectPath";
+            this.BtnProjectPath.Size = new System.Drawing.Size(39, 25);
+            this.BtnProjectPath.TabIndex = 6;
+            this.BtnProjectPath.Text = "...";
+            this.BtnProjectPath.UseVisualStyleBackColor = false;
+            // 
+            // CustomUI
+            // 
+            this.CustomUI.AllowMaximize = false;
+            this.CustomUI.AllowMinimize = false;
+            this.CustomUI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            // 
+            // CustomUI.ContentsPanel
+            // 
+            this.CustomUI.ContentsPanel.Controls.Add(this.BtnOK);
+            this.CustomUI.ContentsPanel.Controls.Add(this.BtnProjectPath);
+            this.CustomUI.ContentsPanel.Controls.Add(this.TxtFilePath);
+            this.CustomUI.ContentsPanel.Controls.Add(this.LblPath);
+            this.CustomUI.ContentsPanel.Controls.Add(this.TxtProjectName);
+            this.CustomUI.ContentsPanel.Controls.Add(this.LblProjectName);
+            this.CustomUI.ContentsPanel.Controls.Add(this.TemplatesListView);
+            this.CustomUI.ContentsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CustomUI.ContentsPanel.Enabled = true;
+            this.CustomUI.ContentsPanel.Location = new System.Drawing.Point(0, 28);
+            this.CustomUI.ContentsPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.CustomUI.ContentsPanel.Name = "ContentsPanel";
+            this.CustomUI.ContentsPanel.Size = new System.Drawing.Size(757, 440);
+            this.CustomUI.ContentsPanel.TabIndex = 1;
+            this.CustomUI.ContentsPanel.Visible = true;
+            this.CustomUI.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CustomUI.FormClosingOperation = IDE.Helper.Custom.FormClosingOperations.CloseApplication;
+            this.CustomUI.Location = new System.Drawing.Point(5, 5);
+            this.CustomUI.Margin = new System.Windows.Forms.Padding(2);
+            this.CustomUI.Name = "CustomUI";
+            this.CustomUI.Size = new System.Drawing.Size(757, 468);
+            this.CustomUI.TabIndex = 7;
+            this.CustomUI.Title = "Template Selection";
             // 
             // FrmProjectsList
             // 
-            AllowMaximize = true;
-            AllowMinimize = true;
-            AllowResizing = false;
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BorderColour = Color.MediumSlateBlue;
-            ClientSize = new Size(704, 359);
-            FormClosingOperations = Helper.Custom.FormClosingOperations.CloseApplication;
-            FormTitle = "Template Selection";
-            Margin = new Padding(3, 2, 3, 2);
-            Name = "FrmProjectsList";
-            StartPosition = FormStartPosition.CenterParent;
-            Text = "FrmProjectsList";
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderColour = System.Drawing.Color.MediumSlateBlue;
+            this.ClientSize = new System.Drawing.Size(767, 478);
+            this.Controls.Add(this.CustomUI);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Name = "FrmProjectsList";
+            this.Padding = new System.Windows.Forms.Padding(5);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "FrmProjectsList";
+            this.CustomUI.ContentsPanel.ResumeLayout(false);
+            this.CustomUI.ContentsPanel.PerformLayout();
+            this.CustomUI.ResumeLayout(false);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -167,5 +217,6 @@
         private TextBox TxtFilePath;
         private Label LblPath;
         private Button BtnProjectPath;
+        private Helper.Custom.CustomUI CustomUI;
     }
 }

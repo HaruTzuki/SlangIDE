@@ -28,44 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            menuStrip1 = new MenuStrip();
-            dsdsToolStripMenuItem = new ToolStripTextBox();
-            menuStrip1.SuspendLayout();
-            SuspendLayout();
-            // 
-            // menuStrip1
-            // 
-            menuStrip1.AutoSize = false;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { dsdsToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
-            menuStrip1.TabIndex = 0;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // dsdsToolStripMenuItem
-            // 
-            dsdsToolStripMenuItem.Name = "dsdsToolStripMenuItem";
-            dsdsToolStripMenuItem.Size = new Size(43, 20);
-            dsdsToolStripMenuItem.Text = "dsds";
+            this.SuspendLayout();
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
-            Name = "Form1";
-            Text = "Form1";
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(914, 480);
+            this.Name = "Form1";
+            this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
-
-        private MenuStrip menuStrip1;
-        private ToolStripTextBox dsdsToolStripMenuItem;
     }
 }

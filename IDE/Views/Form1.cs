@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IDE.Helper.Custom;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 
 namespace IDE.Views
 {
-    public partial class Form1 : Form
+    public partial class Form1 : SlangIDEForm
     {
         public Form1()
         {

@@ -1,14 +1,17 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Drawing.Design;
 using System.Runtime.InteropServices;
+using System.Windows.Forms.Design;
 
 namespace IDE.Helper.Custom
 {
     [TypeConverter(typeof(EditorFormConverter))]
+    //[Designer(typeof(SlangIDEFormDesigner))]
     public class SlangIDEForm : Form
     {
         #region Customisations for Form Maximize, Resize, Painting
-        private bool isDragging = false;
-        private Point dragOffset;
         private bool isResizing = false;
         private int lastMouseX, lastMouseY;
 
@@ -28,89 +31,23 @@ namespace IDE.Helper.Custom
         private const int WM_GETMINMAXINFO = 0x0024;
         #endregion
 
-
-        protected Panel TitleBar { get; set; }
-        protected Panel Body { get; set; }
-        protected Button CloseWindow { get; set; }
-        protected Button MinimizeWindow { get; set; }
-        protected Button MaximizeWindow { get; set; }
-        protected Label TitleLabel { get; set; }
-        protected MenuStrip MainMenuStrip { get; set; }
+        private bool _allowResizing;
+        [Browsable(true), Category("SlangCustom")]
+        public bool AllowResizing
+        {
+            get { return _allowResizing = true; }
+            set { _allowResizing = value; }
+        }
 
 
         private Color _borderColour = Color.DarkOrange;
-        [Browsable(true), Category("Slang IDE Customs"), Description("You can change the border's colour.")]
+        [Browsable(true), Category("SlangCustom"), Description("You can change the border's colour.")]
         public Color BorderColour
         {
             get { return _borderColour; }
             set { _borderColour = value; }
         }
-
-        [Browsable(true), Category("Slang IDE Customs")]
-        public string FormTitle
-        {
-            get
-            {
-                return TitleLabel.Text;
-            }
-            set
-            {
-                TitleLabel.Text = value;
-            }
-        }
-
-        [Browsable(true), Category("Slang IDE Customs")]
-        public bool AllowMaximize
-        {
-            get
-            {
-                return MaximizeWindow.Visible;
-            }
-            set
-            {
-                MaximizeWindow.Visible = value;
-            }
-        }
-
-        [Browsable(true), Category("Slang IDE Customs")]
-        public bool AllowMinimize
-        {
-            get => MinimizeWindow.Visible;
-            set
-            {
-                MinimizeWindow.Visible = value;
-            }
-        }
-        private bool _allowResizing = true;
-        [Browsable(true), Category("Slang IDE Customs")]
-        public bool AllowResizing
-        {
-            get
-            {
-                return _allowResizing;
-            }
-            set
-            {
-                _allowResizing = value;
-            }
-        }
-
-        private FormClosingOperations _formClosingOperations;
-        [Browsable(true), Category("Slang IDE Customs")]
-        public FormClosingOperations FormClosingOperations
-        {
-            get
-            {
-                return _formClosingOperations;
-            }
-            set
-            {
-                _formClosingOperations = value;
-            }
-        }
-
-        
-
+       
         public SlangIDEForm()
         {
             InitialiseComponents();
@@ -121,92 +58,9 @@ namespace IDE.Helper.Custom
         private void InitialiseComponents()
         {
             this.BackColor = Color.FromArgb(31, 31, 31);
-
-            /* Title Bar */
-            TitleBar = new Panel();
-            TitleBar.Name = "TitleBar";
-            TitleBar.Dock = DockStyle.Top;
-            TitleBar.Height = 32;
-            TitleBar.MouseDown += TitleBar_MouseDown;
-            TitleBar.MouseMove += TitleBar_MouseMove;
-            TitleBar.MouseUp += TitleBar_MouseUp;
-
-            /* Close Button*/
-            CloseWindow = new Button();
-            CloseWindow.Name = "BtnClose";
-            CloseWindow.Dock = DockStyle.Right;
-            CloseWindow.Size = new Size(52, 32);
-            CloseWindow.Text = CloseWindow.Image is null ? "X" : string.Empty;
-            CloseWindow.FlatStyle = FlatStyle.Flat;
-            CloseWindow.FlatAppearance.BorderSize = 0;
-            CloseWindow.ForeColor = Color.WhiteSmoke;
-            CloseWindow.Click += CloseWindow_Click;
-
-            /* Maximize Window */
-            MaximizeWindow = new Button();
-            MaximizeWindow.Name = "BtnMaximize";
-            MaximizeWindow.Dock = DockStyle.Right;
-            MaximizeWindow.Size = new Size(52, 32);
-            MaximizeWindow.Text = MaximizeWindow.Image is null ? "[]" : string.Empty;
-            MaximizeWindow.FlatStyle = FlatStyle.Flat;
-            MaximizeWindow.FlatAppearance.BorderSize = 0;
-            MaximizeWindow.ForeColor = Color.WhiteSmoke;
-            MaximizeWindow.Click += MaximizeWindow_Click;
-
-            /* Minimize Window */
-            MinimizeWindow = new Button();
-            MinimizeWindow.Name = "BtnMinimize";
-            MinimizeWindow.Dock = DockStyle.Right;
-            MinimizeWindow.Size = new Size(52, 32);
-            MinimizeWindow.Text = MinimizeWindow.Image is null ? "-" : string.Empty;
-            MinimizeWindow.FlatStyle = FlatStyle.Flat;
-            MinimizeWindow.FlatAppearance.BorderSize = 0;
-            MinimizeWindow.ForeColor = Color.WhiteSmoke;
-            MinimizeWindow.Click += MinimizeWindow_Click;
-
-            /* Title Label */
-            TitleLabel = new Label();
-            TitleLabel.Name = "LblTitle";
-            TitleLabel.Text = this.Text;
-            TitleLabel.AutoSize = true;
-            TitleLabel.Dock = DockStyle.Right;
-            TitleLabel.TextAlign = ContentAlignment.MiddleLeft;
-            TitleLabel.ForeColor = Color.WhiteSmoke;
-            TitleLabel.MouseDown += TitleBar_MouseDown;
-            TitleLabel.MouseMove += TitleBar_MouseMove;
-            TitleLabel.MouseUp += TitleBar_MouseUp;
-
-            /* Main Menu */
-            MainMenuStrip = new MenuStrip();
-            MainMenuStrip.Name = "MainMenu";
-            MainMenuStrip.AutoSize = true;
-            MainMenuStrip.BackColor = Color.Transparent;
-            MainMenuStrip.ForeColor = Color.WhiteSmoke;
-            MainMenuStrip.Padding = new Padding(6);
-
-            TitleBar.Controls.Add(TitleLabel);
-            TitleBar.Controls.Add(MainMenuStrip);
-            TitleBar.Controls.Add(MinimizeWindow);
-            TitleBar.Controls.Add(MaximizeWindow);
-            TitleBar.Controls.Add(CloseWindow);
-
-            /* Panel Body */
-            Body = new Panel();
-            Body.Name = "Body";
-            Body.Dock = DockStyle.Fill;
-
-            this.Controls.Add(TitleBar);
-            this.Controls.Add(Body);
-
-            //Controls.Add(Body);
-            Controls.Add(TitleBar);
-
             this.Padding = new Padding(1);
             this.Paint += SlangIDEForm_Paint;
             this.Resize += SlangIDEForm_Resize;
-            this.MouseDown += SlangIDEForm_MouseDown;
-            this.MouseMove += SlangIDEForm_MouseMove;
-            this.MouseUp += SlangIDEForm_MouseUp;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -312,51 +166,18 @@ namespace IDE.Helper.Custom
         }
         #endregion
 
-        #region Form's Moving Events
-        private void TitleBar_MouseUp(object? sender, MouseEventArgs e)
-        {
-            isDragging = false;
-        }
 
-        private void TitleBar_MouseMove(object? sender, MouseEventArgs e)
+        private void InitializeComponent()
         {
-            if (isDragging)
-            {
-                Point newLocation = this.PointToScreen(e.Location);
-                newLocation.Offset(-dragOffset.X, -dragOffset.Y);
-                this.Location = newLocation;
-            }
-        }
+            this.SuspendLayout();
+            // 
+            // SlangIDEForm
+            // 
+            this.ClientSize = new System.Drawing.Size(695, 412);
+            this.Name = "SlangIDEForm";
+            this.ResumeLayout(false);
 
-        private void TitleBar_MouseDown(object? sender, MouseEventArgs e)
-        {
-            isDragging = true;
-            dragOffset = e.Location;
         }
-        #endregion
-
-        #region Buttons Functionalities
-        private void MinimizeWindow_Click(object? sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void MaximizeWindow_Click(object? sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Maximized)
-                this.WindowState = FormWindowState.Normal;
-            else
-                this.WindowState = FormWindowState.Maximized;
-        }
-
-        private void CloseWindow_Click(object? sender, EventArgs e)
-        {
-            if (_formClosingOperations == FormClosingOperations.CloseWindow)
-                this.Close();
-            else
-                Application.Exit();
-        }
-        #endregion
 
         #region Border Color
         private void SlangIDEForm_Paint(object? sender, PaintEventArgs e)
@@ -383,4 +204,63 @@ namespace IDE.Helper.Custom
         public POINT ptMinTrackSize;
         public POINT ptMaxTrackSize;
     }
+
+    //public class SlangIDEFormDesigner : ParentControlDesigner
+    //{
+    //    IDesignerHost designerHost;
+    //    public override void Initialize(IComponent component)
+    //    {
+    //        base.Initialize(component);
+    //        base.AutoResizeHandles = true;
+    //        base.EnableDesignMode(((SlangIDEForm)component).Body, "Body");
+    //        designerHost = (IDesignerHost)component.Site.GetService(typeof(IDesignerHost));
+    //    }
+
+    //    public override bool CanParent(Control control)
+    //    {
+    //        return false;
+    //    }
+
+    //    public override System.Collections.ICollection AssociatedComponents
+    //    {
+    //        get
+    //        {
+    //            List<Control> list = new List<Control>();
+    //            foreach (Control control in ((SlangIDEForm)Control).Body.Controls)
+    //            {
+    //                list.Add(control);
+    //            }
+    //            return list;
+    //        }
+    //    }
+
+    //    protected override Control GetParentForComponent(IComponent component)
+    //    {
+    //        return ((SlangIDEForm)Control).Body;
+    //    }
+
+    //    public override int NumberOfInternalControlDesigners()
+    //    {
+    //        return 1;
+    //    }
+
+    //    public override ControlDesigner InternalControlDesigner(int internalControlIndex)
+    //    {
+    //        Control panel = ((SlangIDEForm)Control).Body;
+    //        switch (internalControlIndex)
+    //        {
+    //            case 0:
+    //                return this.designerHost.GetDesigner(panel) as ControlDesigner;
+    //            default:
+    //                return null;
+    //        }
+    //    }
+
+    //    protected override IComponent[] CreateToolCore(ToolboxItem tool, int x, int y, int width, int height, bool hasLocation, bool hasSize)
+    //    {
+    //        ParentControlDesigner panelDesigner = this.designerHost.GetDesigner(((SlangIDEForm)Control).Body) as ParentControlDesigner;
+    //        InvokeCreateTool(panelDesigner, tool);
+    //        return null;
+    //    }
+    //}
 }

@@ -12,14 +12,9 @@ namespace IDE.Views
         public FrmStartup()
         {
             InitializeComponent();
-            AllowMaximize = false;
-            AllowMinimize = false;
             AllowResizing = false;
-            this.Body.Controls.Add(groupBox1);
-            this.Body.Controls.Add(BtnNewProject);
 
             LoadRecent();
-            TitleLabel.Text = "Slang IDE";
         }
 
         private void LoadRecent()
@@ -58,8 +53,8 @@ namespace IDE.Views
                 btn.Tag = project;
                 btn.Click += RecentProjectClick;
 
-                this.panel1.Controls.Add(btn);
-                this.panel1.Padding = new Padding(10);
+                this.recentProjectPanel.Controls.Add(btn);
+                this.recentProjectPanel.Padding = new Padding(10);
             }
         }
 

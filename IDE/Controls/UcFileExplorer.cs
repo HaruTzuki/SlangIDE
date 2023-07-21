@@ -63,7 +63,7 @@ namespace IDE.Controls
         {
             var file = Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(e.Node.Name));
 
-            FrmMain.SlangTabControl.TabPages.fir
+            //FrmMain.SlangTabControl.TabPages.fir
             
             // Open the file
             using var streamReader = new StreamReader(file.FilePath);
@@ -152,6 +152,7 @@ namespace IDE.Controls
             treeNode.ImageIndex = 1;
             treeNode.SelectedImageIndex = 1;
             treeNode.FileType = Slang.IDE.Shared.Enumerations.TreeFileType.File;
+            treeNode.FilePath = Path.Combine(selectedNode.FilePath, fileName);
 
             selectedNode.Nodes.Add(treeNode);
 

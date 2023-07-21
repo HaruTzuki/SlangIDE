@@ -34,6 +34,7 @@
             this.customui1 = new IDE.Helper.Custom.CustomUI();
             this.recentProjectGroup = new System.Windows.Forms.GroupBox();
             this.recentProjectPanel = new System.Windows.Forms.Panel();
+            this.BtnLoadSlangProject = new System.Windows.Forms.Button();
             this.customui1.ContentsPanel.SuspendLayout();
             this.customui1.SuspendLayout();
             this.recentProjectGroup.SuspendLayout();
@@ -84,6 +85,7 @@
             // 
             // customui1.ContentsPanel
             // 
+            this.customui1.ContentsPanel.Controls.Add(this.BtnLoadSlangProject);
             this.customui1.ContentsPanel.Controls.Add(this.recentProjectGroup);
             this.customui1.ContentsPanel.Controls.Add(this.BtnNewProject);
             this.customui1.ContentsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -125,6 +127,25 @@
             this.recentProjectPanel.Size = new System.Drawing.Size(388, 364);
             this.recentProjectPanel.TabIndex = 0;
             // 
+            // BtnLoadSlangProject
+            // 
+            this.BtnLoadSlangProject.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnLoadSlangProject.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.BtnLoadSlangProject.FlatAppearance.BorderSize = 0;
+            this.BtnLoadSlangProject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnLoadSlangProject.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.BtnLoadSlangProject.ForeColor = System.Drawing.Color.White;
+            this.BtnLoadSlangProject.Location = new System.Drawing.Point(430, 108);
+            this.BtnLoadSlangProject.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnLoadSlangProject.Name = "BtnLoadSlangProject";
+            this.BtnLoadSlangProject.Size = new System.Drawing.Size(335, 73);
+            this.BtnLoadSlangProject.TabIndex = 3;
+            this.BtnLoadSlangProject.Text = "Load Slang Project";
+            this.BtnLoadSlangProject.UseVisualStyleBackColor = false;
+            this.BtnLoadSlangProject.Click += new System.EventHandler(this.BtnLoadSlangProject_Click);
+            // 
             // FrmStartup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,5 +175,6 @@
         private Helper.Custom.CustomUI customui1;
         private GroupBox recentProjectGroup;
         private Panel recentProjectPanel;
+        private Button BtnLoadSlangProject;
     }
 }

@@ -5,6 +5,8 @@ using IDE.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
+
 namespace IDE.Views
 {
     public partial class FrmStartup : SlangIDEForm
@@ -72,6 +74,21 @@ namespace IDE.Views
             var form = new FrmProjectsList();
             this.Hide();
             form.ShowDialog();
+        }
+
+        private void BtnLoadSlangProject_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog();
+            ofd.Filter = "Slag Project|*.slangproject";
+            ofd.Title = "Open Slang Project";
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                Functions.LoadProject(ofd.FileName);
+                var form = new FrmMain();
+                this.Hide();
+                form.ShowDialog();
+            }
+
         }
     }
 }

@@ -39,6 +39,29 @@ namespace IDE.Views
             _file.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _file.Name = "{2AD31557-A841-47E2-835B-6BCAE286E486}";
 
+            var _newProject = new ToolStripMenuItem();
+            _file.DropDownItems.Add(_newProject);
+            _newProject.Text = "New Project";
+            _newProject.ForeColor = Color.WhiteSmoke;
+            _newProject.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _newProject.Name = "{5B6D512B-CB86-4A8F-91AF-2DCE0569BE3F}";
+
+            var _recentProjects = new ToolStripMenuItem();
+            _file.DropDownItems.Add(_recentProjects);
+            _recentProjects.ForeColor = Color.WhiteSmoke;
+            _recentProjects.Text = "Recent Projects";
+            _recentProjects.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _newProject.Name = "{A843B137-28E3-4842-BEB0-17A7C7D41437}";
+
+            _file.DropDownItems.Add(new ToolStripSeparator());
+
+            var _exitApplication = new ToolStripMenuItem();
+            _file.DropDownItems.Add(_exitApplication);
+            _exitApplication.ForeColor = Color.WhiteSmoke;
+            _exitApplication.Text = "Exit";
+            _exitApplication.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _exitApplication.Name = "{0FC4B816-6630-4A57-8C0D-A5B7A1C6E94D}";
+
             var _edit = new ToolStripMenuItem();
             _edit.Text = "&Edit";
             _edit.DisplayStyle = ToolStripItemDisplayStyle.Text;

@@ -52,7 +52,7 @@
             this.HeaderBar.Location = new System.Drawing.Point(0, 0);
             this.HeaderBar.Margin = new System.Windows.Forms.Padding(2);
             this.HeaderBar.Name = "HeaderBar";
-            this.HeaderBar.Size = new System.Drawing.Size(590, 28);
+            this.HeaderBar.Size = new System.Drawing.Size(181, 28);
             this.HeaderBar.TabIndex = 0;
             // 
             // HeaderPanelTable
@@ -66,7 +66,7 @@
             this.HeaderPanelTable.Name = "HeaderPanelTable";
             this.HeaderPanelTable.RowCount = 1;
             this.HeaderPanelTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.HeaderPanelTable.Size = new System.Drawing.Size(458, 28);
+            this.HeaderPanelTable.Size = new System.Drawing.Size(49, 28);
             this.HeaderPanelTable.TabIndex = 3;
             // 
             // MainMenu
@@ -79,7 +79,7 @@
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.MainMenu.Size = new System.Drawing.Size(458, 28);
+            this.MainMenu.Size = new System.Drawing.Size(49, 28);
             this.MainMenu.TabIndex = 0;
             this.MainMenu.Text = "menuStrip1";
             this.MainMenu.DoubleClick += new System.EventHandler(this.MainMenu_DoubleClick);
@@ -101,7 +101,7 @@
             this.BtnMinimize.FlatAppearance.BorderSize = 0;
             this.BtnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnMinimize.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.BtnMinimize.Location = new System.Drawing.Point(458, 0);
+            this.BtnMinimize.Location = new System.Drawing.Point(49, 0);
             this.BtnMinimize.Margin = new System.Windows.Forms.Padding(2);
             this.BtnMinimize.Name = "BtnMinimize";
             this.BtnMinimize.Size = new System.Drawing.Size(44, 28);
@@ -116,7 +116,7 @@
             this.BtnMaximize.FlatAppearance.BorderSize = 0;
             this.BtnMaximize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnMaximize.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.BtnMaximize.Location = new System.Drawing.Point(502, 0);
+            this.BtnMaximize.Location = new System.Drawing.Point(93, 0);
             this.BtnMaximize.Margin = new System.Windows.Forms.Padding(2);
             this.BtnMaximize.Name = "BtnMaximize";
             this.BtnMaximize.Size = new System.Drawing.Size(44, 28);
@@ -131,7 +131,7 @@
             this.BtnClose.FlatAppearance.BorderSize = 0;
             this.BtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnClose.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.BtnClose.Location = new System.Drawing.Point(546, 0);
+            this.BtnClose.Location = new System.Drawing.Point(137, 0);
             this.BtnClose.Margin = new System.Windows.Forms.Padding(2);
             this.BtnClose.Name = "BtnClose";
             this.BtnClose.Size = new System.Drawing.Size(44, 28);
@@ -146,7 +146,7 @@
             this.Body.Location = new System.Drawing.Point(0, 28);
             this.Body.Margin = new System.Windows.Forms.Padding(2);
             this.Body.Name = "Body";
-            this.Body.Size = new System.Drawing.Size(590, 364);
+            this.Body.Size = new System.Drawing.Size(181, 85);
             this.Body.TabIndex = 1;
             // 
             // CustomUI
@@ -158,7 +158,7 @@
             this.Controls.Add(this.HeaderBar);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "CustomUI";
-            this.Size = new System.Drawing.Size(590, 392);
+            this.Size = new System.Drawing.Size(181, 113);
             this.HeaderBar.ResumeLayout(false);
             this.HeaderPanelTable.ResumeLayout(false);
             this.HeaderPanelTable.PerformLayout();

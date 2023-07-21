@@ -1,11 +1,6 @@
 ﻿using IDE.Preferences;
 using IDE.Properties;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IDE.Helper
 {
@@ -35,6 +30,7 @@ namespace IDE.Helper
             {
                 FilePath = Path.Combine(path, name, "src"),
                 FileType = Slang.IDE.Shared.Enumerations.TreeFileType.Folder,
+                ParentId = projectFile.Id,
                 Name = "src",
                 Id = Guid.NewGuid()
             };
@@ -75,13 +71,21 @@ namespace IDE.Helper
             mainSourceFile.Close();
 
             // Create Project File
-            var jsonFile = JsonConvert.SerializeObject(projectFile);
+            var jsonFile = JsonConvert.SerializeObject(projectFile, Formatting.Indented);
             File.WriteAllText(Path.Combine(projectFile.FilePath, $"{projectFile.Name}.slangproject"), jsonFile);
             Sessions.SlangProject = projectFile;
 
 
             SaveToRecent(projectFile);
         }
+
+        public static void UpdateProject()
+        {
+            // Load Existing
+            using var sw = new StreamWriter(Path.Combine(Sessions.SlangProject.FilePath, $"{Sessions.SlangProject.Name}.slangproject"));
+            sw.WriteLine(JsonConvert.SerializeObject(Sessions.SlangProject, Formatting.Indented));
+        }
+
 
         public static void LoadProject(string projectPath)
         {
@@ -133,7 +137,7 @@ namespace IDE.Helper
             streamReader.Close();
 
 
-            var jsonText = JsonConvert.SerializeObject(projects);
+            var jsonText = JsonConvert.SerializeObject(projects, Formatting.Indented);
             using var streamWriter = new StreamWriter(filePath);
             streamWriter.WriteLine(jsonText);
             streamWriter.Close();

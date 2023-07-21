@@ -35,7 +35,7 @@ namespace IDE.Helper.Custom
         [Browsable(true), Category("SlangCustom")]
         public bool AllowResizing
         {
-            get { return _allowResizing = true; }
+            get { return _allowResizing; }
             set { _allowResizing = value; }
         }
 

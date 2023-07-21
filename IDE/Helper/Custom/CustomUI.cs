@@ -52,6 +52,7 @@ namespace IDE.Helper.Custom
             InitializeComponent();
             TypeDescriptor.AddAttributes(this.Body,
             new DesignerAttribute(typeof(MyPanelDesigner)));
+            MainMenu.Renderer = new DarkThemeRenderer();
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
@@ -167,6 +168,17 @@ namespace IDE.Helper.Custom
                         (PropertyDescriptor)properties[item],
                         new BrowsableAttribute(false));
             }
+        }
+    }
+
+    public class DarkThemeRenderer : ToolStripProfessionalRenderer
+    {
+        protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+        {
+            Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);
+            Color c = e.Item.Selected ? Color.FromArgb(61,61,61) : Color.FromArgb(31,31,31);
+            using (SolidBrush brush = new SolidBrush(c))
+                e.Graphics.FillRectangle(brush, rc);
         }
     }
 }

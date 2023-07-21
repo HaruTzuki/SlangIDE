@@ -56,20 +56,20 @@
             this.customUI1.ContentsPanel.Controls.Add(this.label1);
             this.customUI1.ContentsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.customUI1.ContentsPanel.Enabled = true;
-            this.customUI1.ContentsPanel.Location = new System.Drawing.Point(0, 28);
+            this.customUI1.ContentsPanel.Location = new System.Drawing.Point(0, 34);
             this.customUI1.ContentsPanel.Margin = new System.Windows.Forms.Padding(2);
             this.customUI1.ContentsPanel.Name = "ContentsPanel";
-            this.customUI1.ContentsPanel.Size = new System.Drawing.Size(386, 105);
+            this.customUI1.ContentsPanel.Size = new System.Drawing.Size(515, 130);
             this.customUI1.ContentsPanel.TabIndex = 1;
             this.customUI1.ContentsPanel.Visible = true;
             this.customUI1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.customUI1.FormClosingOperation = IDE.Helper.Custom.FormClosingOperations.CloseWindow;
             this.customUI1.Location = new System.Drawing.Point(1, 1);
-            this.customUI1.Margin = new System.Windows.Forms.Padding(2);
+            this.customUI1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.customUI1.Name = "customUI1";
-            this.customUI1.Size = new System.Drawing.Size(386, 133);
+            this.customUI1.Size = new System.Drawing.Size(515, 164);
             this.customUI1.TabIndex = 0;
-            this.customUI1.Title = "%%";
+            this.customUI1.Title = "Rename";
             // 
             // BtnOK
             // 
@@ -94,7 +94,7 @@
             this.TxtTo.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.TxtTo.Location = new System.Drawing.Point(236, 27);
             this.TxtTo.Name = "TxtTo";
-            this.TxtTo.Size = new System.Drawing.Size(147, 23);
+            this.TxtTo.Size = new System.Drawing.Size(147, 27);
             this.TxtTo.TabIndex = 3;
             // 
             // TxtFrom
@@ -106,7 +106,7 @@
             this.TxtFrom.Location = new System.Drawing.Point(52, 27);
             this.TxtFrom.Name = "TxtFrom";
             this.TxtFrom.ReadOnly = true;
-            this.TxtFrom.Size = new System.Drawing.Size(147, 23);
+            this.TxtFrom.Size = new System.Drawing.Size(147, 27);
             this.TxtFrom.TabIndex = 2;
             // 
             // label2
@@ -116,7 +116,7 @@
             this.label2.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label2.Location = new System.Drawing.Point(205, 27);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(25, 17);
+            this.label2.Size = new System.Drawing.Size(31, 23);
             this.label2.TabIndex = 1;
             this.label2.Text = "To:";
             // 
@@ -127,7 +127,7 @@
             this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Location = new System.Drawing.Point(3, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 17);
+            this.label1.Size = new System.Drawing.Size(54, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "From:";
             // 
@@ -137,10 +137,11 @@
             // 
             // FrmRename
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 135);
+            this.ClientSize = new System.Drawing.Size(517, 166);
             this.Controls.Add(this.customUI1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FrmRename";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmRename";

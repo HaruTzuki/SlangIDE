@@ -95,14 +95,12 @@ namespace IDE.Helper
             }
 
             // Find the slangproject
-            var files = Directory.GetFiles(projectPath, "*.slangproject");
-
-            if(files?.Length <= 0)
+            if(!projectPath.EndsWith(".slangproject"))
             {
                 throw new NullReferenceException("There is not Slang Project in this directory.");
             }
 
-            using var streamReader = new StreamReader(files!.First());
+            using var streamReader = new StreamReader(projectPath);
             var project = JsonConvert.DeserializeObject<SlangProject>(streamReader.ReadToEnd());
             streamReader.Close();
 
@@ -111,7 +109,7 @@ namespace IDE.Helper
 
         private static void SaveToRecent(SlangProject slangProject)
         {
-            var path = Settings.Default["FileFolder"].ToString();
+            var path = slangProject.FilePath;
             var filePath = Path.Combine(path, Settings.Default["RecentFile"].ToString());
 
             if (!Directory.Exists(path))

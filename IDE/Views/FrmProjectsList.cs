@@ -14,12 +14,11 @@ using System.Windows.Forms;
 
 namespace IDE.Views
 {
-    public partial class FrmProjectsList : SlangIDEForm
+    public partial class FrmProjectsList : Form
     {
         public FrmProjectsList()
         {
             InitializeComponent();
-            AllowResizing = false;
             TxtFilePath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "GoSlang");
             TemplatesListView.Items[0].Selected = true;
         }
@@ -43,6 +42,11 @@ namespace IDE.Views
             var json = sr.ReadToEnd();
 
             return JsonConvert.DeserializeObject<Templates>(json)!;
+        }
+
+        private void FrmProjectsList_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

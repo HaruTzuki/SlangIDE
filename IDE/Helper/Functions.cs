@@ -110,19 +110,19 @@ namespace IDE.Helper
         private static void SaveToRecent(SlangProject slangProject)
         {
             var path = slangProject.FilePath;
-            var filePath = Path.Combine(path, Settings.Default["RecentFile"].ToString());
+            var recentProjectFilePath = Path.Combine(Settings.Default["FileFolder"].ToString(), Settings.Default["RecentFile"].ToString());
 
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(recentProjectFilePath))
             {
-                File.WriteAllText(filePath, "[]");
+                File.WriteAllText(recentProjectFilePath, "[]");
             }
 
-            using var streamReader = new StreamReader(filePath);
+            using var streamReader = new StreamReader(recentProjectFilePath);
             var projects = JsonConvert.DeserializeObject<List<RecentProject>>(streamReader.ReadToEnd())??new List<RecentProject>();
 
             projects.Add(new RecentProject
@@ -136,7 +136,7 @@ namespace IDE.Helper
 
 
             var jsonText = JsonConvert.SerializeObject(projects, Formatting.Indented);
-            using var streamWriter = new StreamWriter(filePath);
+            using var streamWriter = new StreamWriter(recentProjectFilePath);
             streamWriter.WriteLine(jsonText);
             streamWriter.Close();
         }

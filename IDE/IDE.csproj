@@ -9,6 +9,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Views\FrmMain.cs~RF48590e.TMP" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<Reference Include="System" />
 		<Reference Include="System.Core" />

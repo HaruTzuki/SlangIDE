@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace IDE.Controls
 {
@@ -59,6 +60,7 @@ namespace IDE.Controls
         private void ApplySyntaxHighlighting()
         {
             string code = rtb.Text;
+            int previousSelection = rtb.SelectionStart;
 
             // Clear any previous formatting
             rtb.SelectionStart = 0;
@@ -106,7 +108,7 @@ namespace IDE.Controls
             }
 
             // Reset the selection to avoid highlighting the entire text
-            rtb.SelectionStart = rtb.Text.Length;
+            rtb.SelectionStart = previousSelection;
             rtb.SelectionLength = 0;
             rtb.SelectionColor = rtb.ForeColor;
         }
@@ -161,7 +163,7 @@ namespace IDE.Controls
 
         private void rtb_TextChanged(object sender, EventArgs e)
         {
-            //ApplySyntaxHighlighting();
+            ApplySyntaxHighlighting();
             UpdateLineNumbers();
         }
         #endregion
@@ -177,5 +179,7 @@ namespace IDE.Controls
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        
     }
 }

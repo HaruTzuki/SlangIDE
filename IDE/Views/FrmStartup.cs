@@ -9,12 +9,11 @@ using System.Data.Odbc;
 
 namespace IDE.Views
 {
-    public partial class FrmStartup : SlangIDEForm
+    public partial class FrmStartup : Form
     {
         public FrmStartup()
         {
             InitializeComponent();
-            AllowResizing = false;
 
             LoadRecent();
         }
@@ -89,6 +88,11 @@ namespace IDE.Views
                 form.ShowDialog();
             }
 
+        }
+
+        private void FrmStartup_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

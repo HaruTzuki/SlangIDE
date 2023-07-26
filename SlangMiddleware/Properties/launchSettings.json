@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SlangMiddleware": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\SYCADA_USER\\Documents\\GoSlang\\NewGoSlangProject\\src\\main.slang -s"
+    }
+  }
+}

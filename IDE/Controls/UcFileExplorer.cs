@@ -55,15 +55,25 @@ namespace IDE.Controls
             }
 
             this.FileExplorerTree.ExpandAll();
-
         }
 
 
         private void FileExplorerTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            var selectedNode = e.Node as TreeNodeExtented;
+
+            if(selectedNode.FileType == TreeFileType.Folder || selectedNode.FileType == TreeFileType.Solution)
+            {
+                return;
+            }
+
             var file = Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(e.Node.Name));
 
-            //FrmMain.SlangTabControl.TabPages.fir
+            if(FrmMain.SlangTabControl.TabPages.ContainsKey(file.Id.ToString()))
+            {
+                FrmMain.SlangTabControl.SelectedTab = FrmMain.SlangTabControl.TabPages[file.Id.ToString()];
+                return;
+            }
             
             // Open the file
             using var streamReader = new StreamReader(file.FilePath);
@@ -80,6 +90,7 @@ namespace IDE.Controls
             tabPage.Controls.Add(uc_textEditor);
 
             FrmMain.SlangTabControl.TabPages.Add(tabPage);
+            FrmMain.SlangTabControl.SelectedTab = FrmMain.SlangTabControl.TabPages[file.Id.ToString()];
         }
 
 

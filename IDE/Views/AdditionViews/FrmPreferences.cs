@@ -1,5 +1,4 @@
-﻿using IDE.Helper.Custom;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace IDE.Views
+namespace IDE.Views.AdditionViews
 {
-    public partial class Form1 : SlangIDEForm
+    public partial class FrmPreferences : Form
     {
-        public Form1()
+        public FrmPreferences()
         {
             InitializeComponent();
+            OptionsTreeView.ExpandAll();
         }
     }
 }

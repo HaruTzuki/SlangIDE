@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slang.IDE.Shared", "Slang.I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{85EF26AD-D848-4DC6-9E81-6D6D408EF72C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F51EDA7C-E2A5-4A4A-920E-A68A77DF60C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlangMiddleware", "SlangMiddleware\SlangMiddleware.csproj", "{C08EFE91-2DED-47C2-BC0D-A3662E9C7B00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,12 +29,17 @@ Global
 		{04EF0D17-4F85-4999-B04E-AA8FD1400164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04EF0D17-4F85-4999-B04E-AA8FD1400164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04EF0D17-4F85-4999-B04E-AA8FD1400164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C08EFE91-2DED-47C2-BC0D-A3662E9C7B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C08EFE91-2DED-47C2-BC0D-A3662E9C7B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C08EFE91-2DED-47C2-BC0D-A3662E9C7B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C08EFE91-2DED-47C2-BC0D-A3662E9C7B00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{04EF0D17-4F85-4999-B04E-AA8FD1400164} = {565E2479-B9F4-4510-8F9A-2BAD7429F120}
+		{C08EFE91-2DED-47C2-BC0D-A3662E9C7B00} = {F51EDA7C-E2A5-4A4A-920E-A68A77DF60C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56AEF781-D6A9-4AF9-912B-35171F66E4B5}

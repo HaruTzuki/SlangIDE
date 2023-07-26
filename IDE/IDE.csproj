@@ -14,6 +14,7 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<Reference Include="Microsoft.VisualBasic" />
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
 		<Reference Include="System.Design" />
@@ -29,6 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
@@ -50,13 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -64,6 +59,13 @@
     <None Update="Templates\Projects\{92138572-796A-496F-A104-BBF2B29C5148}.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

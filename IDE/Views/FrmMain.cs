@@ -3,6 +3,7 @@ using IDE.Helper;
 using IDE.Helper.Custom;
 using IDE.Preferences;
 using IDE.Views.AdditionViews;
+using Slang.IDE.Shared.Enumerations;
 
 namespace IDE.Views
 {
@@ -19,7 +20,55 @@ namespace IDE.Views
             Text = $"{Sessions.SlangProject.Name} - Slang IDE";
             MainMenuStrip.Renderer = new DarkThemeRenderer();
 
+            InitialiseTreeViewEvents();
+
             PaintAllComponents();
+        }
+
+        private void InitialiseTreeViewEvents()
+        {
+            this.FileExplorer.FileExplorerTree.NodeMouseDoubleClick += FileExplorerTree_NodeMouseDoubleClick;
+        }
+
+        private void FileExplorerTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var selectedNode = e.Node as TreeNodeExtented;
+
+            if (selectedNode.FileType == TreeFileType.Folder || selectedNode.FileType == TreeFileType.Solution)
+            {
+                return;
+            }
+
+            var file = Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(e.Node.Name));
+
+            if (FrmMain.SlangTabControl.TabPages.ContainsKey(file.Id.ToString()))
+            {
+                FrmMain.SlangTabControl.SelectedTab = FrmMain.SlangTabControl.TabPages[file.Id.ToString()];
+                return;
+            }
+
+            // Open the file
+            using var streamReader = new StreamReader(file.FilePath);
+            var content = streamReader.ReadToEnd();
+            streamReader.Close();
+
+            var uc_textEditor = new SlangTextEditor();
+            uc_textEditor.EditorText = content;
+            uc_textEditor.Dock = DockStyle.Fill;
+            uc_textEditor.CaretPositionChanged += Uc_textEditor_CaretPositionChanged;
+
+            var tabPage = new TabPage();
+            tabPage.Name = file.Id.ToString();
+            tabPage.Text = file.Name;
+            tabPage.Controls.Add(uc_textEditor);
+
+            SlangTabControl.TabPages.Add(tabPage);
+            SlangTabControl.SelectedTab = SlangTabControl.TabPages[file.Id.ToString()];
+        }
+        private void Uc_textEditor_CaretPositionChanged(object sender, CaretPositionEventArgs e)
+        {
+            LblLine.Text = e.Line.ToString();
+            LblPosition.Text = e.Column.ToString();
         }
 
         private void PaintAllComponents()
@@ -45,10 +94,7 @@ namespace IDE.Views
             _recentProjects.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _newProject.Name = "{A843B137-28E3-4842-BEB0-17A7C7D41437}";
 
-            _file.DropDownItems.Add(new ToolStripSeparator()
-            {
-                BackColor = Color.FromArgb(31, 31,31)
-            });
+            _file.DropDownItems.Add(new DarkThemeToolStripSeparator());
 
             var _exitApplication = new ToolStripMenuItem();
             _file.DropDownItems.Add(_exitApplication);
@@ -82,19 +128,39 @@ namespace IDE.Views
             _saveAll.Name = "{AD0947D5-18C5-4A74-A6CC-3335F49652F7}";
             _saveAll.Click += BtnSaveAll_Click;
 
-            _edit.DropDownItems.Add(new ToolStripSeparator()
-            {
-                BackColor = Color.FromArgb(31, 31, 31)
-            });
+            _edit.DropDownItems.Add(new DarkThemeToolStripSeparator());
+
+            var _undo = new ToolStripMenuItem();
+            _edit.DropDownItems.Add(_undo);
+            _undo.ForeColor = Color.WhiteSmoke;
+            _undo.Text = "Undo";
+            _undo.ShowShortcutKeys = true;
+            _undo.ShortcutKeys = Keys.Control | Keys.Z;
+            _undo.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _undo.Name = "{7AD0441F-90AC-42C4-8D88-1CA74EB96902}";
+            _undo.Click += BtnUndo_Click;
+
+            var _redo = new ToolStripMenuItem();
+            _edit.DropDownItems.Add(_redo);
+            _redo.ForeColor = Color.WhiteSmoke;
+            _redo.Text = "Redo";
+            _redo.ShowShortcutKeys = true;
+            _redo.ShortcutKeys = Keys.Control | Keys.Y;
+            _redo.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _redo.Name = "{EA4BCD41-F825-402E-BBD4-A953180DA5F8}";
+            _redo.Click += BtnRedo_Click;
+
+            _edit.DropDownItems.Add(new DarkThemeToolStripSeparator());
 
             var _cut = new ToolStripMenuItem();
             _edit.DropDownItems.Add(_cut);
             _cut.ForeColor = Color.WhiteSmoke;
-            _cut.Text = "Paste";
+            _cut.Text = "Cut";
             _cut.ShowShortcutKeys = true;
             _cut.ShortcutKeys = Keys.Control | Keys.X;
             _cut.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _cut.Name = "{9DAEDF5A-D457-4BE5-99DD-8C609F4D8BB6}";
+            _cut.Click += BtnCut_Click;
 
             var _copy = new ToolStripMenuItem();
             _edit.DropDownItems.Add(_copy);
@@ -104,7 +170,7 @@ namespace IDE.Views
             _copy.ShortcutKeys = Keys.Control | Keys.C;
             _copy.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _copy.Name = "{46C1714B-7CC5-4A55-8845-3EED3AAD419F}";
-            //_copy.Click += BtnSaveAll_Click;
+            _copy.Click += BtnCopy_Click;
 
             var _paste = new ToolStripMenuItem();
             _edit.DropDownItems.Add(_paste);
@@ -114,6 +180,7 @@ namespace IDE.Views
             _paste.ShortcutKeys = Keys.Control | Keys.V;
             _paste.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _paste.Name = "{0FF35F47-7357-4D3D-85F7-DD4661F1A464}";
+            _paste.Click += BtnPaste_Click;
 
             var _selectAll = new ToolStripMenuItem();
             _edit.DropDownItems.Add(_selectAll);
@@ -123,6 +190,7 @@ namespace IDE.Views
             _selectAll.ShortcutKeys = Keys.Control | Keys.A;
             _selectAll.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _selectAll.Name = "{8412BF81-0790-4527-9E59-C5C005D6F7CD}";
+            _selectAll.Click += BtnSelectAll_Click;
 
 
             var _build = new ToolStripMenuItem();
@@ -143,6 +211,17 @@ namespace IDE.Views
             _preferences.Name = "{EEB68D2D-8DE1-4508-ABD4-844FEDEC1E95}";
             _preferences.Click += OpenPreferences;
 
+            _options.DropDownItems.Add(new DarkThemeToolStripSeparator());
+
+            var _about = new ToolStripMenuItem();
+            _options.DropDownItems.Add(_about);
+            _about.Text = "About";
+            _about.ForeColor = Color.WhiteSmoke;
+            _about.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _about.Name = "{3CA68831-6586-4E72-9DCE-7894E4A43D52}";
+            _about.Click += OpenAbout;
+
+
             var _title = new ToolStripLabel();
             _title.Text = $"{Sessions.SlangProject.Name} - Slang IDE";
             _title.BackColor = Color.FromArgb(61, 61, 61);
@@ -157,6 +236,12 @@ namespace IDE.Views
             PanelContainer.Panel2.Controls.Add(SlangTabControl);
             SlangTabControl.Dock = DockStyle.Fill;
 
+        }
+
+        private void OpenAbout(object sender, EventArgs e)
+        {
+            using var aboutForm = new FrmAbout();
+            aboutForm.ShowDialog();
         }
 
         private void OpenPreferences(object sender, EventArgs e)
@@ -187,7 +272,7 @@ namespace IDE.Views
             var selectedTab = SlangTabControl.SelectedTab;
             var filesText = selectedTab.Text;
 
-            var editor = selectedTab.Controls[0] as UcTextEditor;
+            var editor = selectedTab.Controls[0] as SlangTextEditor;
             
 
             // Find the file (TODO: may this is not correct because under different paths may has the same file
@@ -213,7 +298,7 @@ namespace IDE.Views
             {
                 var filesText = tabPage.Text;
 
-                var editor = tabPage.Controls[0] as UcTextEditor;
+                var editor = tabPage.Controls[0] as SlangTextEditor;
 
 
                 // Find the file (TODO: may this is not correct because under different paths may has the same file
@@ -227,6 +312,126 @@ namespace IDE.Views
                 using var streamWriter = new StreamWriter(actualFile.FilePath);
                 streamWriter.WriteLine(editor.EditorText);
             }
+        }
+
+        private void BtnUndo_Click(object sender, EventArgs e)
+        {
+            if(SlangTabControl.TabPages.Count <= 0)
+            {
+                return;
+            }
+
+            var selectedTab = SlangTabControl.SelectedTab;
+
+            if(selectedTab.Controls.Count <= 0)
+            {
+                return;
+            }
+
+            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
+
+            if(textEditor!.textEditor.CanUndo)
+            {
+                textEditor.textEditor.Undo();
+            }
+        }
+
+        private void BtnRedo_Click(object sender, EventArgs e)
+        {
+            if (SlangTabControl.TabPages.Count <= 0)
+            {
+                return;
+            }
+
+            var selectedTab = SlangTabControl.SelectedTab;
+
+            if (selectedTab.Controls.Count <= 0)
+            {
+                return;
+            }
+
+            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
+
+            if (textEditor!.textEditor.CanRedo)
+            {
+                textEditor.textEditor.Redo();
+            }
+        }
+
+        private void BtnSelectAll_Click(object sender, EventArgs e)
+        {
+            if (SlangTabControl.TabPages.Count <= 0)
+            {
+                return;
+            }
+
+            var selectedTab = SlangTabControl.SelectedTab;
+
+            if (selectedTab.Controls.Count <= 0)
+            {
+                return;
+            }
+
+            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
+
+            textEditor!.textEditor.SelectAll();
+        }
+
+        private void BtnPaste_Click(object sender, EventArgs e)
+        {
+            if (SlangTabControl.TabPages.Count <= 0)
+            {
+                return;
+            }
+
+            var selectedTab = SlangTabControl.SelectedTab;
+
+            if (selectedTab.Controls.Count <= 0)
+            {
+                return;
+            }
+
+            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
+
+            textEditor!.textEditor.Paste();
+        }
+
+        private void BtnCopy_Click(object sender, EventArgs e)
+        {
+            if (SlangTabControl.TabPages.Count <= 0)
+            {
+                return;
+            }
+
+            var selectedTab = SlangTabControl.SelectedTab;
+
+            if (selectedTab.Controls.Count <= 0)
+            {
+                return;
+            }
+
+            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
+
+            textEditor!.textEditor.Copy();
+        }
+
+        private void BtnCut_Click(object sender, EventArgs e)
+        {
+            if (SlangTabControl.TabPages.Count <= 0)
+            {
+                return;
+            }
+
+            var selectedTab = SlangTabControl.SelectedTab;
+
+            if (selectedTab.Controls.Count <= 0)
+            {
+                return;
+            }
+
+            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
+
+            textEditor!.textEditor.Cut();
         }
 
 

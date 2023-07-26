@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.Reflection;
+using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
 namespace IDE.Helper.Custom
@@ -18,15 +20,17 @@ namespace IDE.Helper.Custom
         [Browsable(true), Category("SlangCustom")]
         public bool AllowMinimize
         {
-            get { return BtnMinimize.Visible; } set {  BtnMinimize.Visible = value; }
+            get { return BtnMinimize.Visible; }
+            set { BtnMinimize.Visible = value; }
         }
 
         [Browsable(true), Category("SlangCustom")]
         public bool AllowMaximize
         {
-            get { return BtnMaximize.Visible; } set { BtnMaximize.Visible = value; }
+            get { return BtnMaximize.Visible; }
+            set { BtnMaximize.Visible = value; }
         }
-        
+
         [Browsable(true), Category("SlangCustom")]
         public string Title
         {
@@ -38,7 +42,8 @@ namespace IDE.Helper.Custom
         [Browsable(true), Category("SlangCustom")]
         public FormClosingOperations FormClosingOperation
         {
-            get { return _formClosingOperation; } set { _formClosingOperation = value; }
+            get { return _formClosingOperation; }
+            set { _formClosingOperation = value; }
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -173,12 +178,69 @@ namespace IDE.Helper.Custom
 
     public class DarkThemeRenderer : ToolStripProfessionalRenderer
     {
+
+        public DarkThemeRenderer() : base(new MyColor())
+        {
+
+        }
+
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
             Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);
-            Color c = e.Item.Selected ? Color.FromArgb(61,61,61) : Color.FromArgb(31,31,31);
+            Color c = e.Item.Selected ? Color.FromArgb(61, 61, 61) : Color.FromArgb(31, 31, 31);
             using (SolidBrush brush = new SolidBrush(c))
                 e.Graphics.FillRectangle(brush, rc);
         }
+
+        protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
+        {
+            if (!e.Vertical || (e.Item as ToolStripSeparator) == null)
+                base.OnRenderSeparator(e);
+            else
+            {
+                Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
+                bounds.Y += 3;
+                bounds.Height = Math.Max(0, bounds.Height - 6);
+                if (bounds.Height >= 4) bounds.Inflate(0, -2);
+                Pen pen = new Pen(Color.FromArgb(31, 31, 31));
+                int x = bounds.Width / 2;
+                e.Graphics.DrawLine(pen, x, bounds.Top, x, bounds.Bottom - 1);
+                pen.Dispose();
+                pen = new Pen(Color.FromArgb(61, 61, 61));
+                e.Graphics.DrawLine(pen, x + 1, bounds.Top + 1, x + 1, bounds.Bottom);
+                pen.Dispose();
+            }
+        }
+
+        protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+        {
+            // Keep all borders but remove the left border for ToolStripMenuItems
+            Rectangle borderRect = new Rectangle(Point.Empty, e.ToolStrip.Size);
+
+            // Draw the top border
+            using (Pen pen = new Pen(Color.FromArgb(31, 31, 31)))
+            {
+                e.Graphics.DrawLine(pen, borderRect.Left, borderRect.Top, borderRect.Right - 1, borderRect.Top);
+            }
+
+            // Draw the bottom border
+            using (Pen pen = new Pen(Color.FromArgb(31, 31, 31)))
+            {
+                e.Graphics.DrawLine(pen, borderRect.Left, borderRect.Bottom - 1, borderRect.Right - 1, borderRect.Bottom - 1);
+            }
+
+            // Draw the right border
+            using (Pen pen = new Pen(Color.FromArgb(31, 31, 31)))
+            {
+                e.Graphics.DrawLine(pen, borderRect.Right - 1, borderRect.Top, borderRect.Right - 1, borderRect.Bottom - 1);
+            }
+        }
+    }
+
+    public class MyColor : ProfessionalColorTable
+    {
+        public override Color MenuBorder => Color.FromArgb(31, 31, 31);
+        public override Color MenuItemBorder => Color.FromArgb(31,31,31);
     }
 }
+

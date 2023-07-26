@@ -63,9 +63,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ASX_Run_blue_16x {
+        internal static System.Drawing.Bitmap debug {
             get {
-                object obj = ResourceManager.GetObject("ASX_Run_blue_16x", resourceCulture);
+                object obj = ResourceManager.GetObject("debug", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Backwards {
+        internal static System.Drawing.Bitmap linkedin {
             get {
-                object obj = ResourceManager.GetObject("Backwards", resourceCulture);
+                object obj = ResourceManager.GetObject("linkedin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,29 +83,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Feedback {
+        internal static System.Drawing.Bitmap redo {
             get {
-                object obj = ResourceManager.GetObject("Feedback", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] file_regular {
-            get {
-                object obj = ResourceManager.GetObject("file-regular", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Forwards {
-            get {
-                object obj = ResourceManager.GetObject("Forwards", resourceCulture);
+                object obj = ResourceManager.GetObject("redo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +93,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Play {
+        internal static System.Drawing.Bitmap run {
             get {
-                object obj = ResourceManager.GetObject("Play", resourceCulture);
+                object obj = ResourceManager.GetObject("run", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +103,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Redo {
+        internal static System.Drawing.Bitmap save {
             get {
-                object obj = ResourceManager.GetObject("Redo", resourceCulture);
+                object obj = ResourceManager.GetObject("save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +113,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Redo_16x {
+        internal static System.Drawing.Bitmap save_all {
             get {
-                object obj = ResourceManager.GetObject("Redo_16x", resourceCulture);
+                object obj = ResourceManager.GetObject("save_all", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +123,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RedoNoColor {
+        internal static System.Drawing.Bitmap slang_ide {
             get {
-                object obj = ResourceManager.GetObject("RedoNoColor", resourceCulture);
+                object obj = ResourceManager.GetObject("slang_ide", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,69 +133,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Run_16x {
+        internal static System.Drawing.Bitmap undo {
             get {
-                object obj = ResourceManager.GetObject("Run_16x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Save {
-            get {
-                object obj = ResourceManager.GetObject("Save", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Save_16x {
-            get {
-                object obj = ResourceManager.GetObject("Save_16x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SaveAll {
-            get {
-                object obj = ResourceManager.GetObject("SaveAll", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SaveAll_16x {
-            get {
-                object obj = ResourceManager.GetObject("SaveAll_16x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Undo {
-            get {
-                object obj = ResourceManager.GetObject("Undo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Undo_16x {
-            get {
-                object obj = ResourceManager.GetObject("Undo_16x", resourceCulture);
+                object obj = ResourceManager.GetObject("undo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

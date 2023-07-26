@@ -1,4 +1,5 @@
 ﻿using IDE.Helper;
+using IDE.Helper.Custom;
 using IDE.Views;
 using IDE.Views.AdditionViews;
 using Slang.IDE.Shared.Enumerations;
@@ -13,6 +14,7 @@ namespace IDE.Controls
         public UcFileExplorer()
         {
             InitializeComponent();
+            TreeViewContextMenu.Renderer = new DarkThemeRenderer();
         }
 
         public void BuildTreeView()
@@ -23,6 +25,8 @@ namespace IDE.Controls
             root.Name = Sessions.SlangProject.Id.ToString();
             root.Text = Sessions.SlangProject.Name;
             root.FileType = Slang.IDE.Shared.Enumerations.TreeFileType.Solution;
+            root.ImageIndex = 6;
+            root.SelectedImageIndex = 6;
 
             this.FileExplorerTree.Nodes.Add(root);
 
@@ -46,8 +50,8 @@ namespace IDE.Controls
                     var _fileType = new TreeNodeExtented();
                     _fileType.Name = withParent.Id.ToString();
                     _fileType.Text = withParent.Name;
-                    _fileType.ImageIndex = 1;
-                    _fileType.SelectedImageIndex = 1;
+                    _fileType.ImageIndex = 2;
+                    _fileType.SelectedImageIndex = 2;
                     _fileType.FileType = Slang.IDE.Shared.Enumerations.TreeFileType.File;
                     _fileType.FilePath = withParent.FilePath;
                     parentNode.Nodes.Add(_fileType);
@@ -56,43 +60,6 @@ namespace IDE.Controls
 
             this.FileExplorerTree.ExpandAll();
         }
-
-
-        private void FileExplorerTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            var selectedNode = e.Node as TreeNodeExtented;
-
-            if(selectedNode.FileType == TreeFileType.Folder || selectedNode.FileType == TreeFileType.Solution)
-            {
-                return;
-            }
-
-            var file = Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(e.Node.Name));
-
-            if(FrmMain.SlangTabControl.TabPages.ContainsKey(file.Id.ToString()))
-            {
-                FrmMain.SlangTabControl.SelectedTab = FrmMain.SlangTabControl.TabPages[file.Id.ToString()];
-                return;
-            }
-            
-            // Open the file
-            using var streamReader = new StreamReader(file.FilePath);
-            var content = streamReader.ReadToEnd();
-            streamReader.Close();
-
-            var uc_textEditor = new UcTextEditor();
-            uc_textEditor.EditorText = content;
-            uc_textEditor.Dock = DockStyle.Fill;
-
-            var tabPage = new TabPage();
-            tabPage.Name = file.Id.ToString();
-            tabPage.Text = file.Name;
-            tabPage.Controls.Add(uc_textEditor);
-
-            FrmMain.SlangTabControl.TabPages.Add(tabPage);
-            FrmMain.SlangTabControl.SelectedTab = FrmMain.SlangTabControl.TabPages[file.Id.ToString()];
-        }
-
 
         #region Context Menus
         private void BtnNewFolder_Click(object sender, EventArgs e)
@@ -161,7 +128,7 @@ namespace IDE.Controls
             treeNode.Name = fileId.ToString();
             treeNode.Text = fileName;
             treeNode.ImageIndex = 1;
-            treeNode.SelectedImageIndex = 1;
+            treeNode.SelectedImageIndex = 2;
             treeNode.FileType = Slang.IDE.Shared.Enumerations.TreeFileType.File;
             treeNode.FilePath = Path.Combine(selectedNode.FilePath, fileName);
 

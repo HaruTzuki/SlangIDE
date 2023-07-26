@@ -128,7 +128,7 @@ namespace IDE.Helper
             projects.Add(new RecentProject
             {
                 Name = slangProject.Name,
-                Path = slangProject.FilePath,
+                Path = Path.Combine(slangProject.FilePath, slangProject.Name + ".slangproject"),
                 CreatedOn = DateTime.Now
             });
 

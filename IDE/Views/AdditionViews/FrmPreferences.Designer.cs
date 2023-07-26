@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Basic");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("General", new System.Windows.Forms.TreeNode[] {
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Shortcuts");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Editor", new System.Windows.Forms.TreeNode[] {
-            treeNode7});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Basic");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("General", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Shortcuts");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Editor", new System.Windows.Forms.TreeNode[] {
+            treeNode3});
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPreferences));
             this.BasicSettingsTab = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.OptionsTreeView = new System.Windows.Forms.TreeView();
@@ -67,33 +68,37 @@
             this.OptionsTreeView.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.OptionsTreeView.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.OptionsTreeView.Location = new System.Drawing.Point(0, 0);
+            this.OptionsTreeView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.OptionsTreeView.Name = "OptionsTreeView";
-            treeNode5.Name = "{AF03449E-E928-4A9A-A9B4-737BE6D494C1}";
-            treeNode5.Text = "Basic";
-            treeNode6.Name = "{C205C943-2137-4EEE-9D8F-54F90A2CD3DA}";
-            treeNode6.Text = "General";
-            treeNode7.Name = "{07ED30D6-FE3E-4204-A03D-BEC14107DFEA}";
-            treeNode7.Text = "Shortcuts";
-            treeNode8.Name = "{B851D9E9-375F-4506-A9F2-05D8057720D7}";
-            treeNode8.Text = "Editor";
+            treeNode1.Name = "{AF03449E-E928-4A9A-A9B4-737BE6D494C1}";
+            treeNode1.Text = "Basic";
+            treeNode2.Name = "{C205C943-2137-4EEE-9D8F-54F90A2CD3DA}";
+            treeNode2.Text = "General";
+            treeNode3.Name = "{07ED30D6-FE3E-4204-A03D-BEC14107DFEA}";
+            treeNode3.Text = "Shortcuts";
+            treeNode4.Name = "{B851D9E9-375F-4506-A9F2-05D8057720D7}";
+            treeNode4.Text = "Editor";
             this.OptionsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode8});
+            treeNode2,
+            treeNode4});
             this.OptionsTreeView.ShowPlusMinus = false;
-            this.OptionsTreeView.Size = new System.Drawing.Size(243, 554);
+            this.OptionsTreeView.Size = new System.Drawing.Size(183, 450);
             this.OptionsTreeView.TabIndex = 0;
             // 
             // FrmPreferences
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(952, 554);
+            this.ClientSize = new System.Drawing.Size(714, 450);
             this.Controls.Add(this.OptionsTreeView);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmPreferences";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Preferences";
             this.ResumeLayout(false);

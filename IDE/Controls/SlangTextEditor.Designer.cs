@@ -30,7 +30,7 @@
         {
             this.textEditor = new ScintillaNET.Scintilla();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.CbxAvailableMethods = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -51,21 +51,24 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Controls.Add(this.CbxAvailableMethods);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(419, 25);
             this.panel1.TabIndex = 1;
             // 
-            // comboBox1
+            // CbxAvailableMethods
             // 
-            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(0, 0);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(150, 21);
-            this.comboBox1.TabIndex = 0;
+            this.CbxAvailableMethods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.CbxAvailableMethods.Dock = System.Windows.Forms.DockStyle.Left;
+            this.CbxAvailableMethods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CbxAvailableMethods.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.CbxAvailableMethods.FormattingEnabled = true;
+            this.CbxAvailableMethods.Location = new System.Drawing.Point(0, 0);
+            this.CbxAvailableMethods.Name = "CbxAvailableMethods";
+            this.CbxAvailableMethods.Size = new System.Drawing.Size(258, 21);
+            this.CbxAvailableMethods.TabIndex = 0;
             // 
             // panel2
             // 
@@ -85,6 +88,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "SlangTextEditor";
             this.Load += new System.EventHandler(this.SlangTextEditor_Load);
+            this.Shown += new System.EventHandler(this.SlangTextEditor_Shown);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -96,6 +100,6 @@
         public ScintillaNET.Scintilla textEditor;
         private Panel panel1;
         private Panel panel2;
-        private ComboBox comboBox1;
+        private ComboBox CbxAvailableMethods;
     }
 }

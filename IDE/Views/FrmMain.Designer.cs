@@ -44,14 +44,14 @@
             this.LblStatusMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.LblLineLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.LblLine = new System.Windows.Forms.ToolStripStatusLabel();
+            this.LblColumnText = new System.Windows.Forms.ToolStripStatusLabel();
+            this.LblColumn = new System.Windows.Forms.ToolStripStatusLabel();
             this.LblPositionText = new System.Windows.Forms.ToolStripStatusLabel();
             this.LblPosition = new System.Windows.Forms.ToolStripStatusLabel();
             this.BlueTheme = new WeifenLuo.WinFormsUI.Docking.VS2015BlueTheme();
             this.DarkTheme = new WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme();
             this.LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.LblColumnText = new System.Windows.Forms.ToolStripStatusLabel();
-            this.LblColumn = new System.Windows.Forms.ToolStripStatusLabel();
             this.EditorsTools.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -133,7 +133,8 @@
             this.BtnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnRun.Name = "BtnRun";
             this.BtnRun.Size = new System.Drawing.Size(24, 24);
-            this.BtnRun.Text = "toolStripButton1";
+            this.BtnRun.Text = "Run Without Debugging";
+            this.BtnRun.Click += new System.EventHandler(this.BtnRun_Click);
             // 
             // BtnDebug
             // 
@@ -142,7 +143,7 @@
             this.BtnDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnDebug.Name = "BtnDebug";
             this.BtnDebug.Size = new System.Drawing.Size(24, 24);
-            this.BtnDebug.Text = "toolStripButton1";
+            this.BtnDebug.Text = "Debug";
             // 
             // MainMenuStrip
             // 
@@ -207,6 +208,20 @@
             this.LblLine.Size = new System.Drawing.Size(13, 17);
             this.LblLine.Text = "0";
             // 
+            // LblColumnText
+            // 
+            this.LblColumnText.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.LblColumnText.Name = "LblColumnText";
+            this.LblColumnText.Size = new System.Drawing.Size(28, 17);
+            this.LblColumnText.Text = "Col:";
+            // 
+            // LblColumn
+            // 
+            this.LblColumn.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.LblColumn.Name = "LblColumn";
+            this.LblColumn.Size = new System.Drawing.Size(13, 17);
+            this.LblColumn.Text = "0";
+            // 
             // LblPositionText
             // 
             this.LblPositionText.ForeColor = System.Drawing.Color.WhiteSmoke;
@@ -233,20 +248,6 @@
             this.MainDockPanel.TabIndex = 4;
             this.MainDockPanel.Theme = this.DarkTheme;
             // 
-            // LblColumnText
-            // 
-            this.LblColumnText.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.LblColumnText.Name = "LblColumnText";
-            this.LblColumnText.Size = new System.Drawing.Size(28, 17);
-            this.LblColumnText.Text = "Col:";
-            // 
-            // LblColumn
-            // 
-            this.LblColumn.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.LblColumn.Name = "LblColumn";
-            this.LblColumn.Size = new System.Drawing.Size(13, 17);
-            this.LblColumn.Text = "0";
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -262,7 +263,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FrmMain";
+            this.Text = "Main";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             this.EditorsTools.ResumeLayout(false);

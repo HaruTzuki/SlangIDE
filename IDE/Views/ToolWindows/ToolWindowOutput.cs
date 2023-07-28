@@ -39,8 +39,16 @@ namespace IDE.Views.ToolWindows
             WriteLine(text, ColourHelper.IntToColour(TERMINAL_DEFAULT_FORE_COLOUR));
         }
 
+        delegate void WriteLineCallback(string text, Color color);
+
         public void WriteLine(string text, Color color)
         {
+            if (TxtOutput.InvokeRequired)
+            {
+                WriteLineCallback d = new WriteLineCallback(WriteLine);
+                TxtOutput.Invoke(d, new object[] { text, color });
+                return;
+            }
 
             text += Environment.NewLine;
 

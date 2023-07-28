@@ -1,7 +1,9 @@
-﻿using Microsoft.VisualBasic;
+﻿using IDE.Preferences;
+using Microsoft.VisualBasic;
 using ScintillaNET;
 using Slang.IDE.Shared.Helpers;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace IDE.Controls
@@ -56,6 +58,69 @@ namespace IDE.Controls
             textEditor.CharAdded += TextEditor_CharAdded;
             textEditor.KeyUp += TextEditor_KeyUp;
             textEditor.MouseUp += TextEditor_MouseUp;
+            textEditor.TextChanged += TextEditor_TextChanged;
+
+
+            CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
+        }
+
+        private void CbxAvailableMethods_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textEditor.GotoPosition(SystemPreferences.UserDefineFunctions[CbxAvailableMethods.SelectedIndex].Column);
+            textEditor.Focus();
+        }
+
+        private void TextEditor_TextChanged(object sender, EventArgs e)
+        {
+            // Get the entire text from the RichTextBox
+            CbxAvailableMethods.SelectedIndexChanged -= CbxAvailableMethods_SelectedIndexChanged;
+            SystemPreferences.UserDefineFunctions.Clear();
+            CbxAvailableMethods.DataSource = null;
+            CbxAvailableMethods.Items.Clear();
+
+            string fullText = textEditor.Text;
+
+            int startIndex = 0;
+
+            // Loop to find all occurrences of "fn" and "{"
+            while (startIndex < fullText.Length)
+            {
+                // Find the starting position of "fn" after the previous startIndex
+                int fnIndex = fullText.IndexOf("fn", startIndex);
+                if (fnIndex == -1)
+                {
+                    // "fn" not found, break out of the loop
+                    break;
+                }
+
+                // Find the position of "{" starting from the position of "fn"
+                int openBraceIndex = fullText.IndexOf("{", fnIndex);
+                if (openBraceIndex == -1)
+                {
+                    // "{" not found, break out of the loop
+                    break;
+                }
+
+                // Extract the text between "fn" and "{"
+                string result = fullText.Substring(fnIndex + 2, openBraceIndex - fnIndex - 2).Trim();
+                SystemPreferences.UserDefineFunctions.Add(new UserDefineFunction { Name = result, Column = fnIndex + 2 });
+                // Update your UI or perform any other action with the extracted text
+                // For example, display the result in a label or add it to the list.
+                //results.Add(result);
+
+                // Move the startIndex to the position after the current "{" to search for the next occurrence
+                startIndex = openBraceIndex + 1;
+            }
+
+            // If you stored the results in a list, you can now use them as needed.
+            // For example, display them in a message box or update a UI element.
+            //MessageBox.Show(string.Join(Environment.NewLine, SystemPreferences.UserDefineFunctions));
+            CbxAvailableMethods.DataSource = SystemPreferences.UserDefineFunctions;
+            CbxAvailableMethods.DisplayMember = "Name";
+            CbxAvailableMethods.ValueMember = "Column";
+            CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
+            InitSyntaxHighlitning();
+            textEditor.Update();
         }
 
         private void TextEditor_MouseUp(object sender, MouseEventArgs e)
@@ -125,8 +190,8 @@ namespace IDE.Controls
             textEditor.Styles[Style.Cpp.GlobalClass].ForeColor = ColourHelper.IntToColour(0x3bb9b0);
 
 
-            textEditor.SetKeywords(0, "fn null int string bool float double return if for foreach while do else var");
-            textEditor.SetKeywords(1, "");
+            textEditor.SetKeywords(0, string.Join(" ", SystemPreferences.Keywords));
+            textEditor.SetKeywords(1, string.Join(" ", SystemPreferences.UserDefineFunctions.Select(x => x.Name.Substring(0, x.Name.IndexOf('(')))));
             textEditor.SetKeywords(3, "Task :");
         }
         private void InitNumberMargin()
@@ -262,5 +327,10 @@ namespace IDE.Controls
             CaretPositionChanged?.Invoke(this, e);
         }
         #endregion
+
+        private void SlangTextEditor_Shown(object sender, EventArgs e)
+        {
+            textEditor.Focus();
+        }
     }
 }

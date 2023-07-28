@@ -5,6 +5,7 @@ using IDE.Preferences;
 using IDE.Views.AdditionViews;
 using IDE.Views.ToolWindows;
 using Slang.IDE.Shared.Enumerations;
+using System.Diagnostics;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace IDE.Views
@@ -119,6 +120,7 @@ namespace IDE.Views
             _exitApplication.Text = "Exit";
             _exitApplication.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _exitApplication.Name = "{0FC4B816-6630-4A57-8C0D-A5B7A1C6E94D}";
+            _exitApplication.Click += Tsi_Exit_Click;
 
             var _edit = new ToolStripMenuItem();
             _edit.Text = "&Edit";
@@ -432,6 +434,30 @@ namespace IDE.Views
             {
                 textEditor.textEditor.Cut();
             }
+        }
+
+        private void BtnRun_Click(object sender, EventArgs e)
+        {
+            ShowOutput(sender, e);
+            OutputWindow.WriteLine("Compiling has been started...");
+            var startInfo = new ProcessStartInfo();
+            startInfo.UseShellExecute = false;
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.RedirectStandardInput = true;
+            startInfo.Arguments = $"{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath} -s";
+            startInfo.CreateNoWindow = true;
+            startInfo.FileName = "C:\\Projects\\SlangIDE\\SlangMiddleware\\bin\\Debug\\net7.0\\smc.exe";
+
+            var process = new Process();
+            process.StartInfo = startInfo;
+            process.OutputDataReceived += (ss, ee) =>
+            {
+                OutputWindow.WriteLine(ee.Data, Color.Green);
+            };
+
+            process.Start();
+            process.BeginOutputReadLine();
         }
 
 

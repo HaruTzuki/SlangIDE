@@ -59,58 +59,58 @@ namespace IDE.Controls
 
         private void ApplySyntaxHighlighting()
         {
-            string code = rtb.Text;
-            int previousSelection = rtb.SelectionStart;
+            //string code = rtb.Text;
+            //int previousSelection = rtb.SelectionStart;
 
-            // Clear any previous formatting
-            rtb.SelectionStart = 0;
-            rtb.SelectionLength = code.Length;
-            rtb.SelectionColor = rtb.ForeColor;
+            //// Clear any previous formatting
+            //rtb.SelectionStart = 0;
+            //rtb.SelectionLength = code.Length;
+            //rtb.SelectionColor = rtb.ForeColor;
 
-            // Loop through each rule and apply formatting
-            foreach (var rule in SystemPreferences.SystemDataTypes)
-            {
-                string pattern = "\\b" + Regex.Escape(rule.Key) + "\\b"; // Match whole word
+            //// Loop through each rule and apply formatting
+            //foreach (var rule in SystemPreferences.SystemDataTypes)
+            //{
+            //    string pattern = "\\b" + Regex.Escape(rule.Key) + "\\b"; // Match whole word
 
-                MatchCollection matches = Regex.Matches(code, pattern);
-                foreach (Match match in matches)
-                {
-                    rtb.SelectionStart = match.Index;
-                    rtb.SelectionLength = match.Length;
-                    rtb.SelectionColor = rule.Value;
-                }
-            }
+            //    MatchCollection matches = Regex.Matches(code, pattern);
+            //    foreach (Match match in matches)
+            //    {
+            //        rtb.SelectionStart = match.Index;
+            //        rtb.SelectionLength = match.Length;
+            //        rtb.SelectionColor = rule.Value;
+            //    }
+            //}
 
-            foreach (var rule in SystemPreferences.Keywords)
-            {
-                string pattern = "\\b" + Regex.Escape(rule.Key) + "\\b"; // Match whole word
+            //foreach (var rule in SystemPreferences.Keywords)
+            //{
+            //    string pattern = "\\b" + Regex.Escape(rule.Key) + "\\b"; // Match whole word
 
-                MatchCollection matches = Regex.Matches(code, pattern);
-                foreach (Match match in matches)
-                {
-                    rtb.SelectionStart = match.Index;
-                    rtb.SelectionLength = match.Length;
-                    rtb.SelectionColor = rule.Value;
-                }
-            }
+            //    MatchCollection matches = Regex.Matches(code, pattern);
+            //    foreach (Match match in matches)
+            //    {
+            //        rtb.SelectionStart = match.Index;
+            //        rtb.SelectionLength = match.Length;
+            //        rtb.SelectionColor = rule.Value;
+            //    }
+            //}
 
-            foreach (var rule in SystemPreferences.Directives)
-            {
-                string pattern = "\\b" + Regex.Escape(rule.Key) + "\\b"; // Match whole word
+            //foreach (var rule in SystemPreferences.Directives)
+            //{
+            //    string pattern = "\\b" + Regex.Escape(rule.Key) + "\\b"; // Match whole word
 
-                MatchCollection matches = Regex.Matches(code, pattern);
-                foreach (Match match in matches)
-                {
-                    rtb.SelectionStart = match.Index;
-                    rtb.SelectionLength = match.Length;
-                    rtb.SelectionColor = rule.Value;
-                }
-            }
+            //    MatchCollection matches = Regex.Matches(code, pattern);
+            //    foreach (Match match in matches)
+            //    {
+            //        rtb.SelectionStart = match.Index;
+            //        rtb.SelectionLength = match.Length;
+            //        rtb.SelectionColor = rule.Value;
+            //    }
+            //}
 
-            // Reset the selection to avoid highlighting the entire text
-            rtb.SelectionStart = previousSelection;
-            rtb.SelectionLength = 0;
-            rtb.SelectionColor = rtb.ForeColor;
+            //// Reset the selection to avoid highlighting the entire text
+            //rtb.SelectionStart = previousSelection;
+            //rtb.SelectionLength = 0;
+            //rtb.SelectionColor = rtb.ForeColor;
         }
 
         private void UpdateLineNumbers()

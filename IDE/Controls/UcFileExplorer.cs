@@ -1,4 +1,5 @@
-﻿using IDE.Helper;
+﻿using IDE.Abstraction;
+using IDE.Helper;
 using IDE.Helper.Custom;
 using IDE.Views;
 using IDE.Views.AdditionViews;
@@ -9,12 +10,13 @@ using System.Windows.Forms.VisualStyles;
 
 namespace IDE.Controls
 {
-    public partial class UcFileExplorer : UserControl
+    public partial class UcFileExplorer : ToolWindow
     {
         public UcFileExplorer()
         {
             InitializeComponent();
             TreeViewContextMenu.Renderer = new DarkThemeRenderer();
+            DockAreas = WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight | WeifenLuo.WinFormsUI.Docking.DockAreas.Document;
         }
 
         public void BuildTreeView()
@@ -127,7 +129,7 @@ namespace IDE.Controls
             var treeNode = new TreeNodeExtented();
             treeNode.Name = fileId.ToString();
             treeNode.Text = fileName;
-            treeNode.ImageIndex = 1;
+            treeNode.ImageIndex = 2;
             treeNode.SelectedImageIndex = 2;
             treeNode.FileType = Slang.IDE.Shared.Enumerations.TreeFileType.File;
             treeNode.FilePath = Path.Combine(selectedNode.FilePath, fileName);

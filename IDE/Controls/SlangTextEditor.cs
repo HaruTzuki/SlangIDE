@@ -2,10 +2,11 @@
 using ScintillaNET;
 using Slang.IDE.Shared.Helpers;
 using System.Text.RegularExpressions;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace IDE.Controls
 {
-    public partial class SlangTextEditor : UserControl
+    public partial class SlangTextEditor : DockContent
     {
         #region Constants
         private const int NUMBER_MARGIN = 1;
@@ -41,6 +42,9 @@ namespace IDE.Controls
         public SlangTextEditor()
         {
             InitializeComponent();
+            AutoScaleMode = AutoScaleMode.Dpi;
+            DockAreas = DockAreas.Document | DockAreas.Float;
+
             SetupInitSettings();
             InitEvents();
         }
@@ -56,7 +60,7 @@ namespace IDE.Controls
 
         private void TextEditor_MouseUp(object sender, MouseEventArgs e)
         {
-            CaretPositionChanged(this, new CaretPositionEventArgs { Line = textEditor.CurrentLine + 1, Column = textEditor.CurrentPosition + 1 });
+            CaretPositionChanged(this, new CaretPositionEventArgs { Line = textEditor.CurrentLine + 1, Column = textEditor.GetColumn(textEditor.CurrentPosition) + 1, Position = textEditor.CurrentPosition + 1 });
         }
 
 
@@ -68,7 +72,7 @@ namespace IDE.Controls
                 || e.KeyCode == Keys.Right
                 || e.KeyCode == Keys.Left)
             {
-                CaretPositionChanged(this, new CaretPositionEventArgs { Line = textEditor.CurrentLine + 1, Column = textEditor.CurrentPosition + 1 });
+                CaretPositionChanged(this, new CaretPositionEventArgs { Line = textEditor.CurrentLine + 1, Column = textEditor.GetColumn(textEditor.CurrentPosition) + 1, Position = textEditor.CurrentPosition + 1 });
             }
         }
 
@@ -258,6 +262,5 @@ namespace IDE.Controls
             CaretPositionChanged?.Invoke(this, e);
         }
         #endregion
-
     }
 }

@@ -3,18 +3,23 @@ using IDE.Helper;
 using IDE.Helper.Custom;
 using IDE.Preferences;
 using IDE.Views.AdditionViews;
+using IDE.Views.ToolWindows;
 using Slang.IDE.Shared.Enumerations;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace IDE.Views
 {
     public partial class FrmMain : Form
     {
         private readonly Templates _templates;
-        public static UcTabControl SlangTabControl;
+        private UcFileExplorer FileExplorer;
+        private ToolWindowOutput OutputWindow;
         public FrmMain()
         {
             InitializeComponent();
-            this.FileExplorer.BuildTreeView();
+            InitialiseToolWindows();
+
+            FileExplorer.BuildTreeView();
             var s = new Preferences.Shortcut();
             s.Bind();
             Text = $"{Sessions.SlangProject.Name} - Slang IDE";
@@ -25,9 +30,18 @@ namespace IDE.Views
             PaintAllComponents();
         }
 
+        private void InitialiseToolWindows()
+        {
+            FileExplorer ??= new UcFileExplorer()
+            {
+                Name = "FileExplorer",
+            };
+            FileExplorer.Show(MainDockPanel, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
+        }
+
         private void InitialiseTreeViewEvents()
         {
-            this.FileExplorer.FileExplorerTree.NodeMouseDoubleClick += FileExplorerTree_NodeMouseDoubleClick;
+            FileExplorer.FileExplorerTree.NodeMouseDoubleClick += FileExplorerTree_NodeMouseDoubleClick;
         }
 
         private void FileExplorerTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -41,34 +55,37 @@ namespace IDE.Views
 
             var file = Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(e.Node.Name));
 
-            if (FrmMain.SlangTabControl.TabPages.ContainsKey(file.Id.ToString()))
+            var dockPanel = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.TabText == file.Name);
+
+            if (dockPanel != null)
             {
-                FrmMain.SlangTabControl.SelectedTab = FrmMain.SlangTabControl.TabPages[file.Id.ToString()];
+                dockPanel.DockHandler.Activate();
                 return;
             }
 
             // Open the file
-            using var streamReader = new StreamReader(file.FilePath);
-            var content = streamReader.ReadToEnd();
-            streamReader.Close();
+            var text = File.ReadAllText(file.FilePath);
 
             var uc_textEditor = new SlangTextEditor();
-            uc_textEditor.EditorText = content;
-            uc_textEditor.Dock = DockStyle.Fill;
+            uc_textEditor.Text = file.Name;
+            uc_textEditor.EditorText = text;
             uc_textEditor.CaretPositionChanged += Uc_textEditor_CaretPositionChanged;
 
-            var tabPage = new TabPage();
-            tabPage.Name = file.Id.ToString();
-            tabPage.Text = file.Name;
-            tabPage.Controls.Add(uc_textEditor);
-
-            SlangTabControl.TabPages.Add(tabPage);
-            SlangTabControl.SelectedTab = SlangTabControl.TabPages[file.Id.ToString()];
+            if (MainDockPanel.DocumentStyle == WeifenLuo.WinFormsUI.Docking.DocumentStyle.SystemMdi)
+            {
+                uc_textEditor.MdiParent = this;
+                uc_textEditor.Show();
+            }
+            else
+            {
+                uc_textEditor.Show(MainDockPanel);
+            }
         }
         private void Uc_textEditor_CaretPositionChanged(object sender, CaretPositionEventArgs e)
         {
             LblLine.Text = e.Line.ToString();
-            LblPosition.Text = e.Column.ToString();
+            LblColumn.Text = e.Column.ToString();
+            LblPosition.Text = e.Position.ToString();
         }
 
         private void PaintAllComponents()
@@ -192,6 +209,26 @@ namespace IDE.Views
             _selectAll.Name = "{8412BF81-0790-4527-9E59-C5C005D6F7CD}";
             _selectAll.Click += BtnSelectAll_Click;
 
+            var _view = new ToolStripMenuItem();
+            _view.Text = "&View";
+            _view.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _view.Name = "{2B4BEB13-BA3D-44A2-BD29-95B6329BA6F1}";
+
+            var _fileExplorerView = new ToolStripMenuItem();
+            _view.DropDownItems.Add(_fileExplorerView);
+            _fileExplorerView.ForeColor = Color.WhiteSmoke;
+            _fileExplorerView.Text = "File Explorer";
+            _fileExplorerView.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _fileExplorerView.Name = "{7591B4ED-2C67-4C45-A3DF-ABC581630A50}";
+            _fileExplorerView.Click += ShowFileExplorer;
+
+            var _outputView = new ToolStripMenuItem();
+            _view.DropDownItems.Add(_outputView);
+            _outputView.ForeColor = Color.WhiteSmoke;
+            _outputView.Text = "Output";
+            _outputView.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _outputView.Name = "{468A04C9-1A10-4F3F-9937-30A26375E2C4}";
+            _outputView.Click += ShowOutput;
 
             var _build = new ToolStripMenuItem();
             _build.Text = "&Build";
@@ -228,14 +265,33 @@ namespace IDE.Views
             _title.ForeColor = Color.WhiteSmoke;
             //Add these controls to main menu
             MainMenuStrip.Items.Add(new ToolStripSeparator());
-            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _build, _options });
+            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _options });
             MainMenuStrip.ForeColor = Color.WhiteSmoke;
             #endregion
 
-            SlangTabControl = new UcTabControl();
-            PanelContainer.Panel2.Controls.Add(SlangTabControl);
-            SlangTabControl.Dock = DockStyle.Fill;
 
+        }
+
+        private async void ShowOutput(object sender, EventArgs e)
+        {
+            if (OutputWindow is null || OutputWindow.IsDisposed)
+            {
+                OutputWindow = new ToolWindowOutput();
+            }
+
+            OutputWindow.Show(MainDockPanel, DockState.DockBottom);
+
+            OutputWindow.WriteLine("=== Slang IDE Output ===", Color.Red);
+        }
+
+        private void ShowFileExplorer(object sender, EventArgs e)
+        {
+            if (FileExplorer.IsDisposed || FileExplorer is null)
+            {
+                FileExplorer = new UcFileExplorer();
+            }
+
+            FileExplorer.Show(MainDockPanel, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
         }
 
         private void OpenAbout(object sender, EventArgs e)
@@ -263,175 +319,119 @@ namespace IDE.Views
         private void BtnSave_Click(object sender, EventArgs e)
         {
             // Check if there is a tab opened
-            
-            if(SlangTabControl.TabPages.Count <= 0)
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
+            ;
+            if (selectedForm == null)
             {
                 return;
             }
 
-            var selectedTab = SlangTabControl.SelectedTab;
-            var filesText = selectedTab.Text;
+            var filesText = selectedForm.Text;
 
-            var editor = selectedTab.Controls[0] as SlangTextEditor;
-            
 
             // Find the file (TODO: may this is not correct because under different paths may has the same file
             var actualFile = Sessions.SlangProject.Files.FirstOrDefault(x => x.Name == filesText && x.FileType == Slang.IDE.Shared.Enumerations.TreeFileType.File);
 
-            if(actualFile == null)
+            if (actualFile == null)
             {
                 return;
             }
 
             using var streamWriter = new StreamWriter(actualFile.FilePath);
-            streamWriter.WriteLine(editor.EditorText);
+            streamWriter.WriteLine(selectedForm.EditorText);
         }
 
         private void BtnSaveAll_Click(object sender, EventArgs e)
         {
-            if (SlangTabControl.TabPages.Count <= 0)
+            foreach (IDockContent dockContent in MainDockPanel.Documents)
             {
-                return;
-            }
-
-            foreach(TabPage tabPage  in SlangTabControl.TabPages)
-            {
-                var filesText = tabPage.Text;
-
-                var editor = tabPage.Controls[0] as SlangTextEditor;
-
-
-                // Find the file (TODO: may this is not correct because under different paths may has the same file
-                var actualFile = Sessions.SlangProject.Files.FirstOrDefault(x => x.Name == filesText && x.FileType == Slang.IDE.Shared.Enumerations.TreeFileType.File);
-
-                if (actualFile == null)
+                if (dockContent is SlangTextEditor editor)
                 {
-                    return;
-                }
+                    var filesText = editor.Text;
+                    // Find the file (TODO: may this is not correct because under different paths may has the same file
+                    var actualFile = Sessions.SlangProject.Files.FirstOrDefault(x => x.Name == filesText && x.FileType == Slang.IDE.Shared.Enumerations.TreeFileType.File);
 
-                using var streamWriter = new StreamWriter(actualFile.FilePath);
-                streamWriter.WriteLine(editor.EditorText);
+                    if (actualFile == null)
+                    {
+                        return;
+                    }
+
+                    using var streamWriter = new StreamWriter(actualFile.FilePath);
+                    streamWriter.WriteLine(editor.EditorText);
+                }
             }
         }
 
         private void BtnUndo_Click(object sender, EventArgs e)
         {
-            if(SlangTabControl.TabPages.Count <= 0)
+            // Check if there is a tab opened
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated);
+
+            if (selectedForm is SlangTextEditor textEditor)
             {
-                return;
-            }
+                if (!textEditor.textEditor.CanUndo)
+                {
+                    return;
+                }
 
-            var selectedTab = SlangTabControl.SelectedTab;
-
-            if(selectedTab.Controls.Count <= 0)
-            {
-                return;
-            }
-
-            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
-
-            if(textEditor!.textEditor.CanUndo)
-            {
                 textEditor.textEditor.Undo();
             }
         }
 
         private void BtnRedo_Click(object sender, EventArgs e)
         {
-            if (SlangTabControl.TabPages.Count <= 0)
+            // Check if there is a tab opened
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated);
+
+            if (selectedForm is SlangTextEditor textEditor)
             {
-                return;
-            }
+                if (!textEditor.textEditor.CanRedo)
+                {
+                    return;
+                }
 
-            var selectedTab = SlangTabControl.SelectedTab;
-
-            if (selectedTab.Controls.Count <= 0)
-            {
-                return;
-            }
-
-            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
-
-            if (textEditor!.textEditor.CanRedo)
-            {
                 textEditor.textEditor.Redo();
             }
         }
 
         private void BtnSelectAll_Click(object sender, EventArgs e)
         {
-            if (SlangTabControl.TabPages.Count <= 0)
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated);
+
+            if (selectedForm is SlangTextEditor textEditor)
             {
-                return;
+                textEditor.textEditor.SelectAll();
             }
-
-            var selectedTab = SlangTabControl.SelectedTab;
-
-            if (selectedTab.Controls.Count <= 0)
-            {
-                return;
-            }
-
-            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
-
-            textEditor!.textEditor.SelectAll();
         }
 
         private void BtnPaste_Click(object sender, EventArgs e)
         {
-            if (SlangTabControl.TabPages.Count <= 0)
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated);
+
+            if (selectedForm is SlangTextEditor textEditor)
             {
-                return;
+                textEditor.textEditor.Paste();
             }
-
-            var selectedTab = SlangTabControl.SelectedTab;
-
-            if (selectedTab.Controls.Count <= 0)
-            {
-                return;
-            }
-
-            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
-
-            textEditor!.textEditor.Paste();
         }
 
         private void BtnCopy_Click(object sender, EventArgs e)
         {
-            if (SlangTabControl.TabPages.Count <= 0)
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated);
+
+            if (selectedForm is SlangTextEditor textEditor)
             {
-                return;
+                textEditor.textEditor.Copy();
             }
-
-            var selectedTab = SlangTabControl.SelectedTab;
-
-            if (selectedTab.Controls.Count <= 0)
-            {
-                return;
-            }
-
-            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
-
-            textEditor!.textEditor.Copy();
         }
 
         private void BtnCut_Click(object sender, EventArgs e)
         {
-            if (SlangTabControl.TabPages.Count <= 0)
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated);
+
+            if (selectedForm is SlangTextEditor textEditor)
             {
-                return;
+                textEditor.textEditor.Cut();
             }
-
-            var selectedTab = SlangTabControl.SelectedTab;
-
-            if (selectedTab.Controls.Count <= 0)
-            {
-                return;
-            }
-
-            var textEditor = selectedTab.Controls[0] as SlangTextEditor;
-
-            textEditor!.textEditor.Cut();
         }
 
 

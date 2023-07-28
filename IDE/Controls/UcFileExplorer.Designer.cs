@@ -30,45 +30,19 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcFileExplorer));
-            this.TitleBanner = new System.Windows.Forms.Panel();
-            this.LblTitle = new System.Windows.Forms.Label();
             this.FileExplorerTree = new System.Windows.Forms.TreeView();
             this.TreeViewContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.BtnNewFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.newFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnNewSlangFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new IDE.Controls.DarkThemeToolStripSeparator();
             this.BtnRename = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new IDE.Controls.DarkThemeToolStripSeparator();
             this.BtnShowInFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageListFileExplorer = new System.Windows.Forms.ImageList(this.components);
-            this.toolStripSeparator1 = new IDE.Controls.DarkThemeToolStripSeparator();
-            this.toolStripSeparator2 = new IDE.Controls.DarkThemeToolStripSeparator();
-            this.TitleBanner.SuspendLayout();
             this.TreeViewContextMenu.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // TitleBanner
-            // 
-            this.TitleBanner.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.TitleBanner.Controls.Add(this.LblTitle);
-            this.TitleBanner.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TitleBanner.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TitleBanner.Location = new System.Drawing.Point(0, 0);
-            this.TitleBanner.Margin = new System.Windows.Forms.Padding(2);
-            this.TitleBanner.Name = "TitleBanner";
-            this.TitleBanner.Size = new System.Drawing.Size(273, 29);
-            this.TitleBanner.TabIndex = 0;
-            // 
-            // LblTitle
-            // 
-            this.LblTitle.AutoSize = true;
-            this.LblTitle.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.LblTitle.Location = new System.Drawing.Point(2, 8);
-            this.LblTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.LblTitle.Name = "LblTitle";
-            this.LblTitle.Size = new System.Drawing.Size(71, 15);
-            this.LblTitle.TabIndex = 0;
-            this.LblTitle.Text = "File Explorer";
             // 
             // FileExplorerTree
             // 
@@ -79,12 +53,12 @@
             this.FileExplorerTree.ForeColor = System.Drawing.Color.White;
             this.FileExplorerTree.ImageIndex = 0;
             this.FileExplorerTree.ImageList = this.ImageListFileExplorer;
-            this.FileExplorerTree.Location = new System.Drawing.Point(0, 29);
+            this.FileExplorerTree.Location = new System.Drawing.Point(0, 0);
             this.FileExplorerTree.Margin = new System.Windows.Forms.Padding(2);
             this.FileExplorerTree.Name = "FileExplorerTree";
             this.FileExplorerTree.SelectedImageIndex = 0;
             this.FileExplorerTree.ShowLines = false;
-            this.FileExplorerTree.Size = new System.Drawing.Size(273, 385);
+            this.FileExplorerTree.Size = new System.Drawing.Size(257, 375);
             this.FileExplorerTree.TabIndex = 1;
             // 
             // TreeViewContextMenu
@@ -130,6 +104,11 @@
             this.BtnNewSlangFile.Text = "Slang File (.slang)";
             this.BtnNewSlangFile.Click += new System.EventHandler(this.BtnNewSlangFile_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
+            // 
             // BtnRename
             // 
             this.BtnRename.ForeColor = System.Drawing.Color.WhiteSmoke;
@@ -149,6 +128,11 @@
             this.BtnDelete.Size = new System.Drawing.Size(176, 22);
             this.BtnDelete.Text = "Delete";
             this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(173, 6);
             // 
             // BtnShowInFolder
             // 
@@ -170,36 +154,22 @@
             this.ImageListFileExplorer.Images.SetKeyName(5, "FolderOpened.png");
             this.ImageListFileExplorer.Images.SetKeyName(6, "slangproject.png");
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(173, 6);
-            // 
             // UcFileExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(257, 375);
             this.Controls.Add(this.FileExplorerTree);
-            this.Controls.Add(this.TitleBanner);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "UcFileExplorer";
-            this.Size = new System.Drawing.Size(273, 414);
-            this.TitleBanner.ResumeLayout(false);
-            this.TitleBanner.PerformLayout();
+            this.TabText = "File Explorer";
+            this.Text = "File Explorer";
             this.TreeViewContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Panel TitleBanner;
-        private Label LblTitle;
         private ContextMenuStrip TreeViewContextMenu;
         private ToolStripMenuItem BtnNewFolder;
         private ToolStripMenuItem newFileToolStripMenuItem;

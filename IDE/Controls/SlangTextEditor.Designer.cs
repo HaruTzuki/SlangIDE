@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.textEditor = new ScintillaNET.Scintilla();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // textEditor
@@ -40,17 +45,48 @@
             this.textEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textEditor.Location = new System.Drawing.Point(0, 0);
             this.textEditor.Name = "textEditor";
-            this.textEditor.Size = new System.Drawing.Size(435, 303);
+            this.textEditor.Size = new System.Drawing.Size(419, 239);
             this.textEditor.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(419, 25);
+            this.panel1.TabIndex = 1;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(0, 0);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(150, 21);
+            this.comboBox1.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.textEditor);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 25);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(419, 239);
+            this.panel2.TabIndex = 2;
             // 
             // SlangTextEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.textEditor);
+            this.ClientSize = new System.Drawing.Size(419, 264);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Name = "SlangTextEditor";
-            this.Size = new System.Drawing.Size(435, 303);
             this.Load += new System.EventHandler(this.SlangTextEditor_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -58,5 +94,8 @@
         #endregion
 
         public ScintillaNET.Scintilla textEditor;
+        private Panel panel1;
+        private Panel panel2;
+        private ComboBox comboBox1;
     }
 }

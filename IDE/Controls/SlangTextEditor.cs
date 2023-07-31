@@ -106,7 +106,6 @@ namespace IDE.Controls
                 SystemPreferences.UserDefineFunctions.Add(new UserDefineFunction { Name = result, Column = fnIndex + 2 });
                 // Update your UI or perform any other action with the extracted text
                 // For example, display the result in a label or add it to the list.
-                //results.Add(result);
 
                 // Move the startIndex to the position after the current "{" to search for the next occurrence
                 startIndex = openBraceIndex + 1;
@@ -114,7 +113,6 @@ namespace IDE.Controls
 
             // If you stored the results in a list, you can now use them as needed.
             // For example, display them in a message box or update a UI element.
-            //MessageBox.Show(string.Join(Environment.NewLine, SystemPreferences.UserDefineFunctions));
             CbxAvailableMethods.DataSource = SystemPreferences.UserDefineFunctions;
             CbxAvailableMethods.DisplayMember = "Name";
             CbxAvailableMethods.ValueMember = "Column";
@@ -191,7 +189,7 @@ namespace IDE.Controls
 
 
             textEditor.SetKeywords(0, string.Join(" ", SystemPreferences.Keywords));
-            textEditor.SetKeywords(1, string.Join(" ", SystemPreferences.UserDefineFunctions.Select(x => x.Name.Substring(0, x.Name.IndexOf('(')))));
+            textEditor.SetKeywords(1, string.Join(" ", SystemPreferences.UserDefineFunctions.Select(x => x.Name.Substring(0, x.Name.IndexOf('(')))) + " " + string.Join(" ", SystemPreferences.SystemFunctions));
             textEditor.SetKeywords(3, "Task :");
         }
         private void InitNumberMargin()

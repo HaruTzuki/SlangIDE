@@ -1,12 +1,10 @@
 ﻿using IDE.Abstraction;
 using IDE.Helper;
 using IDE.Helper.Custom;
-using IDE.Views;
 using IDE.Views.AdditionViews;
 using Slang.IDE.Shared.Enumerations;
 using System.Data;
 using System.Diagnostics;
-using System.Windows.Forms.VisualStyles;
 
 namespace IDE.Controls
 {
@@ -27,6 +25,7 @@ namespace IDE.Controls
             root.Name = Sessions.SlangProject.Id.ToString();
             root.Text = Sessions.SlangProject.Name;
             root.FileType = Slang.IDE.Shared.Enumerations.TreeFileType.Solution;
+            root.FilePath = Path.Combine(Sessions.ProjectPath, Sessions.SlangProject.FilePath);
             root.ImageIndex = 6;
             root.SelectedImageIndex = 6;
 
@@ -44,7 +43,7 @@ namespace IDE.Controls
                     _folderType.ImageIndex = 0;
                     _folderType.SelectedImageIndex = 0;
                     _folderType.FileType = Slang.IDE.Shared.Enumerations.TreeFileType.Folder;
-                    _folderType.FilePath = withParent.FilePath;
+                    _folderType.FilePath = Path.Combine(Sessions.ProjectPath, withParent.FilePath);
                     parentNode.Nodes.Add(_folderType);
                 }
                 else
@@ -55,7 +54,7 @@ namespace IDE.Controls
                     _fileType.ImageIndex = 2;
                     _fileType.SelectedImageIndex = 2;
                     _fileType.FileType = Slang.IDE.Shared.Enumerations.TreeFileType.File;
-                    _fileType.FilePath = withParent.FilePath;
+                    _fileType.FilePath = Path.Combine(Sessions.ProjectPath, withParent.FilePath);
                     parentNode.Nodes.Add(_fileType);
                 }
             }
@@ -139,7 +138,7 @@ namespace IDE.Controls
         }
         private bool CreateFile(string name, string text, TreeFileType fileType, TreeNodeExtented parent)
         {
-            var path = Path.Combine(parent.FilePath, text);
+            var path = $"{parent.FilePath}/{text}";
 
             if (fileType == TreeFileType.File)
             {
@@ -170,7 +169,7 @@ namespace IDE.Controls
             {
                 Id = Guid.Parse(name),
                 Name = text,
-                FilePath = path,
+                FilePath = path.Replace(Sessions.ProjectPath, ""),
                 FileType = fileType,
                 ParentId = Guid.Parse(parent.Name),
             });
@@ -225,7 +224,12 @@ namespace IDE.Controls
             selectedNode.Text = newFileName;
 
             Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(selectedNode.Name)).Name = newFileName;
-            Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(selectedNode.Name)).FilePath = newPath;
+            Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(selectedNode.Name)).FilePath = newPath.Replace(Sessions.ProjectPath, "");
+
+            foreach(var node in Sessions.SlangProject.Files)
+            {
+                node.FilePath = node.FilePath.Replace(selectedNode.FilePath, newPath);
+            }
 
             Functions.UpdateProject();
         }
@@ -278,7 +282,7 @@ namespace IDE.Controls
         private void BtnShowInFolder_Click(object sender, EventArgs e)
         {
             var selectedNode = FileExplorerTree.SelectedNode as TreeNodeExtented;
-            var showPath = Directory.GetParent(selectedNode.FilePath).FullName;
+            var showPath = Directory.GetParent(Path.Combine(Sessions.ProjectPath,selectedNode.FilePath)).FullName;
 
             Process.Start(showPath);
         }

@@ -65,7 +65,7 @@ namespace IDE.Views
             }
 
             // Open the file
-            var text = File.ReadAllText(file.FilePath);
+            var text = File.ReadAllText(Path.Combine(Sessions.ProjectPath, file.FilePath));
 
             var uc_textEditor = new SlangTextEditor();
             uc_textEditor.Text = file.Name;

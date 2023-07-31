@@ -8,6 +8,12 @@
             "fn", "null", "int" ,"string", "bool", "float", "double", "return", "if", "for", "foreach", "while", "do", "else", "var", "struct", "class"
         };
 
+
+        public readonly static IReadOnlyCollection<string> SystemFunctions = new List<string>()
+        {
+            "print", "get_date",
+        };
+
         public static List<UserDefineFunction> UserDefineFunctions = new List<UserDefineFunction>();
 
 

@@ -1,7 +1,10 @@
-﻿using IDE.Preferences;
+﻿using IDE.Helper;
+using IDE.Preferences;
 using Microsoft.VisualBasic;
 using ScintillaNET;
+using Slang.IDE.Shared.Extensions;
 using Slang.IDE.Shared.Helpers;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -20,6 +23,10 @@ namespace IDE.Controls
         #region Code Indent Handlers
         const int SCI_SETLINEINDENTATION = 2126;
         const int SCI_GETLINEINDENTATION = 2127;
+        #endregion
+
+        #region Zoom Lists
+        private IReadOnlyDictionary<string, int> _zoomValues = new Dictionary<string, int>() { { "20%", -10 }, { "50%", -6 }, { "100%", 0}, { "150%", 7 }, { "200%", 14 }, { "250%", 20 } };
         #endregion
         #endregion
 
@@ -59,9 +66,14 @@ namespace IDE.Controls
             textEditor.KeyUp += TextEditor_KeyUp;
             textEditor.MouseUp += TextEditor_MouseUp;
             textEditor.TextChanged += TextEditor_TextChanged;
-
+            textEditor.ZoomChanged += TextEditor_ZoomChanged;
 
             CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
+        }
+
+        private void TextEditor_ZoomChanged(object sender, EventArgs e)
+        {
+            CbxZoom.Text = $"{Functions.Map(textEditor.Zoom, -10, 20, 20, 250)} %";
         }
 
         private void CbxAvailableMethods_SelectedIndexChanged(object sender, EventArgs e)
@@ -103,6 +115,13 @@ namespace IDE.Controls
 
                 // Extract the text between "fn" and "{"
                 string result = fullText.Substring(fnIndex + 2, openBraceIndex - fnIndex - 2).Trim();
+
+                // Πάρε το Result και βρες τα Parameters
+                //var parameters = "a:int,b:int";
+                //var split, parameters.Split();
+
+
+
                 SystemPreferences.UserDefineFunctions.Add(new UserDefineFunction { Name = result, Column = fnIndex + 2 });
                 // Update your UI or perform any other action with the extracted text
                 // For example, display the result in a label or add it to the list.
@@ -119,6 +138,59 @@ namespace IDE.Controls
             CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
             InitSyntaxHighlitning();
             textEditor.Update();
+
+            GetCurrentText();
+        }
+
+        private void GetCurrentText()
+        {
+            int currentPosition = textEditor.CurrentPosition;
+
+            // Use a regular expression to match function calls with parameters
+            Regex functionCallRegex = new Regex(@"\b(\w+)\(((?:\s*[^,)]+\s*,\s*)*[^,)]+)\)");
+
+            // Find the start position of the function call by searching backward for '(' character
+            int startPos = textEditor.Text.LastIndexOf('(', currentPosition);
+
+            if (startPos >= 0)
+            {
+                // Extract the substring from the opening '(' to the current position
+                string functionCallText = textEditor.Text.Substring(startPos, currentPosition - startPos + 1);
+
+                // Check if the extracted text matches the function call regex
+                Match match = functionCallRegex.Match(functionCallText);
+
+                if (match.Success)
+                {
+                    string functionName = match.Groups[1].Value;  // Extract the function name
+                    string parameters = match.Groups[2].Value;    // Extract the function parameters
+
+                    Debug.WriteLine($"Function Name: {functionName}, Parameters: {parameters}");
+                    // Now you can proceed with the rest of the logic (searching the userDefinedFunctions list, validating parameters, etc.)
+                }
+                else
+                {
+                    // No valid function call found, handle as needed
+                }
+            }
+
+            // Check if the Current Word it is User Define Functions
+            //if(SystemPreferences.UserDefineFunctions.Any(x=>x.Name.StartsWith(currentWord, StringComparison.OrdinalIgnoreCase)))
+            //{
+            //    foreach(var function in SystemPreferences.UserDefineFunctions.Where(x=>x.Name.StartsWith(currentWord, StringComparison.OrdinalIgnoreCase)))
+            //    {
+            //        Debug.WriteLine($"Function Name: {function.Name}, Column: {function.Column}, Line: {function.Line}");
+
+            //        if (currentWord.EndsWith(")"))
+            //        {
+            //            // It is function??
+
+            //            var parameters = Regex.Match(currentWord, @"\((.*?)\)").Groups[1].Value;
+
+            //            Debug.WriteLine(parameters);
+            //        }
+            //    }
+            //}
         }
 
         private void TextEditor_MouseUp(object sender, MouseEventArgs e)
@@ -142,6 +214,12 @@ namespace IDE.Controls
         private void SetupInitSettings()
         {
             textEditor.IndentationGuides = IndentView.LookBoth;
+            textEditor.Zoom = 0;
+
+            CbxZoom.DataSource = new BindingSource(_zoomValues, null);
+            CbxZoom.DisplayMember = "Key";
+            CbxZoom.ValueMember ="Value";
+            CbxZoom.SelectedValue = 0;
         }
 
         private void SlangTextEditor_Load(object sender, EventArgs e)
@@ -329,6 +407,47 @@ namespace IDE.Controls
         private void SlangTextEditor_Shown(object sender, EventArgs e)
         {
             textEditor.Focus();
+        }
+
+        private void ComboBoxTextChanged()
+        {
+                if (CbxZoom.Text.Length < 2)
+                {
+                    return;
+                }
+
+                if (!int.TryParse(CbxZoom.Text, out var result))
+                {
+                    MessageBox.Show("The value that you typed cannot represent as number.", "Error...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CbxZoom.Text = "100%";
+                    textEditor.Zoom = 0;
+                    return;
+                }
+
+                if (result < 20 || result > 250)
+                {
+                    MessageBox.Show("The value that you typed is not valid. Limits are 20% up to 250%.", "Error...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CbxZoom.Text = "100%";
+                    textEditor.Zoom = 0;
+                    return;
+                }
+
+                var zoomValue = Functions.Map(result, 20, 250, -10, 20);
+                textEditor.Zoom = zoomValue;
+                CbxZoom.Text = $"{result}%";
+        }
+
+        private void CbxZoom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textEditor.Zoom = CbxZoom.SelectedValue.AsInt();
+        }
+
+        private void CbxZoom_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab)
+            {
+                ComboBoxTextChanged();
+            }
         }
     }
 }

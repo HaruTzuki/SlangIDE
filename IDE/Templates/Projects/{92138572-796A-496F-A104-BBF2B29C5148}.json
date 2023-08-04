@@ -1,4 +1,4 @@
 {
   "usings": "",
-  "code": "void main() {\n\t let a = 1; \n\t let b = 2; \n\r \t print(a+b); \n\r}\n"
+  "code": "fn main() {\n print(\"Hello World\");\n}\n"
 }

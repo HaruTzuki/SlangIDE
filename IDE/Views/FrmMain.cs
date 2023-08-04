@@ -339,7 +339,7 @@ namespace IDE.Views
                 return;
             }
 
-            using var streamWriter = new StreamWriter(actualFile.FilePath);
+            using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
             streamWriter.WriteLine(selectedForm.EditorText);
         }
 
@@ -358,7 +358,7 @@ namespace IDE.Views
                         return;
                     }
 
-                    using var streamWriter = new StreamWriter(actualFile.FilePath);
+                    using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
                     streamWriter.WriteLine(editor.EditorText);
                 }
             }
@@ -445,9 +445,9 @@ namespace IDE.Views
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardInput = true;
-            startInfo.Arguments = $"{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath} -s";
+            startInfo.Arguments = $"{Sessions.ProjectPath}/{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath} -s";
             startInfo.CreateNoWindow = true;
-            startInfo.FileName = "C:\\Projects\\SlangIDE\\SlangMiddleware\\bin\\Debug\\net7.0\\smc.exe";
+            startInfo.FileName = "C:\\Sycada\\local\\IDE\\SlangMiddleware\\bin\\Debug\\net7.0\\smc.exe";
 
             var process = new Process();
             process.StartInfo = startInfo;

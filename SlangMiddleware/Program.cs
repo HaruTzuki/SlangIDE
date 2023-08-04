@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -31,7 +32,30 @@ if(!content.Contains("main"))
 
 buildTheFile(sb, sourceFilePath, sourceFile);
 
-foreach(var arg in arguments)
+sb.AppendLine("main();");
+
+
+var startInfo = new ProcessStartInfo();
+startInfo.UseShellExecute = false;
+startInfo.RedirectStandardOutput = true;
+startInfo.RedirectStandardError = true;
+startInfo.RedirectStandardInput = true;
+startInfo.Arguments = "10 0";
+startInfo.CreateNoWindow = true;
+startInfo.FileName = "C:\\Users\\SYCADA_USER\\Downloads\\main.exe";
+
+var process = new Process();
+process.StartInfo = startInfo;
+process.OutputDataReceived += async (ss, ee) =>
+{
+    Console.WriteLine(ee.Data);
+};
+
+process.Start();
+process.BeginOutputReadLine();
+await process.WaitForExitAsync();
+
+foreach (var arg in arguments)
 {
     switch(arg)
     {
@@ -42,6 +66,9 @@ foreach(var arg in arguments)
             break;
     }
 }
+
+
+
 
 static void buildTheFile(StringBuilder sb, string mainFolder, string sourceFile)
 {

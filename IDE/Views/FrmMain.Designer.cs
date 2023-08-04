@@ -71,9 +71,9 @@
             this.BtnDebug});
             this.EditorsTools.Location = new System.Drawing.Point(0, 24);
             this.EditorsTools.Name = "EditorsTools";
-            this.EditorsTools.Padding = new System.Windows.Forms.Padding(4);
+            this.EditorsTools.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.EditorsTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.EditorsTools.Size = new System.Drawing.Size(892, 35);
+            this.EditorsTools.Size = new System.Drawing.Size(1189, 37);
             this.EditorsTools.TabIndex = 2;
             this.EditorsTools.Text = "toolStrip1";
             // 
@@ -83,7 +83,7 @@
             this.BtnUndo.Image = ((System.Drawing.Image)(resources.GetObject("BtnUndo.Image")));
             this.BtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnUndo.Name = "BtnUndo";
-            this.BtnUndo.Size = new System.Drawing.Size(24, 24);
+            this.BtnUndo.Size = new System.Drawing.Size(29, 24);
             this.BtnUndo.Click += new System.EventHandler(this.BtnUndo_Click);
             // 
             // BtnRedo
@@ -92,7 +92,7 @@
             this.BtnRedo.Image = global::IDE.Properties.Resources.redo;
             this.BtnRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnRedo.Name = "BtnRedo";
-            this.BtnRedo.Size = new System.Drawing.Size(24, 24);
+            this.BtnRedo.Size = new System.Drawing.Size(29, 24);
             this.BtnRedo.Text = "Redo";
             this.BtnRedo.Click += new System.EventHandler(this.BtnRedo_Click);
             // 
@@ -107,7 +107,7 @@
             this.BtnSave.Image = global::IDE.Properties.Resources.save;
             this.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(24, 24);
+            this.BtnSave.Size = new System.Drawing.Size(29, 24);
             this.BtnSave.Text = "Save";
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
@@ -117,7 +117,7 @@
             this.BtnSaveAll.Image = ((System.Drawing.Image)(resources.GetObject("BtnSaveAll.Image")));
             this.BtnSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnSaveAll.Name = "BtnSaveAll";
-            this.BtnSaveAll.Size = new System.Drawing.Size(24, 24);
+            this.BtnSaveAll.Size = new System.Drawing.Size(29, 24);
             this.BtnSaveAll.Text = "Save All";
             this.BtnSaveAll.Click += new System.EventHandler(this.BtnSaveAll_Click);
             // 
@@ -132,7 +132,7 @@
             this.BtnRun.Image = global::IDE.Properties.Resources.run;
             this.BtnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnRun.Name = "BtnRun";
-            this.BtnRun.Size = new System.Drawing.Size(24, 24);
+            this.BtnRun.Size = new System.Drawing.Size(29, 24);
             this.BtnRun.Text = "Run Without Debugging";
             this.BtnRun.Click += new System.EventHandler(this.BtnRun_Click);
             // 
@@ -142,7 +142,7 @@
             this.BtnDebug.Image = global::IDE.Properties.Resources.debug;
             this.BtnDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnDebug.Name = "BtnDebug";
-            this.BtnDebug.Size = new System.Drawing.Size(24, 24);
+            this.BtnDebug.Size = new System.Drawing.Size(29, 24);
             this.BtnDebug.Text = "Debug";
             // 
             // MainMenuStrip
@@ -151,9 +151,9 @@
             this.MainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MainMenuStrip.Name = "MainMenuStrip";
-            this.MainMenuStrip.Padding = new System.Windows.Forms.Padding(4);
+            this.MainMenuStrip.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.MainMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.MainMenuStrip.Size = new System.Drawing.Size(892, 24);
+            this.MainMenuStrip.Size = new System.Drawing.Size(1189, 24);
             this.MainMenuStrip.TabIndex = 3;
             this.MainMenuStrip.Text = "menuStrip1";
             // 
@@ -170,17 +170,17 @@
             this.LblColumn,
             this.LblPositionText,
             this.LblPosition});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 632);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 779);
             this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
-            this.StatusStrip.Size = new System.Drawing.Size(892, 22);
+            this.StatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
+            this.StatusStrip.Size = new System.Drawing.Size(1189, 26);
             this.StatusStrip.SizingGrip = false;
             this.StatusStrip.TabIndex = 1;
             // 
             // StatusProgress
             // 
             this.StatusProgress.Name = "StatusProgress";
-            this.StatusProgress.Size = new System.Drawing.Size(75, 16);
+            this.StatusProgress.Size = new System.Drawing.Size(100, 18);
             this.StatusProgress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.StatusProgress.Visible = false;
             // 
@@ -188,7 +188,7 @@
             // 
             this.LblStatusMessage.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.LblStatusMessage.Name = "LblStatusMessage";
-            this.LblStatusMessage.Size = new System.Drawing.Size(13, 17);
+            this.LblStatusMessage.Size = new System.Drawing.Size(17, 20);
             this.LblStatusMessage.Text = "0";
             this.LblStatusMessage.Visible = false;
             // 
@@ -196,7 +196,7 @@
             // 
             this.LblLineLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.LblLineLabel.Name = "LblLineLabel";
-            this.LblLineLabel.Size = new System.Drawing.Size(785, 17);
+            this.LblLineLabel.Size = new System.Drawing.Size(1056, 20);
             this.LblLineLabel.Spring = true;
             this.LblLineLabel.Text = "Line:";
             this.LblLineLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -205,62 +205,63 @@
             // 
             this.LblLine.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.LblLine.Name = "LblLine";
-            this.LblLine.Size = new System.Drawing.Size(13, 17);
+            this.LblLine.Size = new System.Drawing.Size(17, 20);
             this.LblLine.Text = "0";
             // 
             // LblColumnText
             // 
             this.LblColumnText.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.LblColumnText.Name = "LblColumnText";
-            this.LblColumnText.Size = new System.Drawing.Size(28, 17);
+            this.LblColumnText.Size = new System.Drawing.Size(34, 20);
             this.LblColumnText.Text = "Col:";
             // 
             // LblColumn
             // 
             this.LblColumn.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.LblColumn.Name = "LblColumn";
-            this.LblColumn.Size = new System.Drawing.Size(13, 17);
+            this.LblColumn.Size = new System.Drawing.Size(17, 20);
             this.LblColumn.Text = "0";
             // 
             // LblPositionText
             // 
             this.LblPositionText.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.LblPositionText.Name = "LblPositionText";
-            this.LblPositionText.Size = new System.Drawing.Size(29, 17);
+            this.LblPositionText.Size = new System.Drawing.Size(34, 20);
             this.LblPositionText.Text = "Pos:";
             // 
             // LblPosition
             // 
             this.LblPosition.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.LblPosition.Name = "LblPosition";
-            this.LblPosition.Size = new System.Drawing.Size(13, 17);
+            this.LblPosition.Size = new System.Drawing.Size(17, 20);
             this.LblPosition.Text = "0";
             // 
             // MainDockPanel
             // 
             this.MainDockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainDockPanel.DockBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.MainDockPanel.Location = new System.Drawing.Point(0, 59);
+            this.MainDockPanel.Location = new System.Drawing.Point(0, 61);
+            this.MainDockPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MainDockPanel.Name = "MainDockPanel";
             this.MainDockPanel.Padding = new System.Windows.Forms.Padding(6);
             this.MainDockPanel.ShowAutoHideContentOnHover = false;
-            this.MainDockPanel.Size = new System.Drawing.Size(892, 573);
+            this.MainDockPanel.Size = new System.Drawing.Size(1189, 718);
             this.MainDockPanel.TabIndex = 4;
             this.MainDockPanel.Theme = this.DarkTheme;
             // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(892, 654);
+            this.ClientSize = new System.Drawing.Size(1189, 805);
             this.Controls.Add(this.MainDockPanel);
             this.Controls.Add(this.EditorsTools);
             this.Controls.Add(this.MainMenuStrip);
             this.Controls.Add(this.StatusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main";

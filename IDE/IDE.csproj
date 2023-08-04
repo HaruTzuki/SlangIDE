@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-	<TargetFramework>net48</TargetFramework>
+	<TargetFramework>net481</TargetFramework>
     <Nullable>enable</Nullable>
-	<LangVersion>10.0</LangVersion>
+	<LangVersion>latest</LangVersion>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>

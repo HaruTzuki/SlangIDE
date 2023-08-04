@@ -1,6 +1,10 @@
 ﻿using IDE.Preferences;
 using IDE.Properties;
 using Newtonsoft.Json;
+using Slang.IDE.Shared.Extensions;
+using System.Data;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace IDE.Helper
 {
@@ -142,6 +146,26 @@ namespace IDE.Helper
             using var streamWriter = new StreamWriter(recentProjectFilePath);
             streamWriter.WriteLine(jsonText);
             streamWriter.Close();
+        }
+
+        public static int Map(int value, int inMin, int inMax, int outMin, int outMax)
+        {
+            return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+        }
+
+        public static Type ConvertToType(string source)
+        {
+            if (SystemPreferences.DataTypes.Contains(source))
+            {
+                return Type.GetType(source);
+            }
+
+            if (SystemPreferences.UserDefineDataTypes.Contains(source))
+            {
+                return Type.GetType(source);
+            }
+
+            return null;
         }
     }
 }

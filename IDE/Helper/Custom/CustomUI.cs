@@ -204,7 +204,7 @@ namespace IDE.Helper.Custom
                 if (bounds.Height >= 4) bounds.Inflate(0, -2);
                 Pen pen = new Pen(Color.FromArgb(31, 31, 31));
                 int x = bounds.Width / 2;
-                e.Graphics.DrawLine(pen, x, bounds.Top, x, bounds.Bottom - 1);
+                e.Graphics.DrawLine(pen, x+10, bounds.Top, x+10, bounds.Bottom - 1);
                 pen.Dispose();
                 pen = new Pen(Color.FromArgb(61, 61, 61));
                 e.Graphics.DrawLine(pen, x + 1, bounds.Top + 1, x + 1, bounds.Bottom);
@@ -239,8 +239,77 @@ namespace IDE.Helper.Custom
 
     public class MyColor : ProfessionalColorTable
     {
-        public override Color MenuBorder => Color.FromArgb(31, 31, 31);
-        public override Color MenuItemBorder => Color.FromArgb(31,31,31);
+        public override Color MenuBorder
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+        public override Color MenuItemBorder
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+        public override Color MenuItemPressedGradientBegin
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+
+        public override Color MenuItemPressedGradientEnd
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+        public override Color MenuItemSelected
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+        public override Color MenuItemSelectedGradientBegin
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+        public override Color MenuItemSelectedGradientEnd
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+
+        public override Color ToolStripBorder
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+
+        public override Color ToolStripDropDownBackground
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+        public override Color ToolStripGradientBegin
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+        public override Color ToolStripGradientEnd
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+        public override Color ToolStripGradientMiddle
+        {
+            get { return Color.FromArgb(31,31,31); }
+        }
+
+        public override Color ToolStripContentPanelGradientBegin
+        {
+            get
+            {
+                return Color.FromArgb(31,31,31);
+            }
+        }
+
+        public override Color ToolStripContentPanelGradientEnd
+        {
+            get
+            {
+                return Color.FromArgb(31,31,31);
+            }
+        }
+
+        public override Color ImageMarginGradientBegin => Color.FromArgb(31,31,31);
+        public override Color ImageMarginGradientMiddle => Color.FromArgb(31,31,31);
+        public override Color ImageMarginGradientEnd => Color.FromArgb(31,31,31);
     }
 }
 

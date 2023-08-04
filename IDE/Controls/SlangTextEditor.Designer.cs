@@ -30,7 +30,8 @@
         {
             this.textEditor = new ScintillaNET.Scintilla();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.CbxAvailableMethods = new System.Windows.Forms.ComboBox();
+            this.CbxZoom = new IDE.Controls.FlatCombo();
+            this.CbxAvailableMethods = new IDE.Controls.FlatCombo();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -50,22 +51,42 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.panel1.Controls.Add(this.CbxZoom);
             this.panel1.Controls.Add(this.CbxAvailableMethods);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.panel1.Size = new System.Drawing.Size(419, 25);
             this.panel1.TabIndex = 1;
+            // 
+            // CbxZoom
+            // 
+            this.CbxZoom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.CbxZoom.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.CbxZoom.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(113)))), ((int)(((byte)(113)))));
+            this.CbxZoom.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CbxZoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CbxZoom.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.CbxZoom.FormattingEnabled = true;
+            this.CbxZoom.Location = new System.Drawing.Point(292, 2);
+            this.CbxZoom.Name = "CbxZoom";
+            this.CbxZoom.Size = new System.Drawing.Size(127, 21);
+            this.CbxZoom.TabIndex = 1;
+            this.CbxZoom.SelectedIndexChanged += new System.EventHandler(this.CbxZoom_SelectedIndexChanged);
+            this.CbxZoom.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CbxZoom_KeyUp);
             // 
             // CbxAvailableMethods
             // 
             this.CbxAvailableMethods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.CbxAvailableMethods.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.CbxAvailableMethods.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(113)))), ((int)(((byte)(113)))));
             this.CbxAvailableMethods.Dock = System.Windows.Forms.DockStyle.Left;
             this.CbxAvailableMethods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CbxAvailableMethods.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.CbxAvailableMethods.FormattingEnabled = true;
-            this.CbxAvailableMethods.Location = new System.Drawing.Point(0, 0);
+            this.CbxAvailableMethods.Location = new System.Drawing.Point(0, 2);
             this.CbxAvailableMethods.Name = "CbxAvailableMethods";
             this.CbxAvailableMethods.Size = new System.Drawing.Size(258, 21);
             this.CbxAvailableMethods.TabIndex = 0;
@@ -100,6 +121,7 @@
         public ScintillaNET.Scintilla textEditor;
         private Panel panel1;
         private Panel panel2;
-        private ComboBox CbxAvailableMethods;
+        private FlatCombo CbxAvailableMethods;
+        private FlatCombo CbxZoom;
     }
 }

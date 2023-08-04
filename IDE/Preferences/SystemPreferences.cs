@@ -8,12 +8,17 @@
             "fn", "null", "int" ,"string", "bool", "float", "double", "return", "if", "for", "foreach", "while", "do", "else", "var", "struct", "class"
         };
 
+        public readonly static IReadOnlyCollection<string> DataTypes = new List<string>()
+        {
+            "int", "string", "bool", "float", "double"
+        };
 
         public readonly static IReadOnlyCollection<string> SystemFunctions = new List<string>()
         {
             "print", "get_date",
         };
 
+        public static List<string> UserDefineDataTypes = new List<string>();
         public static List<UserDefineFunction> UserDefineFunctions = new List<UserDefineFunction>();
 
 
@@ -50,6 +55,7 @@
         public string Name { get; set; } = string.Empty;
         public int Line { get; set; } = 0;
         public int Column { get; set; } = 0;
+        public Type[] Types { get; set; }
     }
 
 }

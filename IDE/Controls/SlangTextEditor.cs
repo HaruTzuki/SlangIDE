@@ -139,7 +139,7 @@ namespace IDE.Controls
             InitSyntaxHighlitning();
             textEditor.Update();
 
-            GetCurrentText();
+            //GetCurrentText();
         }
 
         private void GetCurrentText()

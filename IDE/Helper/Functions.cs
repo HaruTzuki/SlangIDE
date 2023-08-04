@@ -111,7 +111,7 @@ namespace IDE.Helper
             streamReader.Close();
 
             Sessions.SlangProject = project!;
-            Sessions.ProjectPath = Directory.GetParent(Directory.GetParent(projectPath).FullName).FullName;
+            Sessions.ProjectPath = Directory.GetParent(Directory.GetParent(projectPath).FullName).FullName + "\\";
         }
 
         private static void SaveToRecent(string actualPath, SlangProject slangProject)

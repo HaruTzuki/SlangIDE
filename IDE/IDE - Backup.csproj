@@ -9,7 +9,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<AssemblyName>slangdev</AssemblyName>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<BaseOutputPath>C:\SlangIDE</BaseOutputPath>
+		<BaseOutputPath>C:\Users\SYCADA_USER\Desktop\SlangIDE</BaseOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -40,7 +40,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Slang.IDE.Shared\Slang.IDE.Shared.csproj" />
+		<ProjectReference Include="..\Slang.IDE.Shared\Slang.IDE.Shared.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

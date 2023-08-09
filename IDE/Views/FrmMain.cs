@@ -5,6 +5,7 @@ using IDE.Preferences;
 using IDE.Views.AdditionViews;
 using IDE.Views.ToolWindows;
 using Slang.IDE.Shared.Enumerations;
+using Slang.IDE.Shared.IDE;
 using System.Diagnostics;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -72,6 +73,8 @@ namespace IDE.Views
             uc_textEditor.Text = file.Name;
             uc_textEditor.EditorText = text;
             uc_textEditor.CaretPositionChanged += Uc_textEditor_CaretPositionChanged;
+            uc_textEditor.BreakpointAdded += Uc_textEditor_BreakpointAdded;
+            uc_textEditor.BreakpointDeleted += Uc_textEditor_BreakpointDeleted  ;
 
             if (MainDockPanel.DocumentStyle == WeifenLuo.WinFormsUI.Docking.DocumentStyle.SystemMdi)
             {
@@ -83,6 +86,35 @@ namespace IDE.Views
                 uc_textEditor.Show(MainDockPanel);
             }
         }
+
+        private void Uc_textEditor_BreakpointDeleted(object sender, EventArgs e)
+        {
+            if (BreakpointWindow is null || BreakpointWindow.IsDisposed)
+                return;
+
+            BreakpointWindow.ClearBreakpointList();
+
+            foreach (var breakpoint in Sessions.Breakpoints)
+            {
+                BreakpointWindow.AddBreakpointToList(breakpoint.Name, breakpoint.FilePath, breakpoint.Line.ToString());
+            }
+        }
+
+        private void Uc_textEditor_BreakpointAdded(object sender, EventArgs e)
+        {
+            if(BreakpointWindow is null || BreakpointWindow.IsDisposed)
+                return;
+
+            BreakpointWindow.ClearBreakpointList();
+
+            foreach(var breakpoint in Sessions.Breakpoints)
+            {
+                BreakpointWindow.AddBreakpointToList(breakpoint.Name, breakpoint.FilePath, breakpoint.Line.ToString());
+            }
+        }
+
+
+
         private void Uc_textEditor_CaretPositionChanged(object sender, CaretPositionEventArgs e)
         {
             LblLine.Text = e.Line.ToString();
@@ -302,10 +334,6 @@ namespace IDE.Views
             {
                 BreakpointWindow = new ToolWindowBreakpoints();
             }
-
-            BreakpointWindow.AddBreakpointToList("Breakpoint 1", "C:\\sdsdsd", "14");
-            BreakpointWindow.AddBreakpointToList("Breakpoint 2", "C:\\sdsddsdssd", "8");
-            BreakpointWindow.AddBreakpointToList("Breakpoint 3", "C:\\sdsdsdsdsd", "18");
 
             BreakpointWindow.Show(MainDockPanel, DockState.DockBottom);
         }

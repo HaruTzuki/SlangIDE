@@ -74,6 +74,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.TabText = "Breakpoints";
             this.Text = "Breakpoints";
+            this.Load += new System.EventHandler(this.ToolWindowBreakpoints_Load);
             this.ResumeLayout(false);
 
         }

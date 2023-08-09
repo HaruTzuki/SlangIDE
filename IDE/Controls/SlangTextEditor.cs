@@ -16,8 +16,8 @@ namespace IDE.Controls
     {
         #region Constants
         private const int NUMBER_MARGIN = 1;
-        private const int BOOKMARK_MARGIN = 2;
-        private const int BOOKMARK_MARKER = 2;
+        private const int BREAKPOINT_MARGIN = 2;
+        private const int BREAKPOINT_MARKER = 2;
         private const int FOLDING_MARGIN = 3;
         private const bool CODEFOLDING_CIRCULAR = true;
 
@@ -47,6 +47,8 @@ namespace IDE.Controls
 
         #region Events 
         public event EventHandler<CaretPositionEventArgs> CaretPositionChanged;
+        public event EventHandler BreakpointAdded;
+        public event EventHandler BreakpointDeleted;
         #endregion
 
         public SlangTextEditor()
@@ -196,7 +198,7 @@ namespace IDE.Controls
 
         private void TextEditor_MouseUp(object sender, MouseEventArgs e)
         {
-            CaretPositionChanged(this, new CaretPositionEventArgs { Line = textEditor.CurrentLine + 1, Column = textEditor.GetColumn(textEditor.CurrentPosition) + 1, Position = textEditor.CurrentPosition + 1 });
+            OnCaretChanged(new CaretPositionEventArgs { Line = textEditor.CurrentLine + 1, Column = textEditor.GetColumn(textEditor.CurrentPosition) + 1, Position = textEditor.CurrentPosition + 1 });
         }
 
 
@@ -208,7 +210,7 @@ namespace IDE.Controls
                 || e.KeyCode == Keys.Right
                 || e.KeyCode == Keys.Left)
             {
-                CaretPositionChanged(this, new CaretPositionEventArgs { Line = textEditor.CurrentLine + 1, Column = textEditor.GetColumn(textEditor.CurrentPosition) + 1, Position = textEditor.CurrentPosition + 1 });
+                OnCaretChanged(new CaretPositionEventArgs { Line = textEditor.CurrentLine + 1, Column = textEditor.GetColumn(textEditor.CurrentPosition) + 1, Position = textEditor.CurrentPosition + 1 });
             }
         }
 
@@ -288,13 +290,13 @@ namespace IDE.Controls
 
         private void InitBookmarkMargin()
         {
-            var margin = textEditor.Margins[BOOKMARK_MARGIN];
+            var margin = textEditor.Margins[BREAKPOINT_MARGIN];
             margin.Width = 20;
             margin.Sensitive = true;
             margin.Type = MarginType.Symbol;
-            margin.Mask = (1 << BOOKMARK_MARKER);
+            margin.Mask = (1 << BREAKPOINT_MARKER);
 
-            var marker = textEditor.Markers[BOOKMARK_MARKER];
+            var marker = textEditor.Markers[BREAKPOINT_MARKER];
             marker.Symbol = MarkerSymbol.Circle;
             marker.SetBackColor(ColourHelper.IntToColour(0xFF003B));
             marker.SetForeColor(ColourHelper.IntToColour(0x000000));
@@ -341,17 +343,32 @@ namespace IDE.Controls
         #region Events
         private void TextEditor_MarginClick(object sender, MarginClickEventArgs e)
         {
-            if(e.Margin == BOOKMARK_MARGIN)
+            if(e.Margin == BREAKPOINT_MARGIN)
             {
-                const uint mask = (1 << BOOKMARK_MARKER);
+                const uint mask = (1 << BREAKPOINT_MARKER);
                 var line = textEditor.Lines[textEditor.LineFromPosition(e.Position)];
                 if((line.MarkerGet() & mask) > 0)
                 {
-                    line.MarkerDelete(BOOKMARK_MARKER);
+                    line.MarkerDelete(BREAKPOINT_MARKER);
+
+                    var breakpoint = Sessions.Breakpoints.First(x => x.FilePath == Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath 
+                    && x.Line == textEditor.LineFromPosition(e.Position));
+                    Sessions.Breakpoints.Remove(breakpoint);
+
+                    OnBreakpointDeleted(new EventArgs());
                 }
                 else
                 {
-                    line.MarkerAdd(BOOKMARK_MARKER);
+                    line.MarkerAdd(BREAKPOINT_MARKER);
+                    Sessions.Breakpoints.Add(new Slang.IDE.Shared.IDE.Breakpoint
+                    {
+                        Name = $"Breakpoint {Sessions.Breakpoints.Count + 1}",
+                        FilePath = Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath,
+                        Line = textEditor.LineFromPosition(e.Position)
+
+                    });
+
+                    OnBreakpointAdded(new EventArgs());
                 }
             }
         }
@@ -403,6 +420,16 @@ namespace IDE.Controls
         protected virtual void OnCaretChanged(CaretPositionEventArgs e)
         {
             CaretPositionChanged?.Invoke(this, e);
+        }
+
+        protected virtual void OnBreakpointAdded(EventArgs e)
+        {
+            BreakpointAdded?.Invoke(this, e);
+        }
+
+        protected virtual void OnBreakpointDeleted(EventArgs e)
+        {
+            BreakpointDeleted?.Invoke(this, e);
         }
         #endregion
 

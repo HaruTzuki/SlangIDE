@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Basic");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TextEditor");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("General", new System.Windows.Forms.TreeNode[] {
             treeNode1});
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Shortcuts");
@@ -38,6 +38,9 @@
             this.BasicSettingsTab = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.OptionsTreeView = new System.Windows.Forms.TreeView();
+            this.ControlPanel = new System.Windows.Forms.Panel();
+            this.BtnOK = new System.Windows.Forms.Button();
+            this.BtnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BasicSettingsTab
@@ -68,10 +71,10 @@
             this.OptionsTreeView.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.OptionsTreeView.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.OptionsTreeView.Location = new System.Drawing.Point(0, 0);
-            this.OptionsTreeView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.OptionsTreeView.Margin = new System.Windows.Forms.Padding(2);
             this.OptionsTreeView.Name = "OptionsTreeView";
             treeNode1.Name = "{AF03449E-E928-4A9A-A9B4-737BE6D494C1}";
-            treeNode1.Text = "Basic";
+            treeNode1.Text = "TextEditor";
             treeNode2.Name = "{C205C943-2137-4EEE-9D8F-54F90A2CD3DA}";
             treeNode2.Text = "General";
             treeNode3.Name = "{07ED30D6-FE3E-4204-A03D-BEC14107DFEA}";
@@ -84,6 +87,47 @@
             this.OptionsTreeView.ShowPlusMinus = false;
             this.OptionsTreeView.Size = new System.Drawing.Size(183, 450);
             this.OptionsTreeView.TabIndex = 0;
+            this.OptionsTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.OptionsTreeView_NodeMouseClick);
+            // 
+            // ControlPanel
+            // 
+            this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ControlPanel.Location = new System.Drawing.Point(183, 0);
+            this.ControlPanel.Name = "ControlPanel";
+            this.ControlPanel.Size = new System.Drawing.Size(531, 398);
+            this.ControlPanel.TabIndex = 1;
+            // 
+            // BtnOK
+            // 
+            this.BtnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnOK.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(84)))), ((int)(((byte)(26)))));
+            this.BtnOK.FlatAppearance.BorderSize = 0;
+            this.BtnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnOK.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.BtnOK.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.BtnOK.Location = new System.Drawing.Point(614, 404);
+            this.BtnOK.Name = "BtnOK";
+            this.BtnOK.Size = new System.Drawing.Size(88, 34);
+            this.BtnOK.TabIndex = 2;
+            this.BtnOK.Text = "OK";
+            this.BtnOK.UseVisualStyleBackColor = false;
+            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
+            // 
+            // BtnCancel
+            // 
+            this.BtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(84)))), ((int)(((byte)(26)))));
+            this.BtnCancel.FlatAppearance.BorderSize = 0;
+            this.BtnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnCancel.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.BtnCancel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.BtnCancel.Location = new System.Drawing.Point(520, 404);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(88, 34);
+            this.BtnCancel.TabIndex = 3;
+            this.BtnCancel.Text = "Cancel";
+            this.BtnCancel.UseVisualStyleBackColor = false;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // FrmPreferences
             // 
@@ -91,10 +135,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(714, 450);
+            this.Controls.Add(this.BtnCancel);
+            this.Controls.Add(this.BtnOK);
+            this.Controls.Add(this.ControlPanel);
             this.Controls.Add(this.OptionsTreeView);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmPreferences";
@@ -109,5 +156,8 @@
         private TabPage BasicSettingsTab;
         private TabPage tabPage2;
         private TreeView OptionsTreeView;
+        private Panel ControlPanel;
+        private Button BtnOK;
+        private Button BtnCancel;
     }
 }

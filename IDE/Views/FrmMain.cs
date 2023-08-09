@@ -15,6 +15,7 @@ namespace IDE.Views
         private readonly Templates _templates;
         private UcFileExplorer FileExplorer;
         private ToolWindowOutput OutputWindow;
+        private ToolWindowBreakpoints BreakpointWindow;
         public FrmMain()
         {
             InitializeComponent();
@@ -232,10 +233,31 @@ namespace IDE.Views
             _outputView.Name = "{468A04C9-1A10-4F3F-9937-30A26375E2C4}";
             _outputView.Click += ShowOutput;
 
+            var _breakpointView = new ToolStripMenuItem();
+            _view.DropDownItems.Add(_breakpointView);
+            _breakpointView.ForeColor = Color.WhiteSmoke;
+            _breakpointView.Text = "Breakpoints";
+            _breakpointView.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _breakpointView.Name = "{098DB9F1-30A8-47D0-9C64-28769CD0A602}";
+            _breakpointView.Click += ShowBreakpoints;
+
             var _build = new ToolStripMenuItem();
             _build.Text = "&Build";
             _build.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _build.Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}";
+
+            var _tools = new ToolStripMenuItem();
+            _tools.Text = "&Tools";
+            _tools.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tools.Name = "{203ad593-4af3-4440-8739-503098765556}";
+
+            var _guidgenerator = new ToolStripMenuItem();
+            _tools.DropDownItems.Add(_guidgenerator);
+            _guidgenerator.ForeColor = Color.WhiteSmoke;
+            _guidgenerator.Text = "GUID Generator";
+            _guidgenerator.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _guidgenerator.Name = "{aa7215ff-8d7e-41e5-910d-66c6f8ef19f6}";
+            _guidgenerator.Click += OpenGuidGenerator;
 
             var _options = new ToolStripMenuItem();
             _options.Text = "&Options";
@@ -267,11 +289,32 @@ namespace IDE.Views
             _title.ForeColor = Color.WhiteSmoke;
             //Add these controls to main menu
             MainMenuStrip.Items.Add(new ToolStripSeparator());
-            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _options });
+            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _tools, _options });
             MainMenuStrip.ForeColor = Color.WhiteSmoke;
             #endregion
 
 
+        }
+
+        private void ShowBreakpoints(object sender, EventArgs e)
+        {
+            if(BreakpointWindow is null || BreakpointWindow.IsDisposed)
+            {
+                BreakpointWindow = new ToolWindowBreakpoints();
+            }
+
+            BreakpointWindow.AddBreakpointToList("Breakpoint 1", "C:\\sdsdsd", "14");
+            BreakpointWindow.AddBreakpointToList("Breakpoint 2", "C:\\sdsddsdssd", "8");
+            BreakpointWindow.AddBreakpointToList("Breakpoint 3", "C:\\sdsdsdsdsd", "18");
+
+            BreakpointWindow.Show(MainDockPanel, DockState.DockBottom);
+        }
+
+        private void OpenGuidGenerator(object sender, EventArgs e)
+        {
+            var startInfo = new ProcessStartInfo();
+            startInfo.FileName = "guidgenerator.exe";
+            Process.Start(startInfo);
         }
 
         private async void ShowOutput(object sender, EventArgs e)
@@ -306,6 +349,14 @@ namespace IDE.Views
         {
             using var preferenceForm = new FrmPreferences();
             preferenceForm.ShowDialog();
+
+            foreach (IDockContent dockContent in MainDockPanel.Documents)
+            {
+                if (dockContent is SlangTextEditor editor)
+                {
+                    editor.ReloadFonts();
+                }
+            }
         }
 
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)

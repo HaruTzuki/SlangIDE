@@ -8,5 +8,17 @@
     <Setting Name="FileFolder" Type="System.String" Scope="Application">
       <Value Profile="(Default)">files</Value>
     </Setting>
+    <Setting Name="TextEditorFont" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Consolas</Value>
+    </Setting>
+    <Setting Name="TextEditorBold" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TextEditorFontSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
+    <Setting Name="TextEditorItalic" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

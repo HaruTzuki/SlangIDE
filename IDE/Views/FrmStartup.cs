@@ -13,6 +13,7 @@ namespace IDE.Views
     {
         public FrmStartup()
         {
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             InitializeComponent();
 
             LoadRecent();

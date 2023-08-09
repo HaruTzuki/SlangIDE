@@ -1,5 +1,6 @@
 ﻿using IDE.Helper;
 using IDE.Preferences;
+using IDE.Properties;
 using Microsoft.VisualBasic;
 using ScintillaNET;
 using Slang.IDE.Shared.Extensions;
@@ -235,9 +236,10 @@ namespace IDE.Controls
         {
             textEditor.SetSelectionBackColor(true, ColourHelper.IntToColour(0x114D9C));
             textEditor.StyleResetDefault();
-            textEditor.Styles[Style.Default].Font = "Consolas";
-            textEditor.Styles[Style.Default].Size = 12;
-            textEditor.Styles[Style.Default].Bold = true;
+            textEditor.Styles[Style.Default].Font = Settings.Default["TextEditorFont"].ToString();
+            textEditor.Styles[Style.Default].Size = Settings.Default["TextEditorFontSize"].AsInt();
+            textEditor.Styles[Style.Default].Bold = Settings.Default["TextEditorBold"].AsBool();
+            textEditor.Styles[Style.Default].Italic = Settings.Default["TextEditorItalic"].AsBool();
             textEditor.Styles[Style.Default].BackColor = ColourHelper.IntToColour(0x313131);
             textEditor.Styles[Style.Default].ForeColor = ColourHelper.IntToColour(0xF5F5F5);
             textEditor.CaretForeColor = Color.WhiteSmoke;
@@ -260,7 +262,7 @@ namespace IDE.Controls
             textEditor.Styles[Style.Cpp.Regex].ForeColor = ColourHelper.IntToColour(0xff00ff);
             textEditor.Styles[Style.Cpp.CommentLineDoc].ForeColor = ColourHelper.IntToColour(0x5f8b4e);
             textEditor.Styles[Style.Cpp.Word].ForeColor = ColourHelper.IntToColour(0x48A8EE);
-            textEditor.Styles[Style.Cpp.Word2].ForeColor = ColourHelper.IntToColour(0xF98906);
+            textEditor.Styles[Style.Cpp.Word2].ForeColor = ColourHelper.IntToColour(0xfff5ac);
             textEditor.Styles[Style.Cpp.CommentDocKeyword].ForeColor = ColourHelper.IntToColour(0xB3D991);
             textEditor.Styles[Style.Cpp.CommentDocKeywordError].ForeColor = ColourHelper.IntToColour(0xFF0000);
             textEditor.Styles[Style.Cpp.GlobalClass].ForeColor = ColourHelper.IntToColour(0x3bb9b0);
@@ -448,6 +450,15 @@ namespace IDE.Controls
             {
                 ComboBoxTextChanged();
             }
+        }
+
+        public void ReloadFonts()
+        {
+            InitColours();
+            InitSyntaxHighlitning();
+            InitNumberMargin();
+            InitBookmarkMargin();
+            InitCodeFolding();
         }
     }
 }

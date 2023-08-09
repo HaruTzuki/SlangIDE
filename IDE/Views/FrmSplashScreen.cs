@@ -19,7 +19,8 @@ namespace IDE.Views
         public FrmSplashScreen(string[] args)
         {
             InitializeComponent();
-            AutoScaleMode = AutoScaleMode.Dpi;
+
+
             _args = args;
         }
 

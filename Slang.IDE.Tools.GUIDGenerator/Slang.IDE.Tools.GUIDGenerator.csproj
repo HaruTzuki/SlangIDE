@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<BaseOutputPath>C:\Users\SYCADA_USER\Desktop\SlangIDE</BaseOutputPath>
+		<BaseOutputPath>C:\SlangIDE</BaseOutputPath>
 		<AssemblyName>guidgenerator</AssemblyName>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>

@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<BaseOutputPath>C:\Users\SYCADA_USER\Desktop\SlangIDE</BaseOutputPath>
+		<BaseOutputPath>C:\SlangIDE</BaseOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>

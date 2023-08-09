@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AssemblyName>smc</AssemblyName>
-		<BaseOutputPath>C:\Users\SYCADA_USER\Desktop\SlangIDE</BaseOutputPath>
+		<BaseOutputPath>C:\SlangIDE</BaseOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 

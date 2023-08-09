@@ -1,6 +1,7 @@
 ﻿using IDE.Helper;
 using IDE.Preferences;
 using IDE.Properties;
+using IDE.Views.TextEditorViews;
 using Microsoft.VisualBasic;
 using ScintillaNET;
 using Slang.IDE.Shared.Extensions;
@@ -50,10 +51,12 @@ namespace IDE.Controls
         public event EventHandler BreakpointDeleted;
         #endregion
 
+        
+
         public SlangTextEditor()
         {
             InitializeComponent();
-            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoScaleMode = AutoScaleMode.Font;
             DockAreas = DockAreas.Document | DockAreas.Float;
 
             SetupInitSettings();
@@ -68,11 +71,54 @@ namespace IDE.Controls
             textEditor.InsertCheck += TextEditor_InsertCheck;
             textEditor.CharAdded += TextEditor_CharAdded;
             textEditor.KeyUp += TextEditor_KeyUp;
+            textEditor.KeyDown += TextEditor_KeyDown;
+            textEditor.KeyPress += TextEditor_KeyPress;
             textEditor.MouseUp += TextEditor_MouseUp;
             textEditor.TextChanged += TextEditor_TextChanged;
             textEditor.ZoomChanged += TextEditor_ZoomChanged;
 
             CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
+        }
+
+        private void TextEditor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar < 32)
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void TextEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Control | e.KeyCode == Keys.F)
+            {
+
+            }
+
+            // Go To Line
+            if(e.KeyCode == Keys.Control | e.KeyCode == Keys.G)
+            {
+                using var frmGoToLine = new FrmGoToLine(textEditor.LineFromPosition(textEditor.CurrentPosition), textEditor.Lines.Count);
+                var dr = frmGoToLine.ShowDialog();
+
+                if(dr == DialogResult.OK)
+                {
+                    textEditor.GotoPosition(textEditor.Lines[frmGoToLine.ReturnedLine].Position);
+                }
+            }
+        }
+
+        private void OpenFindForm(bool isReplace)
+        {
+            var form = new FrmFindReplace();
+            form.FindNext += Form_FindNext;
+            form.Show();
+        }
+
+        private void Form_FindNext(object sender, FindNextEventArgs e)
+        {
+            var position = textEditor.SearchInTarget(e.Text);
         }
 
         private void SetupInitSettings()

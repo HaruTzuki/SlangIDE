@@ -1,13 +1,4 @@
 ﻿using IDE.Helper.Custom;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace IDE.Views.AdditionViews
 {
@@ -21,7 +12,7 @@ namespace IDE.Views.AdditionViews
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(TxtFileName.Text.Trim()))
+            if (string.IsNullOrEmpty(TxtFileName.Text.Trim()))
             {
                 ErrorProvider.SetError(TxtFileName, "Null or empty strings are not allowed");
                 ErrorProvider.SetIconPadding(TxtFileName, -25);
@@ -29,7 +20,7 @@ namespace IDE.Views.AdditionViews
             }
 
             FileName = TxtFileName.Text.Trim().Replace(" ", "_");
-             
+
             DialogResult = DialogResult.OK;
             this.Close();
         }

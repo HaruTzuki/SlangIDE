@@ -1,10 +1,5 @@
 ﻿using IDE.Preferences;
 using Slang.IDE.Shared.IDE;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IDE.Helper
 {

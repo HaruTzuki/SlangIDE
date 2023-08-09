@@ -1,16 +1,7 @@
 ﻿using IDE.Properties;
 using Slang.IDE.Shared.Extensions;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Drawing.Text;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace IDE.Views.Options
 {
@@ -27,7 +18,7 @@ namespace IDE.Views.Options
 
         private void InitialiseSizes()
         {
-            CbxSizes.DataSource = _sizes.Select(x=> new KeyValuePair<int, int>(x, x)).ToList();
+            CbxSizes.DataSource = _sizes.Select(x => new KeyValuePair<int, int>(x, x)).ToList();
             CbxSizes.DisplayMember = "Key";
             CbxSizes.ValueMember = "Value";
         }

@@ -1,10 +1,7 @@
 ﻿using IDE.Preferences;
 using IDE.Properties;
 using Newtonsoft.Json;
-using Slang.IDE.Shared.Extensions;
 using System.Data;
-using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace IDE.Helper
 {
@@ -12,14 +9,14 @@ namespace IDE.Helper
     {
         public static void CreateProject(string path, string name, Templates templates)
         {
-            if(!Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
-            if(!Directory.Exists(Path.Combine(path, name)))
+            if (!Directory.Exists(Path.Combine(path, name)))
             {
-                Directory.CreateDirectory(Path.Combine(path,name));
+                Directory.CreateDirectory(Path.Combine(path, name));
             }
 
             var root = $"{name}";
@@ -54,17 +51,17 @@ namespace IDE.Helper
             projectFile.Files.Add(mainFile);
 
             // Create Files And Folders
-            foreach(var folders in projectFile.Files.Where(x=>x.FileType == Slang.IDE.Shared.Enumerations.TreeFileType.Folder))
+            foreach (var folders in projectFile.Files.Where(x => x.FileType == Slang.IDE.Shared.Enumerations.TreeFileType.Folder))
             {
-                if(!Directory.Exists(Path.Combine(path, folders.FilePath)))
+                if (!Directory.Exists(Path.Combine(path, folders.FilePath)))
                 {
                     Directory.CreateDirectory(Path.Combine(path, folders.FilePath));
                 }
             }
 
-            foreach(var files in projectFile.Files.Where(x=>x.FileType == Slang.IDE.Shared.Enumerations.TreeFileType.File))
+            foreach (var files in projectFile.Files.Where(x => x.FileType == Slang.IDE.Shared.Enumerations.TreeFileType.File))
             {
-                if(!File.Exists(Path.Combine(path, files.FilePath)))
+                if (!File.Exists(Path.Combine(path, files.FilePath)))
                 {
                     File.Create(Path.Combine(path, files.FilePath)).Close();
                 }
@@ -82,7 +79,7 @@ namespace IDE.Helper
             Sessions.SlangProject = projectFile;
             Sessions.ProjectPath = path;
 
-            SaveToRecent(path,projectFile);
+            SaveToRecent(path, projectFile);
         }
 
         public static void UpdateProject()
@@ -101,7 +98,7 @@ namespace IDE.Helper
             }
 
             // Find the slangproject
-            if(!projectPath.EndsWith(".slangproject"))
+            if (!projectPath.EndsWith(".slangproject"))
             {
                 throw new NullReferenceException("There is not Slang Project in this directory.");
             }
@@ -130,7 +127,7 @@ namespace IDE.Helper
             }
 
             using var streamReader = new StreamReader(recentProjectFilePath);
-            var projects = JsonConvert.DeserializeObject<List<RecentProject>>(streamReader.ReadToEnd())??new List<RecentProject>();
+            var projects = JsonConvert.DeserializeObject<List<RecentProject>>(streamReader.ReadToEnd()) ?? new List<RecentProject>();
 
             projects.Add(new RecentProject
             {

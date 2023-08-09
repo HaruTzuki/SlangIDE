@@ -8,13 +8,13 @@ namespace Slang.IDE.Interpreter.Tests
         [InlineData("fn add(a:int, b:int):int")]
         public void Should_Return_Function(string source)
         {
-           var parser = new Parser();
+            var parser = new Parser();
             var function = Parser.Parse(source);
 
             Assert.True(function.Identifier == "add");
             Assert.True(function.Parameters.Count() == 2);
-            
-            foreach(var param in function.Parameters )
+
+            foreach (var param in function.Parameters)
             {
                 Assert.True(param.Identifier == "a" || param.Identifier == "b");
                 Assert.True(param.DataType == Enumeration.Tokens.INTEGER);
@@ -50,9 +50,9 @@ namespace Slang.IDE.Interpreter.Tests
         [InlineData("fn add(a:int, b:int):int", "add(5,5)")]
         public void Should_Match_Functions(string source, string written)
         {
-           Lists.UserDefinedFunctions.Add(Parser.Parse(source));
+            Lists.UserDefinedFunctions.Add(Parser.Parse(source));
 
-           Assert.True(Parser.Validate(written));
+            Assert.True(Parser.Validate(written));
         }
 
         [Theory]

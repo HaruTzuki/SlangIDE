@@ -1,11 +1,7 @@
 ﻿using IDE.Helper;
-using IDE.Helper.Custom;
 using IDE.Preferences;
 using IDE.Properties;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data.Odbc;
 
 namespace IDE.Views
 {

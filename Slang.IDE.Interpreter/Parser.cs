@@ -27,11 +27,11 @@ namespace Slang.IDE.Interpreter
         {
             var sourceLines = source.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(var line in sourceLines)
+            foreach (var line in sourceLines)
             {
                 Debug.WriteLine(line);
             }
-            
+
 
             return true;
         }
@@ -44,30 +44,30 @@ namespace Slang.IDE.Interpreter
             // Get the Identifier
             var identifier = written.Substring(0, written.IndexOf(Tokens.LPARENTHENSIS.GetTokenType()));
 
-            if(!Lists.UserDefinedFunctions.Any(x=>x.Identifier == identifier))
+            if (!Lists.UserDefinedFunctions.Any(x => x.Identifier == identifier))
             {
                 throw new ArgumentException($"Error: There is not function with name: {identifier}");
             }
 
             // Get parameters
-            var selectedFunction = Lists.UserDefinedFunctions.First(x=>x.Identifier == identifier);
+            var selectedFunction = Lists.UserDefinedFunctions.First(x => x.Identifier == identifier);
             // Check if function waiting parameters
-            if(selectedFunction.Parameters.Any())
+            if (selectedFunction.Parameters.Any())
             {
                 //Get written parameters
                 var match = Regex.Match(written, @"\((.*?)\)");
-                if(match.Success)
+                if (match.Success)
                 {
                     var writtenParameters = match.Groups[1].Value;
 
                     var split = writtenParameters.Split(Tokens.COMMA.GetTokenType());
 
-                    if(split.Length != selectedFunction.Parameters.Length)
+                    if (split.Length != selectedFunction.Parameters.Length)
                     {
                         throw new ArgumentException("Error: You have not pass the mandantory arguments.");
                     }
 
-                    for(var i = 0; i < split.Length; i++)
+                    for (var i = 0; i < split.Length; i++)
                     {
                         if (GetToken(split[i]) != selectedFunction.Parameters[i].DataType)
                         {
@@ -190,7 +190,7 @@ namespace Slang.IDE.Interpreter
             }
 
             return Tokens.VOID;
-        } 
+        }
         #endregion
     }
 }

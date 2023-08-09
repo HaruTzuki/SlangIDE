@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 
 namespace IDE.Views.AdditionViews
@@ -124,7 +123,7 @@ namespace IDE.Views.AdditionViews
         protected override void WndProc(ref Message m)
         {
 
-            switch(m.Msg)
+            switch (m.Msg)
             {
                 case WM_GETMINMAXINFO:
                     MINMAXINFO mmi = (MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(MINMAXINFO));

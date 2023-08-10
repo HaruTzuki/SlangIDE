@@ -17,25 +17,9 @@ namespace IDE.Views
 
         private void LoadRecent()
         {
-            var path = Settings.Default["FileFolder"].ToString();
-            var filePath = Path.Combine(path, Settings.Default["RecentFile"].ToString());
+            var projects = Functions.LoadRecent();
 
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            if (!File.Exists(filePath))
-            {
-                File.WriteAllText(filePath, "[]");
-            }
-
-            using var streamReader = new StreamReader(filePath);
-            var projects = JsonConvert.DeserializeObject<IEnumerable<RecentProject>>(streamReader.ReadToEnd());
-
-
-
-            foreach (var project in projects.OrderBy(x => x.CreatedOn))
+            foreach (var project in projects.OrderBy(x => x.Date))
             {
                 var btn = new Button
                 {
@@ -60,6 +44,8 @@ namespace IDE.Views
         {
             var project = (sender as Button)?.Tag as RecentProject;
             Functions.LoadProject(project!.Path);
+            Functions.UpdateRecendProject(project);
+
             var form = new FrmMain();
             this.Hide();
             form.ShowDialog();

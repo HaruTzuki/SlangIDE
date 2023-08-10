@@ -1,5 +1,6 @@
 ﻿using IDE.Helper;
 using IDE.Helper.Custom;
+using IDE.Preferences;
 
 namespace IDE.Views
 {
@@ -31,6 +32,26 @@ namespace IDE.Views
         private Task OpenFromFile()
         {
             Functions.LoadProject(_args[0]);
+
+            var recentProjects = Functions.LoadRecent().ToList();
+            
+            if(recentProjects.Exists(x=>x.Path == _args[0]))
+            {
+                Functions.UpdateRecendProject(recentProjects.First(x=>x.Path == _args[0]));
+            }
+            else
+            {
+                var recentProject = new RecentProject()
+                {
+                    Date = DateTime.Now,
+                    Name = Sessions.SlangProject.Name,
+                    Path = _args[0]
+                };
+
+                recentProjects.Add(recentProject);
+                Functions.SaveRecent(recentProjects);
+            }
+
             var form = new FrmMain();
             this.Hide();
             form.ShowDialog();

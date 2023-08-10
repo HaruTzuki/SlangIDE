@@ -71,7 +71,7 @@
             this.BtnDebug});
             this.EditorsTools.Location = new System.Drawing.Point(0, 24);
             this.EditorsTools.Name = "EditorsTools";
-            this.EditorsTools.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.EditorsTools.Padding = new System.Windows.Forms.Padding(4);
             this.EditorsTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.EditorsTools.Size = new System.Drawing.Size(892, 35);
             this.EditorsTools.TabIndex = 2;
@@ -153,7 +153,7 @@
             this.MainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MainMenuStrip.Name = "MainMenuStrip";
-            this.MainMenuStrip.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MainMenuStrip.Padding = new System.Windows.Forms.Padding(4);
             this.MainMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.MainMenuStrip.Size = new System.Drawing.Size(892, 24);
             this.MainMenuStrip.TabIndex = 3;
@@ -266,6 +266,7 @@
             this.Text = "Main";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
+            this.Shown += new System.EventHandler(this.FrmMain_Shown);
             this.EditorsTools.ResumeLayout(false);
             this.EditorsTools.PerformLayout();
             this.StatusStrip.ResumeLayout(false);

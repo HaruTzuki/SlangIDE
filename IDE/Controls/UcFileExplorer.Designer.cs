@@ -54,11 +54,10 @@
             this.FileExplorerTree.ImageIndex = 0;
             this.FileExplorerTree.ImageList = this.ImageListFileExplorer;
             this.FileExplorerTree.Location = new System.Drawing.Point(0, 0);
-            this.FileExplorerTree.Margin = new System.Windows.Forms.Padding(2);
             this.FileExplorerTree.Name = "FileExplorerTree";
             this.FileExplorerTree.SelectedImageIndex = 0;
             this.FileExplorerTree.ShowLines = false;
-            this.FileExplorerTree.Size = new System.Drawing.Size(257, 375);
+            this.FileExplorerTree.Size = new System.Drawing.Size(250, 396);
             this.FileExplorerTree.TabIndex = 1;
             // 
             // TreeViewContextMenu
@@ -156,12 +155,15 @@
             // 
             // UcFileExplorer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(257, 375);
+            this.ClientSize = new System.Drawing.Size(250, 396);
             this.Controls.Add(this.FileExplorerTree);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UcFileExplorer";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.TabText = "File Explorer";
             this.Text = "File Explorer";
             this.TreeViewContextMenu.ResumeLayout(false);

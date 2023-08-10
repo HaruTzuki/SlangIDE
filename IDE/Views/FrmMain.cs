@@ -37,6 +37,8 @@ namespace IDE.Views
             {
                 Name = "FileExplorer",
             };
+
+            FileExplorer.Width = 200;
             FileExplorer.Show(MainDockPanel, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
         }
 
@@ -102,6 +104,32 @@ namespace IDE.Views
             _saveAll.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _saveAll.Name = "{AD0947D5-18C5-4A74-A6CC-3335F49652F7}";
             _saveAll.Click += BtnSaveAll_Click;
+
+            _edit.DropDownItems.Add(new DarkThemeToolStripSeparator());
+
+            var _findAndReplace = new ToolStripMenuItem();
+            _edit.DropDownItems.Add(_findAndReplace);
+            _findAndReplace.ForeColor = Color.WhiteSmoke;
+            _findAndReplace.Text = "&Find && &Replace";
+            _findAndReplace.Name = "{B4F64CC4-87C2-4617-B2A3-B0B70EAD66A8}";
+
+            var _quickFind = new ToolStripMenuItem();
+            _findAndReplace.DropDownItems.Add(_quickFind);
+            _quickFind.ForeColor = Color.WhiteSmoke;
+            _quickFind.Text = "&Quick Find";
+            _quickFind.ShowShortcutKeys = true;
+            _quickFind.ShortcutKeys = Keys.Control | Keys.F;
+            _quickFind.Name = "{BD6EBEDC-AB4B-4C02-A98E-8D71A4B2A6AF}";
+            _quickFind.Click += _quickFind_Click;
+
+            var _advanceFind = new ToolStripMenuItem();
+            _findAndReplace.DropDownItems.Add(_advanceFind);
+            _advanceFind.ForeColor = Color.WhiteSmoke;
+            _advanceFind.Text = "&Advanced Find";
+            _advanceFind.ShowShortcutKeys = true;
+            _advanceFind.ShortcutKeys = Keys.Control | Keys.Shift | Keys.F;
+            _advanceFind.Name = "{F1865F55-1B9F-45B4-8BC7-80E113DD61BA}";
+            _advanceFind.Click += _advanceFind_Click;
 
             _edit.DropDownItems.Add(new DarkThemeToolStripSeparator());
 
@@ -248,6 +276,26 @@ namespace IDE.Views
             MainMenuStrip.ForeColor = Color.WhiteSmoke;
             #endregion
         }
+
+        private void _advanceFind_Click(object sender, EventArgs e)
+        {
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
+
+            if (selectedForm is null)
+                return;
+
+            selectedForm.ShowAdvancedFind();
+        }
+
+        private void _quickFind_Click(object sender, EventArgs e)
+        {
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
+
+            if (selectedForm is null)
+                return;
+
+            selectedForm.ShowQuickFind();
+        }
         #endregion
 
         #region TreeView's Events
@@ -339,7 +387,7 @@ namespace IDE.Views
         {
             // Check if there is a tab opened
             var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
-            ;
+
             if (selectedForm == null)
             {
                 return;
@@ -356,8 +404,18 @@ namespace IDE.Views
                 return;
             }
 
-            using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
-            streamWriter.WriteLine(selectedForm.EditorText);
+            try
+            {
+                using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
+                streamWriter.WriteLine(selectedForm.EditorText);
+            }
+            catch (Exception ex)
+            {
+                LblStatusMessage.Text = $"An error has occured: {ex.Message}";
+                return;
+            }
+
+            LblStatusMessage.Text = $"{filesText} has been saved";
         }
 
         private void BtnSaveAll_Click(object sender, EventArgs e)
@@ -375,10 +433,20 @@ namespace IDE.Views
                         return;
                     }
 
-                    using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
-                    streamWriter.WriteLine(editor.EditorText);
+                    try
+                    {
+                        using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
+                        streamWriter.WriteLine(editor.EditorText);
+                    }
+                    catch (Exception ex)
+                    {
+                        LblStatusMessage.Text = $"An error has occured when trying to save {filesText}";
+                        return;
+                    }
                 }
             }
+
+            LblStatusMessage.Text = $"Item(s) Saved";
         }
 
         private void BtnUndo_Click(object sender, EventArgs e)
@@ -455,6 +523,7 @@ namespace IDE.Views
 
         private void BtnRun_Click(object sender, EventArgs e)
         {
+            LblStatusMessage.Text = $"Build Started...";
             ShowOutput(sender, e);
             OutputWindow.WriteLine("Compiling has been started...");
             var startInfo = new ProcessStartInfo();
@@ -464,12 +533,13 @@ namespace IDE.Views
             startInfo.RedirectStandardInput = true;
             startInfo.Arguments = $"{Sessions.ProjectPath}/{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath} -s";
             startInfo.CreateNoWindow = true;
-            startInfo.FileName = "C:\\Sycada\\local\\IDE\\SlangMiddleware\\bin\\Debug\\net7.0\\smc.exe";
+            startInfo.FileName = "smc.exe";
 
             var process = new Process();
             process.StartInfo = startInfo;
             process.OutputDataReceived += (ss, ee) =>
             {
+                LblStatusMessage.Text = $"Build Completed...";
                 OutputWindow.WriteLine(ee.Data, Color.Green);
             };
 

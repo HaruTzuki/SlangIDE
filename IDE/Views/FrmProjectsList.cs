@@ -9,7 +9,7 @@ namespace IDE.Views
         public FrmProjectsList()
         {
             InitializeComponent();
-            TxtFilePath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "GoSlang");
+            TxtFilePath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slang");
             TemplatesListView.Items[0].Selected = true;
         }
 

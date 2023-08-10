@@ -1,6 +1,4 @@
-﻿using IDE.Views.AdditionViews;
-
-namespace IDE.Preferences
+﻿namespace IDE.Preferences
 {
     public class Shortcut
     {

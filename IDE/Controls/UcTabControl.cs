@@ -38,12 +38,12 @@
                 }
 
                 // Draw close button
-                var closeButtonRect = new Rectangle(tabRectangle.Right - 15, tabRectangle.Top + 4, 10, 10);
-                using (var pen = new Pen(Color.Gray))
-                {
-                    e.Graphics.DrawLine(pen, closeButtonRect.Left, closeButtonRect.Top, closeButtonRect.Right, closeButtonRect.Bottom);
-                    e.Graphics.DrawLine(pen, closeButtonRect.Left, closeButtonRect.Bottom, closeButtonRect.Right, closeButtonRect.Top);
-                }
+                //var closeButtonRect = new Rectangle(tabRectangle.Right - 15, tabRectangle.Top + 4, 10, 10);
+                //using (var pen = new Pen(Color.Gray))
+                //{
+                //    e.Graphics.DrawLine(pen, closeButtonRect.Left, closeButtonRect.Top, closeButtonRect.Right, closeButtonRect.Bottom);
+                //    e.Graphics.DrawLine(pen, closeButtonRect.Left, closeButtonRect.Bottom, closeButtonRect.Right, closeButtonRect.Top);
+                //}
                 using var borderPen = new Pen(Color.FromArgb(61, 61, 61));
                 e.Graphics.DrawRectangle(borderPen, 0, 0, this.Width - 1, this.Height - 1);
             }

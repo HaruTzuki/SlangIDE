@@ -43,7 +43,7 @@ namespace IDE.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Consolas")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cascadia Mono")]
         public string TextEditorFont {
             get {
                 return ((string)(this["TextEditorFont"]));
@@ -61,7 +61,7 @@ namespace IDE.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
         public int TextEditorFontSize {
             get {
                 return ((int)(this["TextEditorFontSize"]));

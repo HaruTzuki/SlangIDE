@@ -11,7 +11,7 @@ namespace IDE.Views.TextEditorViews
         {
             InitializeComponent();
             LblTitle.Text = $"Line (1 - {maxLine}):";
-            TxtLine.Text = (currentLine+1).ToString();
+            TxtLine.Text = (currentLine + 1).ToString();
             _maximunLine = maxLine;
         }
 

@@ -1,4 +1,5 @@
-﻿using IDE.Helper;
+﻿using IDE.Components;
+using IDE.Helper;
 using IDE.Preferences;
 using IDE.Properties;
 using IDE.Views.TextEditorViews;
@@ -6,7 +7,6 @@ using Microsoft.VisualBasic;
 using ScintillaNET;
 using Slang.IDE.Shared.Extensions;
 using Slang.IDE.Shared.Helpers;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -51,7 +51,8 @@ namespace IDE.Controls
         public event EventHandler BreakpointDeleted;
         #endregion
 
-        
+        private FindReplace _findReplace;
+
 
         public SlangTextEditor()
         {
@@ -61,6 +62,22 @@ namespace IDE.Controls
 
             SetupInitSettings();
             InitEvents();
+
+            _findReplace = new FindReplace(textEditor);
+            //_findReplace.FindAllResults += _findReplace_FindAllResults;
+            //_findReplace.KeyPressed += _findReplace_KeyPressed;
+
+            incrementalSearch1.FindReplace = _findReplace;
+        }
+
+        private void _findReplace_KeyPressed(object sender, KeyEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void _findReplace_FindAllResults(object sender, FindResultsEventArgs FindAllResults)
+        {
+            throw new NotImplementedException();
         }
 
         #region Initial Functions
@@ -82,7 +99,7 @@ namespace IDE.Controls
 
         private void TextEditor_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar < 32)
+            if (e.KeyChar < 32)
             {
                 e.Handled = true;
                 return;
@@ -91,34 +108,46 @@ namespace IDE.Controls
 
         private void TextEditor_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Control | e.KeyCode == Keys.F)
-            {
+            //if(e.KeyCode == Keys.Control | e.KeyCode == Keys.Shift | e.KeyCode == Keys.F)
+            //{
+            //    ShowAdvancedFind();
+            //    e.SuppressKeyPress = true;
+            //}
 
-            }
+            //if (e.KeyCode == Keys.Control | e.KeyCode == Keys.F)
+            //{
+            //    ShowQuickFind();
+            //    e.SuppressKeyPress = true;
+            //}
+
+
+            //if (e.Control && e.Shift && e.KeyData == Keys.H)
+            //{
+            //    _findReplace.ShowReplace();
+            //    e.SuppressKeyPress = true;
+            //}
 
             // Go To Line
-            if(e.KeyCode == Keys.Control | e.KeyCode == Keys.G)
+            if (e.KeyCode == Keys.Control | e.KeyCode == Keys.G)
             {
                 using var frmGoToLine = new FrmGoToLine(textEditor.LineFromPosition(textEditor.CurrentPosition), textEditor.Lines.Count);
                 var dr = frmGoToLine.ShowDialog();
 
-                if(dr == DialogResult.OK)
+                if (dr == DialogResult.OK)
                 {
                     textEditor.GotoPosition(textEditor.Lines[frmGoToLine.ReturnedLine].Position);
                 }
             }
         }
 
-        private void OpenFindForm(bool isReplace)
+        public void ShowQuickFind()
         {
-            var form = new FrmFindReplace();
-            form.FindNext += Form_FindNext;
-            form.Show();
+            _findReplace.ShowIncrementalSearch();
         }
 
-        private void Form_FindNext(object sender, FindNextEventArgs e)
+        public void ShowAdvancedFind()
         {
-            var position = textEditor.SearchInTarget(e.Text);
+            _findReplace.ShowFind();
         }
 
         private void SetupInitSettings()
@@ -380,8 +409,6 @@ namespace IDE.Controls
             CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
             InitSyntaxHighlitning();
             textEditor.Update();
-
-            GetCurrentText();
         }
 
         private void TextEditor_MouseUp(object sender, MouseEventArgs e)
@@ -449,56 +476,6 @@ namespace IDE.Controls
         #endregion
 
         #region Helper Functions 
-        private void GetCurrentText()
-        {
-            int currentPosition = textEditor.CurrentPosition;
-
-            // Use a regular expression to match function calls with parameters
-            Regex functionCallRegex = new Regex(@"\b(\w+)\(((?:\s*[^,)]+\s*,\s*)*[^,)]+)\)");
-
-            // Find the start position of the function call by searching backward for '(' character
-            int startPos = textEditor.Text.LastIndexOf('(', currentPosition);
-
-            if (startPos >= 0)
-            {
-                // Extract the substring from the opening '(' to the current position
-                string functionCallText = textEditor.Text.Substring(startPos, currentPosition - startPos + 1);
-
-                // Check if the extracted text matches the function call regex
-                Match match = functionCallRegex.Match(functionCallText);
-
-                if (match.Success)
-                {
-                    string functionName = match.Groups[1].Value;  // Extract the function name
-                    string parameters = match.Groups[2].Value;    // Extract the function parameters
-
-                    Debug.WriteLine($"Function Name: {functionName}, Parameters: {parameters}");
-                    // Now you can proceed with the rest of the logic (searching the userDefinedFunctions list, validating parameters, etc.)
-                }
-                else
-                {
-                    // No valid function call found, handle as needed
-                }
-            }
-
-            // Check if the Current Word it is User Define Functions
-            //if(SystemPreferences.UserDefineFunctions.Any(x=>x.Name.StartsWith(currentWord, StringComparison.OrdinalIgnoreCase)))
-            //{
-            //    foreach(var function in SystemPreferences.UserDefineFunctions.Where(x=>x.Name.StartsWith(currentWord, StringComparison.OrdinalIgnoreCase)))
-            //    {
-            //        Debug.WriteLine($"Function Name: {function.Name}, Column: {function.Column}, Line: {function.Line}");
-
-            //        if (currentWord.EndsWith(")"))
-            //        {
-            //            // It is function??
-
-            //            var parameters = Regex.Match(currentWord, @"\((.*?)\)").Groups[1].Value;
-
-            //            Debug.WriteLine(parameters);
-            //        }
-            //    }
-            //}
-        }
 
         private void ComboBoxTextChanged()
         {

@@ -104,6 +104,15 @@ namespace IDE.Controls
                 e.Handled = true;
                 return;
             }
+            
+            // If you stored the results in a list, you can now use them as needed.
+            // For example, display them in a message box or update a UI element.
+            CbxAvailableMethods.DataSource = SystemPreferences.UserDefineFunctions;
+            CbxAvailableMethods.DisplayMember = "Name";
+            CbxAvailableMethods.ValueMember = "Column";
+            CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
+            InitSyntaxHighlitning();
+            textEditor.Update();
         }
 
         private void TextEditor_KeyDown(object sender, KeyEventArgs e)

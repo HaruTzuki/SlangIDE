@@ -169,7 +169,7 @@ namespace IDE.Controls
             {
                 Id = Guid.Parse(name),
                 Name = text,
-                FilePath = path.Replace(Sessions.ProjectPath, ""),
+                FilePath = path.Replace(Sessions.ProjectPath, "").Replace("//", ""),
                 FileType = fileType,
                 ParentId = Guid.Parse(parent.Name),
             });

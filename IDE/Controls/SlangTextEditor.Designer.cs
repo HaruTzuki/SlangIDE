@@ -33,6 +33,7 @@
             this.CbxZoom = new IDE.Controls.FlatCombo();
             this.CbxAvailableMethods = new IDE.Controls.FlatCombo();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.incrementalSearch1 = new IDE.Views.TextEditorViews.IncrementalSearch();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -93,12 +94,29 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.incrementalSearch1);
             this.panel2.Controls.Add(this.textEditor);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 25);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(419, 239);
             this.panel2.TabIndex = 2;
+            // 
+            // incrementalSearch1
+            // 
+            this.incrementalSearch1.AutoPosition = false;
+            this.incrementalSearch1.AutoSize = true;
+            this.incrementalSearch1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.incrementalSearch1.BackColor = System.Drawing.Color.Transparent;
+            this.incrementalSearch1.FindReplace = null;
+            this.incrementalSearch1.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.incrementalSearch1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.incrementalSearch1.Location = new System.Drawing.Point(9, 9);
+            this.incrementalSearch1.Name = "incrementalSearch1";
+            this.incrementalSearch1.Size = new System.Drawing.Size(0, 5);
+            this.incrementalSearch1.TabIndex = 1;
+            this.incrementalSearch1.TextEditor = null;
+            this.incrementalSearch1.ToolItem = true;
             // 
             // SlangTextEditor
             // 
@@ -112,6 +130,7 @@
             this.Shown += new System.EventHandler(this.SlangTextEditor_Shown);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -123,5 +142,6 @@
         private Panel panel2;
         private FlatCombo CbxAvailableMethods;
         private FlatCombo CbxZoom;
+        private Views.TextEditorViews.IncrementalSearch incrementalSearch1;
     }
 }

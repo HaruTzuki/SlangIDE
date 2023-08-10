@@ -1,9 +1,5 @@
 ﻿using IDE.Preferences;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Slang.IDE.Shared.IDE;
 
 namespace IDE.Helper
 {
@@ -11,5 +7,7 @@ namespace IDE.Helper
     {
         public static SlangProject SlangProject { get; set; } = new SlangProject();
         public static string ProjectPath { get; set; } = string.Empty;
+        public static List<Breakpoint> Breakpoints { get; set; } = new List<Breakpoint>();
+        public static List<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
     }
 }

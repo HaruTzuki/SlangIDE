@@ -1,16 +1,5 @@
-﻿using IDE.Preferences;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace IDE.Controls
 {
@@ -171,7 +160,7 @@ namespace IDE.Controls
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             Debug.WriteLine(keyData.ToString());
-            if(Preferences.Shortcut.EditorsShortcuts.ContainsKey(keyData))
+            if (Preferences.Shortcut.EditorsShortcuts.ContainsKey(keyData))
             {
                 Preferences.Shortcut.EditorsShortcuts[keyData].Invoke(this.rtb);
                 return true;
@@ -180,6 +169,6 @@ namespace IDE.Controls
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        
+
     }
 }

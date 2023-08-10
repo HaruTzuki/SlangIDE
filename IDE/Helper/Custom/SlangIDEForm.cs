@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Drawing.Design;
+﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Windows.Forms.Design;
 
 namespace IDE.Helper.Custom
 {
@@ -47,7 +43,7 @@ namespace IDE.Helper.Custom
             get { return _borderColour; }
             set { _borderColour = value; }
         }
-       
+
         public SlangIDEForm()
         {
             InitialiseComponents();

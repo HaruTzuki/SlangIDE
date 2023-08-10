@@ -1,6 +1,4 @@
-﻿using IDE.Views.AdditionViews;
-
-namespace IDE.Preferences
+﻿namespace IDE.Preferences
 {
     public class Shortcut
     {
@@ -31,8 +29,8 @@ namespace IDE.Preferences
             EditorsShortcuts.Add(EditorPaste, (r) => r.Paste());
             EditorsShortcuts.Add(EditorCut, (r) => r.Cut());
             EditorsShortcuts.Add(EditorSelectAll, (r) => r.SelectAll());
-            EditorsShortcuts.Add(EditorFind, (r) => { var form = new FrmFindReplace(ref r, r.SelectedText, false); form.Show(); });
-            EditorsShortcuts.Add(EditorReplace, (r) => { var form = new FrmFindReplace(ref r, r.SelectedText, true); form.Show(); });
+            //EditorsShortcuts.Add(EditorFind, (r) => { var form = new FrmFindReplace(ref r, r.SelectedText, false); form.Show(); });
+            //EditorsShortcuts.Add(EditorReplace, (r) => { var form = new FrmFindReplace(ref r, r.SelectedText, true); form.Show(); });
             EditorsShortcuts.Add(EditorUndo, (r) => r.Undo());
             EditorsShortcuts.Add(EditorRedo, (r) => r.Redo());
         }

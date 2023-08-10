@@ -1,11 +1,7 @@
 ﻿using IDE.Helper;
-using IDE.Helper.Custom;
 using IDE.Preferences;
 using IDE.Properties;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data.Odbc;
 
 namespace IDE.Views
 {
@@ -13,6 +9,7 @@ namespace IDE.Views
     {
         public FrmStartup()
         {
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             InitializeComponent();
 
             LoadRecent();

@@ -226,7 +226,7 @@ namespace IDE.Controls
             Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(selectedNode.Name)).Name = newFileName;
             Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(selectedNode.Name)).FilePath = newPath.Replace(Sessions.ProjectPath, "");
 
-            foreach(var node in Sessions.SlangProject.Files)
+            foreach (var node in Sessions.SlangProject.Files)
             {
                 node.FilePath = node.FilePath.Replace(selectedNode.FilePath, newPath);
             }
@@ -241,14 +241,14 @@ namespace IDE.Controls
             var selectedNodeId = Guid.Parse(selectedNode.Name);
 
 
-            if(selectedNodeFileType == TreeFileType.Solution)
+            if (selectedNodeFileType == TreeFileType.Solution)
             {
                 MessageBox.Show("This action is prohibited.", "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
 
-            if(selectedNodeFileType == TreeFileType.Folder)
+            if (selectedNodeFileType == TreeFileType.Folder)
             {
                 Directory.Delete(selectedNode.FilePath, true);
             }
@@ -265,11 +265,11 @@ namespace IDE.Controls
 
         private void RemoveFromSession(Guid selectedNodeId)
         {
-            var nodes = Sessions.SlangProject.Files.Where(x=>x.ParentId == selectedNodeId).ToList().ToArray();
+            var nodes = Sessions.SlangProject.Files.Where(x => x.ParentId == selectedNodeId).ToList().ToArray();
 
-            if(nodes.Any())
+            if (nodes.Any())
             {
-                foreach(var node in nodes)
+                foreach (var node in nodes)
                 {
                     RemoveFromSession(node.Id);
                 }
@@ -282,7 +282,7 @@ namespace IDE.Controls
         private void BtnShowInFolder_Click(object sender, EventArgs e)
         {
             var selectedNode = FileExplorerTree.SelectedNode as TreeNodeExtented;
-            var showPath = Directory.GetParent(Path.Combine(Sessions.ProjectPath,selectedNode.FilePath)).FullName;
+            var showPath = Directory.GetParent(Path.Combine(Sessions.ProjectPath, selectedNode.FilePath)).FullName;
 
             Process.Start(showPath);
         }

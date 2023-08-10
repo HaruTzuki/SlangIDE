@@ -40,5 +40,41 @@ namespace IDE.Properties {
                 return ((string)(this["FileFolder"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cascadia Mono")]
+        public string TextEditorFont {
+            get {
+                return ((string)(this["TextEditorFont"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TextEditorBold {
+            get {
+                return ((bool)(this["TextEditorBold"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int TextEditorFontSize {
+            get {
+                return ((int)(this["TextEditorFontSize"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TextEditorItalic {
+            get {
+                return ((bool)(this["TextEditorItalic"]));
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@
 
         public CaretPositionEventArgs()
         {
-            
+
         }
 
         public CaretPositionEventArgs(int line, int column, int position)

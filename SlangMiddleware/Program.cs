@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -23,7 +22,7 @@ using var streamReader = new StreamReader(sourceFile);
 var content = streamReader.ReadToEnd();
 streamReader.Close();
 
-if(!content.Contains("main"))
+if (!content.Contains("main"))
 {
     Console.WriteLine("You must provide the path of the .slang file which has the main function");
 }
@@ -57,7 +56,7 @@ await process.WaitForExitAsync();
 
 foreach (var arg in arguments)
 {
-    switch(arg)
+    switch (arg)
     {
         case "-s": // Show the combine code;
             Console.WriteLine(sb.ToString());
@@ -81,7 +80,7 @@ static void buildTheFile(StringBuilder sb, string mainFolder, string sourceFile)
         {
             // It means you have other function file.
             var pseudoPath = (from Match match in Regex.Matches(line, "\"([^\"]*)\"")
-                             select match.ToString()).First();
+                              select match.ToString()).First();
 
             buildTheFile(sb, mainFolder, Path.Combine(mainFolder, $"{pseudoPath.Trim('"')}.slang"));
         }

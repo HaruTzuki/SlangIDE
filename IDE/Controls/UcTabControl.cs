@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IDE.Controls
+﻿namespace IDE.Controls
 {
     public class UcTabControl : TabControl
     {
@@ -17,7 +11,7 @@ namespace IDE.Controls
         protected override void OnPaint(PaintEventArgs e)
         {
             var backColor = Color.FromArgb(31, 31, 31); // Replace with your desired color
-            var selectedBackColor = Color.FromArgb(61,61,61); // Replace with your desired color
+            var selectedBackColor = Color.FromArgb(61, 61, 61); // Replace with your desired color
 
             using (var brush = new SolidBrush(backColor))
             {
@@ -44,13 +38,13 @@ namespace IDE.Controls
                 }
 
                 // Draw close button
-                var closeButtonRect = new Rectangle(tabRectangle.Right - 15, tabRectangle.Top + 4, 10, 10);
-                using (var pen = new Pen(Color.Gray))
-                {
-                    e.Graphics.DrawLine(pen, closeButtonRect.Left, closeButtonRect.Top, closeButtonRect.Right, closeButtonRect.Bottom);
-                    e.Graphics.DrawLine(pen, closeButtonRect.Left, closeButtonRect.Bottom, closeButtonRect.Right, closeButtonRect.Top);
-                }
-                using var borderPen = new Pen(Color.FromArgb(61,61,61));
+                //var closeButtonRect = new Rectangle(tabRectangle.Right - 15, tabRectangle.Top + 4, 10, 10);
+                //using (var pen = new Pen(Color.Gray))
+                //{
+                //    e.Graphics.DrawLine(pen, closeButtonRect.Left, closeButtonRect.Top, closeButtonRect.Right, closeButtonRect.Bottom);
+                //    e.Graphics.DrawLine(pen, closeButtonRect.Left, closeButtonRect.Bottom, closeButtonRect.Right, closeButtonRect.Top);
+                //}
+                using var borderPen = new Pen(Color.FromArgb(61, 61, 61));
                 e.Graphics.DrawRectangle(borderPen, 0, 0, this.Width - 1, this.Height - 1);
             }
         }

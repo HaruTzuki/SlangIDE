@@ -1,7 +1,6 @@
 ﻿using IDE.Controls;
 using IDE.Helper;
 using IDE.Helper.Custom;
-using IDE.Preferences;
 using IDE.Views.AdditionViews;
 using IDE.Views.ToolWindows;
 using Slang.IDE.Shared.Enumerations;
@@ -12,15 +11,15 @@ namespace IDE.Views
 {
     public partial class FrmMain : Form
     {
-        private readonly Templates _templates;
         private UcFileExplorer FileExplorer;
         private ToolWindowOutput OutputWindow;
+        private ToolWindowBreakpoints BreakpointWindow;
         public FrmMain()
         {
             InitializeComponent();
             InitialiseToolWindows();
 
-            FileExplorer.BuildTreeView();
+            FileExplorer!.BuildTreeView();
             var s = new Preferences.Shortcut();
             s.Bind();
             Text = $"{Sessions.SlangProject.Name} - Slang IDE";
@@ -31,62 +30,21 @@ namespace IDE.Views
             PaintAllComponents();
         }
 
+        #region Helper Functions 
         private void InitialiseToolWindows()
         {
             FileExplorer ??= new UcFileExplorer()
             {
                 Name = "FileExplorer",
             };
+
+            FileExplorer.Width = 200;
             FileExplorer.Show(MainDockPanel, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
         }
 
         private void InitialiseTreeViewEvents()
         {
             FileExplorer.FileExplorerTree.NodeMouseDoubleClick += FileExplorerTree_NodeMouseDoubleClick;
-        }
-
-        private void FileExplorerTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            var selectedNode = e.Node as TreeNodeExtented;
-
-            if (selectedNode.FileType == TreeFileType.Folder || selectedNode.FileType == TreeFileType.Solution)
-            {
-                return;
-            }
-
-            var file = Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(e.Node.Name));
-
-            var dockPanel = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.TabText == file.Name);
-
-            if (dockPanel != null)
-            {
-                dockPanel.DockHandler.Activate();
-                return;
-            }
-
-            // Open the file
-            var text = File.ReadAllText(Path.Combine(Sessions.ProjectPath, file.FilePath));
-
-            var uc_textEditor = new SlangTextEditor();
-            uc_textEditor.Text = file.Name;
-            uc_textEditor.EditorText = text;
-            uc_textEditor.CaretPositionChanged += Uc_textEditor_CaretPositionChanged;
-
-            if (MainDockPanel.DocumentStyle == WeifenLuo.WinFormsUI.Docking.DocumentStyle.SystemMdi)
-            {
-                uc_textEditor.MdiParent = this;
-                uc_textEditor.Show();
-            }
-            else
-            {
-                uc_textEditor.Show(MainDockPanel);
-            }
-        }
-        private void Uc_textEditor_CaretPositionChanged(object sender, CaretPositionEventArgs e)
-        {
-            LblLine.Text = e.Line.ToString();
-            LblColumn.Text = e.Column.ToString();
-            LblPosition.Text = e.Position.ToString();
         }
 
         private void PaintAllComponents()
@@ -146,6 +104,32 @@ namespace IDE.Views
             _saveAll.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _saveAll.Name = "{AD0947D5-18C5-4A74-A6CC-3335F49652F7}";
             _saveAll.Click += BtnSaveAll_Click;
+
+            _edit.DropDownItems.Add(new DarkThemeToolStripSeparator());
+
+            var _findAndReplace = new ToolStripMenuItem();
+            _edit.DropDownItems.Add(_findAndReplace);
+            _findAndReplace.ForeColor = Color.WhiteSmoke;
+            _findAndReplace.Text = "&Find && &Replace";
+            _findAndReplace.Name = "{B4F64CC4-87C2-4617-B2A3-B0B70EAD66A8}";
+
+            var _quickFind = new ToolStripMenuItem();
+            _findAndReplace.DropDownItems.Add(_quickFind);
+            _quickFind.ForeColor = Color.WhiteSmoke;
+            _quickFind.Text = "&Quick Find";
+            _quickFind.ShowShortcutKeys = true;
+            _quickFind.ShortcutKeys = Keys.Control | Keys.F;
+            _quickFind.Name = "{BD6EBEDC-AB4B-4C02-A98E-8D71A4B2A6AF}";
+            _quickFind.Click += _quickFind_Click;
+
+            var _advanceFind = new ToolStripMenuItem();
+            _findAndReplace.DropDownItems.Add(_advanceFind);
+            _advanceFind.ForeColor = Color.WhiteSmoke;
+            _advanceFind.Text = "&Advanced Find";
+            _advanceFind.ShowShortcutKeys = true;
+            _advanceFind.ShortcutKeys = Keys.Control | Keys.Shift | Keys.F;
+            _advanceFind.Name = "{F1865F55-1B9F-45B4-8BC7-80E113DD61BA}";
+            _advanceFind.Click += _advanceFind_Click;
 
             _edit.DropDownItems.Add(new DarkThemeToolStripSeparator());
 
@@ -232,10 +216,31 @@ namespace IDE.Views
             _outputView.Name = "{468A04C9-1A10-4F3F-9937-30A26375E2C4}";
             _outputView.Click += ShowOutput;
 
+            var _breakpointView = new ToolStripMenuItem();
+            _view.DropDownItems.Add(_breakpointView);
+            _breakpointView.ForeColor = Color.WhiteSmoke;
+            _breakpointView.Text = "Breakpoints";
+            _breakpointView.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _breakpointView.Name = "{098DB9F1-30A8-47D0-9C64-28769CD0A602}";
+            _breakpointView.Click += ShowBreakpoints;
+
             var _build = new ToolStripMenuItem();
             _build.Text = "&Build";
             _build.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _build.Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}";
+
+            var _tools = new ToolStripMenuItem();
+            _tools.Text = "&Tools";
+            _tools.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tools.Name = "{203ad593-4af3-4440-8739-503098765556}";
+
+            var _guidgenerator = new ToolStripMenuItem();
+            _tools.DropDownItems.Add(_guidgenerator);
+            _guidgenerator.ForeColor = Color.WhiteSmoke;
+            _guidgenerator.Text = "GUID Generator";
+            _guidgenerator.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _guidgenerator.Name = "{aa7215ff-8d7e-41e5-910d-66c6f8ef19f6}";
+            _guidgenerator.Click += OpenGuidGenerator;
 
             var _options = new ToolStripMenuItem();
             _options.Text = "&Options";
@@ -267,62 +272,122 @@ namespace IDE.Views
             _title.ForeColor = Color.WhiteSmoke;
             //Add these controls to main menu
             MainMenuStrip.Items.Add(new ToolStripSeparator());
-            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _options });
+            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _tools, _options });
             MainMenuStrip.ForeColor = Color.WhiteSmoke;
             #endregion
-
-
         }
 
-        private async void ShowOutput(object sender, EventArgs e)
+        private void _advanceFind_Click(object sender, EventArgs e)
         {
-            if (OutputWindow is null || OutputWindow.IsDisposed)
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
+
+            if (selectedForm is null)
+                return;
+
+            selectedForm.ShowAdvancedFind();
+        }
+
+        private void _quickFind_Click(object sender, EventArgs e)
+        {
+            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
+
+            if (selectedForm is null)
+                return;
+
+            selectedForm.ShowQuickFind();
+        }
+        #endregion
+
+        #region TreeView's Events
+        private void FileExplorerTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var selectedNode = e.Node as TreeNodeExtented;
+
+            if (selectedNode.FileType == TreeFileType.Folder || selectedNode.FileType == TreeFileType.Solution)
             {
-                OutputWindow = new ToolWindowOutput();
+                return;
             }
 
-            OutputWindow.Show(MainDockPanel, DockState.DockBottom);
+            var file = Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(e.Node.Name));
 
-            OutputWindow.WriteLine("=== Slang IDE Output ===", Color.Red);
-        }
+            var dockPanel = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.TabText == file.Name);
 
-        private void ShowFileExplorer(object sender, EventArgs e)
-        {
-            if (FileExplorer.IsDisposed || FileExplorer is null)
+            if (dockPanel != null)
             {
-                FileExplorer = new UcFileExplorer();
+                dockPanel.DockHandler.Activate();
+                return;
             }
 
-            FileExplorer.Show(MainDockPanel, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
-        }
+            // Open the file
+            var text = File.ReadAllText(Path.Combine(Sessions.ProjectPath, file.FilePath));
 
-        private void OpenAbout(object sender, EventArgs e)
-        {
-            using var aboutForm = new FrmAbout();
-            aboutForm.ShowDialog();
-        }
+            var uc_textEditor = new SlangTextEditor();
+            uc_textEditor.Text = file.Name;
+            uc_textEditor.EditorText = text;
+            uc_textEditor.CaretPositionChanged += Uc_textEditor_CaretPositionChanged;
+            uc_textEditor.BreakpointAdded += Uc_textEditor_BreakpointAdded;
+            uc_textEditor.BreakpointDeleted += Uc_textEditor_BreakpointDeleted;
 
-        private void OpenPreferences(object sender, EventArgs e)
-        {
-            using var preferenceForm = new FrmPreferences();
-            preferenceForm.ShowDialog();
+            if (MainDockPanel.DocumentStyle == WeifenLuo.WinFormsUI.Docking.DocumentStyle.SystemMdi)
+            {
+                uc_textEditor.MdiParent = this;
+                uc_textEditor.Show();
+            }
+            else
+            {
+                uc_textEditor.Show(MainDockPanel);
+            }
         }
+        #endregion
 
+        #region Form's Events 
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }
+        #endregion
 
-        private void Tsi_Exit_Click(object sender, EventArgs e)
+        #region Text Editor Event 
+        private void Uc_textEditor_CaretPositionChanged(object sender, CaretPositionEventArgs e)
         {
-            Application.Exit();
+            LblLine.Text = e.Line.ToString();
+            LblColumn.Text = e.Column.ToString();
+            LblPosition.Text = e.Position.ToString();
         }
 
+        private void Uc_textEditor_BreakpointDeleted(object sender, EventArgs e)
+        {
+            if (BreakpointWindow is null || BreakpointWindow.IsDisposed)
+                return;
+
+            BreakpointWindow.ClearBreakpointList();
+
+            foreach (var breakpoint in Sessions.Breakpoints)
+            {
+                BreakpointWindow.AddBreakpointToList(breakpoint.Name, breakpoint.FilePath, breakpoint.Line.ToString());
+            }
+        }
+
+        private void Uc_textEditor_BreakpointAdded(object sender, EventArgs e)
+        {
+            if (BreakpointWindow is null || BreakpointWindow.IsDisposed)
+                return;
+
+            BreakpointWindow.ClearBreakpointList();
+
+            foreach (var breakpoint in Sessions.Breakpoints)
+            {
+                BreakpointWindow.AddBreakpointToList(breakpoint.Name, breakpoint.FilePath, breakpoint.Line.ToString());
+            }
+        }
+        #endregion
+
+        #region Menu Strip Events & Tool bar  
         private void BtnSave_Click(object sender, EventArgs e)
         {
             // Check if there is a tab opened
             var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
-            ;
+
             if (selectedForm == null)
             {
                 return;
@@ -339,8 +404,18 @@ namespace IDE.Views
                 return;
             }
 
-            using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
-            streamWriter.WriteLine(selectedForm.EditorText);
+            try
+            {
+                using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
+                streamWriter.WriteLine(selectedForm.EditorText);
+            }
+            catch (Exception ex)
+            {
+                LblStatusMessage.Text = $"An error has occured: {ex.Message}";
+                return;
+            }
+
+            LblStatusMessage.Text = $"{filesText} has been saved";
         }
 
         private void BtnSaveAll_Click(object sender, EventArgs e)
@@ -358,10 +433,20 @@ namespace IDE.Views
                         return;
                     }
 
-                    using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
-                    streamWriter.WriteLine(editor.EditorText);
+                    try
+                    {
+                        using var streamWriter = new StreamWriter($"{Sessions.ProjectPath}/{actualFile.FilePath}");
+                        streamWriter.WriteLine(editor.EditorText);
+                    }
+                    catch (Exception ex)
+                    {
+                        LblStatusMessage.Text = $"An error has occured when trying to save {filesText}";
+                        return;
+                    }
                 }
             }
+
+            LblStatusMessage.Text = $"Item(s) Saved";
         }
 
         private void BtnUndo_Click(object sender, EventArgs e)
@@ -438,6 +523,7 @@ namespace IDE.Views
 
         private void BtnRun_Click(object sender, EventArgs e)
         {
+            LblStatusMessage.Text = $"Build Started...";
             ShowOutput(sender, e);
             OutputWindow.WriteLine("Compiling has been started...");
             var startInfo = new ProcessStartInfo();
@@ -447,18 +533,84 @@ namespace IDE.Views
             startInfo.RedirectStandardInput = true;
             startInfo.Arguments = $"{Sessions.ProjectPath}/{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath} -s";
             startInfo.CreateNoWindow = true;
-            startInfo.FileName = "C:\\Sycada\\local\\IDE\\SlangMiddleware\\bin\\Debug\\net7.0\\smc.exe";
+            startInfo.FileName = "smc.exe";
 
             var process = new Process();
             process.StartInfo = startInfo;
             process.OutputDataReceived += (ss, ee) =>
             {
+                LblStatusMessage.Text = $"Build Completed...";
                 OutputWindow.WriteLine(ee.Data, Color.Green);
             };
 
             process.Start();
             process.BeginOutputReadLine();
         }
+
+        private void Tsi_Exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void OpenAbout(object sender, EventArgs e)
+        {
+            using var aboutForm = new FrmAbout();
+            aboutForm.ShowDialog();
+        }
+
+        private void OpenPreferences(object sender, EventArgs e)
+        {
+            using var preferenceForm = new FrmPreferences();
+            preferenceForm.ShowDialog();
+
+            foreach (IDockContent dockContent in MainDockPanel.Documents)
+            {
+                if (dockContent is SlangTextEditor editor)
+                {
+                    editor.ReloadFonts();
+                }
+            }
+        }
+
+        private async void ShowOutput(object sender, EventArgs e)
+        {
+            if (OutputWindow is null || OutputWindow.IsDisposed)
+            {
+                OutputWindow = new ToolWindowOutput();
+            }
+
+            OutputWindow.Show(MainDockPanel, DockState.DockBottom);
+
+            OutputWindow.WriteLine("=== Slang IDE Output ===", Color.Red);
+        }
+
+        private void ShowBreakpoints(object sender, EventArgs e)
+        {
+            if (BreakpointWindow is null || BreakpointWindow.IsDisposed)
+            {
+                BreakpointWindow = new ToolWindowBreakpoints();
+            }
+
+            BreakpointWindow.Show(MainDockPanel, DockState.DockBottom);
+        }
+
+        private void OpenGuidGenerator(object sender, EventArgs e)
+        {
+            var startInfo = new ProcessStartInfo();
+            startInfo.FileName = "guidgenerator.exe";
+            Process.Start(startInfo);
+        }
+
+        private void ShowFileExplorer(object sender, EventArgs e)
+        {
+            if (FileExplorer.IsDisposed || FileExplorer is null)
+            {
+                FileExplorer = new UcFileExplorer();
+            }
+
+            FileExplorer.Show(MainDockPanel, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
+        }
+        #endregion
 
 
         //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

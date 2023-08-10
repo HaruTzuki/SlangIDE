@@ -1,6 +1,7 @@
 ﻿using IDE.Controls;
 using IDE.Helper;
 using IDE.Helper.Custom;
+using IDE.Preferences;
 using IDE.Views.AdditionViews;
 using IDE.Views.ToolWindows;
 using Slang.IDE.Shared.Enumerations;
@@ -68,7 +69,7 @@ namespace IDE.Views
             _recentProjects.ForeColor = Color.WhiteSmoke;
             _recentProjects.Text = "Recent Projects";
             _recentProjects.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _newProject.Name = "{A843B137-28E3-4842-BEB0-17A7C7D41437}";
+            _recentProjects.Name = "{A843B137-28E3-4842-BEB0-17A7C7D41437}";
 
             _file.DropDownItems.Add(new DarkThemeToolStripSeparator());
 
@@ -275,6 +276,11 @@ namespace IDE.Views
             MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _tools, _options });
             MainMenuStrip.ForeColor = Color.WhiteSmoke;
             #endregion
+        }
+
+        private ToolStripItemCollection GetRecentProjects()
+        {
+            throw new NotImplementedException();
         }
 
         private void _advanceFind_Click(object sender, EventArgs e)
@@ -610,18 +616,46 @@ namespace IDE.Views
 
             FileExplorer.Show(MainDockPanel, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
         }
+
+        private void FrmMain_Shown(object sender, EventArgs e)
+        {
+            FillRecentProjects();
+        }
+
+        private Task FillRecentProjects()
+        {
+            var recentProjects = Functions.LoadRecent();
+
+            if (!recentProjects.Any())
+                return Task.CompletedTask;
+
+            foreach(var recentProject in  recentProjects)
+            {
+                var toolStripMenu = new ToolStripMenuItem();
+                toolStripMenu.Name = Guid.NewGuid().ToString("B");
+                toolStripMenu.Tag = recentProject;
+                toolStripMenu.ForeColor = Color.WhiteSmoke;
+                toolStripMenu.Text = $"{recentProject.Name} ({recentProject.Path})";
+                toolStripMenu.Click += OpenRenceProject;
+                ToolStripMenuItem recentMenu = (ToolStripMenuItem) MainMenuStrip.Items.Find("{A843B137-28E3-4842-BEB0-17A7C7D41437}", true)[0]!;
+                recentMenu.DropDownItems.Add(toolStripMenu);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private void OpenRenceProject(object sender, EventArgs e)
+        {
+            var recentProject = (RecentProject)((ToolStripMenuItem)sender).Tag;
+
+            var startInfo = new ProcessStartInfo();
+            startInfo.FileName = "slangdev.exe";
+            startInfo.Arguments = recentProject.Path;
+
+            var process = new Process();
+            process.StartInfo = startInfo;
+            process.Start();
+        }
         #endregion
-
-
-        //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        //{
-        //    if (SystemPreferences.Shortcuts.ContainsKey(keyData))
-        //    {
-        //        SystemPreferences.Shortcuts[keyData].Invoke();
-        //        return true;
-        //    }
-
-        //    return base.ProcessCmdKey(ref msg, keyData);
-        //}
     }
 }

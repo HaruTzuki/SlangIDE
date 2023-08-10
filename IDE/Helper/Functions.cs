@@ -7,6 +7,10 @@ namespace IDE.Helper
 {
     public static class Functions
     {
+        private static readonly string _recentPath = Settings.Default["FileFolder"].ToString();
+        private static readonly string _recentFilePath = Path.Combine(_recentPath, Settings.Default["RecentFile"].ToString());
+
+        #region Project
         public static void CreateProject(string path, string name, Templates templates)
         {
             if (!Directory.Exists(path))
@@ -89,7 +93,6 @@ namespace IDE.Helper
             sw.WriteLine(JsonConvert.SerializeObject(Sessions.SlangProject, Formatting.Indented));
         }
 
-
         public static void LoadProject(string projectPath)
         {
             if (string.IsNullOrEmpty(projectPath))
@@ -111,40 +114,75 @@ namespace IDE.Helper
             Sessions.ProjectPath = Directory.GetParent(Directory.GetParent(projectPath).FullName).FullName + "\\";
         }
 
+        #endregion
+
+        #region Recent
         private static void SaveToRecent(string actualPath, SlangProject slangProject)
         {
-            var path = slangProject.FilePath;
-            var recentProjectFilePath = Path.Combine(Settings.Default["FileFolder"].ToString(), Settings.Default["RecentFile"].ToString());
-
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(_recentPath))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(_recentPath);
             }
 
-            if (!File.Exists(recentProjectFilePath))
+            if (!File.Exists(_recentFilePath))
             {
-                File.WriteAllText(recentProjectFilePath, "[]");
+                File.WriteAllText(_recentFilePath, "[]");
             }
 
-            using var streamReader = new StreamReader(recentProjectFilePath);
+            using var streamReader = new StreamReader(_recentFilePath);
             var projects = JsonConvert.DeserializeObject<List<RecentProject>>(streamReader.ReadToEnd()) ?? new List<RecentProject>();
 
             projects.Add(new RecentProject
             {
                 Name = slangProject.Name,
                 Path = Path.Combine(actualPath, slangProject.FilePath, slangProject.Name + ".slangproject"),
-                CreatedOn = DateTime.Now
+                Date = DateTime.Now
             });
 
             streamReader.Close();
 
+            SaveRecent(projects);
+        }
 
-            var jsonText = JsonConvert.SerializeObject(projects, Formatting.Indented);
-            using var streamWriter = new StreamWriter(recentProjectFilePath);
+        public static void SaveRecent(IEnumerable<RecentProject> recentProjects)
+        {
+            var jsonText = JsonConvert.SerializeObject(recentProjects, Formatting.Indented);
+            using var streamWriter = new StreamWriter(_recentFilePath);
             streamWriter.WriteLine(jsonText);
             streamWriter.Close();
         }
 
+        public static IEnumerable<RecentProject> LoadRecent()
+        {
+
+            if (!Directory.Exists(_recentPath))
+            {
+                Directory.CreateDirectory(_recentPath);
+            }
+
+            if (!File.Exists(_recentFilePath))
+            {
+                File.WriteAllText(_recentFilePath, "[]");
+            }
+
+            using var streamReader = new StreamReader(_recentFilePath);
+            return JsonConvert.DeserializeObject<IEnumerable<RecentProject>>(streamReader.ReadToEnd()) ?? Enumerable.Empty<RecentProject>();
+        }
+
+        public static void UpdateRecendProject(RecentProject project)
+        {
+            var recentProjects = LoadRecent();
+
+            if (recentProjects.Any(x => x.Name == project.Name && x.Path == project.Path))
+            {
+                recentProjects.First(x => x.Name == project.Name && x.Path == project.Path).Date = DateTime.Now;
+            }
+
+            SaveRecent(recentProjects);
+        }
+        #endregion
+
+        #region Various Methods
         public static int Map(int value, int inMin, int inMax, int outMin, int outMax)
         {
             return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
@@ -164,5 +202,8 @@ namespace IDE.Helper
 
             return null;
         }
+        #endregion
+
+        
     }
 }

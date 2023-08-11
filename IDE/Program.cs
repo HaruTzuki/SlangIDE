@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace IDE
 {
     internal static class Program
@@ -10,10 +12,24 @@ namespace IDE
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            //ApplicationConfiguration.Initialize();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Application.ThreadException += Application_ThreadException;
+
             Application.Run(new Views.FrmSplashScreen(args));
+        }
+
+        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            var exception = $"{e.Exception.Message} Inner Exception: {e.Exception.InnerException}";
+
+            var startInfo = new ProcessStartInfo();
+            startInfo.FileName = "crashreport.exe";
+            startInfo.Arguments = $"\"{exception}\"";
+
+            Process.Start(startInfo);
+            Application.Exit();
         }
     }
 }

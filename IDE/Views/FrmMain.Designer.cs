@@ -59,7 +59,6 @@
             // EditorsTools
             // 
             this.EditorsTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.EditorsTools.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.EditorsTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.BtnUndo,
             this.BtnRedo,
@@ -73,7 +72,7 @@
             this.EditorsTools.Name = "EditorsTools";
             this.EditorsTools.Padding = new System.Windows.Forms.Padding(4);
             this.EditorsTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.EditorsTools.Size = new System.Drawing.Size(892, 35);
+            this.EditorsTools.Size = new System.Drawing.Size(892, 31);
             this.EditorsTools.TabIndex = 2;
             this.EditorsTools.Text = "toolStrip1";
             // 
@@ -83,7 +82,7 @@
             this.BtnUndo.Image = ((System.Drawing.Image)(resources.GetObject("BtnUndo.Image")));
             this.BtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnUndo.Name = "BtnUndo";
-            this.BtnUndo.Size = new System.Drawing.Size(24, 24);
+            this.BtnUndo.Size = new System.Drawing.Size(23, 20);
             this.BtnUndo.Text = "Undo";
             this.BtnUndo.ToolTipText = "Undo";
             this.BtnUndo.Click += new System.EventHandler(this.BtnUndo_Click);
@@ -94,14 +93,14 @@
             this.BtnRedo.Image = global::IDE.Properties.Resources.redo;
             this.BtnRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnRedo.Name = "BtnRedo";
-            this.BtnRedo.Size = new System.Drawing.Size(24, 24);
+            this.BtnRedo.Size = new System.Drawing.Size(23, 20);
             this.BtnRedo.Text = "Redo";
             this.BtnRedo.Click += new System.EventHandler(this.BtnRedo_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
             // 
             // BtnSave
             // 
@@ -109,7 +108,7 @@
             this.BtnSave.Image = global::IDE.Properties.Resources.save;
             this.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(24, 24);
+            this.BtnSave.Size = new System.Drawing.Size(23, 20);
             this.BtnSave.Text = "Save";
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
@@ -119,14 +118,14 @@
             this.BtnSaveAll.Image = ((System.Drawing.Image)(resources.GetObject("BtnSaveAll.Image")));
             this.BtnSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnSaveAll.Name = "BtnSaveAll";
-            this.BtnSaveAll.Size = new System.Drawing.Size(24, 24);
+            this.BtnSaveAll.Size = new System.Drawing.Size(23, 20);
             this.BtnSaveAll.Text = "Save All";
             this.BtnSaveAll.Click += new System.EventHandler(this.BtnSaveAll_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
             // 
             // BtnRun
             // 
@@ -134,7 +133,7 @@
             this.BtnRun.Image = global::IDE.Properties.Resources.run;
             this.BtnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnRun.Name = "BtnRun";
-            this.BtnRun.Size = new System.Drawing.Size(24, 24);
+            this.BtnRun.Size = new System.Drawing.Size(23, 20);
             this.BtnRun.Text = "Run Without Debugging";
             this.BtnRun.Click += new System.EventHandler(this.BtnRun_Click);
             // 
@@ -144,8 +143,9 @@
             this.BtnDebug.Image = global::IDE.Properties.Resources.debug;
             this.BtnDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnDebug.Name = "BtnDebug";
-            this.BtnDebug.Size = new System.Drawing.Size(24, 24);
+            this.BtnDebug.Size = new System.Drawing.Size(23, 20);
             this.BtnDebug.Text = "Debug";
+            this.BtnDebug.Click += new System.EventHandler(this.BtnDebug_Click);
             // 
             // MainMenuStrip
             // 
@@ -240,11 +240,11 @@
             // 
             this.MainDockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainDockPanel.DockBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.MainDockPanel.Location = new System.Drawing.Point(0, 59);
+            this.MainDockPanel.Location = new System.Drawing.Point(0, 55);
             this.MainDockPanel.Name = "MainDockPanel";
             this.MainDockPanel.Padding = new System.Windows.Forms.Padding(6);
             this.MainDockPanel.ShowAutoHideContentOnHover = false;
-            this.MainDockPanel.Size = new System.Drawing.Size(892, 573);
+            this.MainDockPanel.Size = new System.Drawing.Size(892, 577);
             this.MainDockPanel.TabIndex = 4;
             this.MainDockPanel.Theme = this.DarkTheme;
             // 

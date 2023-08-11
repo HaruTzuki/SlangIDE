@@ -657,5 +657,13 @@ namespace IDE.Views
             process.Start();
         }
         #endregion
+
+        private void BtnDebug_Click(object sender, EventArgs e)
+        {
+            var d = 0;
+            var v = 5;
+
+            Console.WriteLine(v / d);
+        }
     }
 }

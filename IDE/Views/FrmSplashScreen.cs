@@ -1,6 +1,7 @@
 ﻿using IDE.Helper;
 using IDE.Helper.Custom;
 using IDE.Preferences;
+using Slang.IDE.Cache;
 
 namespace IDE.Views
 {
@@ -19,6 +20,12 @@ namespace IDE.Views
         private async void FrmSplashScreen_Shown(object sender, EventArgs e)
         {
             await Task.Delay(5000);
+
+            // Create Database and Tables
+            var sqlite = new Dblite();
+            sqlite.CreateModel();
+
+
             if (_args.Length > 0)
             {
                 await OpenFromFile();

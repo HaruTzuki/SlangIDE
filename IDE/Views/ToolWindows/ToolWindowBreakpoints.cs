@@ -1,5 +1,7 @@
 ﻿using IDE.Abstraction;
 using IDE.Helper;
+using Slang.IDE.Cache.Queries;
+using Slang.IDE.Shared.IDE;
 
 namespace IDE.Views.ToolWindows
 {
@@ -30,6 +32,13 @@ namespace IDE.Views.ToolWindows
             foreach (var breakpoint in Sessions.Breakpoints)
             {
                 AddBreakpointToList(breakpoint.Name, breakpoint.FilePath, breakpoint.Line.ToString());
+            }
+
+
+            var mRet = BookmarkQueriesCollection.FetchAll();
+            foreach(var bookmark in  mRet)
+            {
+                AddBreakpointToList(bookmark.Name, bookmark.FilePath, bookmark.Line.ToString());
             }
         }
 

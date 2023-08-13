@@ -9,7 +9,7 @@ namespace IDE.Helper.Custom
     {
         #region Customisations for Form Maximize, Resize, Painting
         private bool isResizing = false;
-        private int lastMouseX, lastMouseY;
+        private readonly int lastMouseX, lastMouseY;
 
 
         private const int WM_NCHITTEST = 0x0084;
@@ -23,26 +23,14 @@ namespace IDE.Helper.Custom
         private const int HTBOTTOMLEFT = 16;
         private const int HTBOTTOMRIGHT = 17;
 
-        private int resizeRegion = 5; // Adjust this value as needed
+        private readonly int resizeRegion = 5; // Adjust this value as needed
         private const int WM_GETMINMAXINFO = 0x0024;
         #endregion
 
-        private bool _allowResizing;
         [Browsable(true), Category("SlangCustom")]
-        public bool AllowResizing
-        {
-            get { return _allowResizing; }
-            set { _allowResizing = value; }
-        }
-
-
-        private Color _borderColour = Color.DarkOrange;
+        public bool AllowResizing { get; set; }
         [Browsable(true), Category("SlangCustom"), Description("You can change the border's colour.")]
-        public Color BorderColour
-        {
-            get { return _borderColour; }
-            set { _borderColour = value; }
-        }
+        public Color BorderColour { get; set; } = Color.DarkOrange;
 
         public SlangIDEForm()
         {
@@ -101,7 +89,7 @@ namespace IDE.Helper.Custom
 
             switch (m.Msg)
             {
-                case WM_GETMINMAXINFO when _allowResizing:
+                case WM_GETMINMAXINFO when AllowResizing:
                     MINMAXINFO mmi = (MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(MINMAXINFO));
 
                     // Adjust the maximum size of the window
@@ -110,11 +98,11 @@ namespace IDE.Helper.Custom
 
                     Marshal.StructureToPtr(mmi, m.LParam, true);
                     break;
-                case WM_NCHITTEST when _allowResizing:
+                case WM_NCHITTEST when AllowResizing:
                     base.WndProc(ref m);
                     if (m.Result.ToInt32() == HTCLIENT)
                     {
-                        Point screenPoint = new Point(m.LParam.ToInt32());
+                        Point screenPoint = new(m.LParam.ToInt32());
                         Point clientPoint = this.PointToClient(screenPoint);
 
                         if (clientPoint.Y < resizeRegion)
@@ -162,23 +150,10 @@ namespace IDE.Helper.Custom
         }
         #endregion
 
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // SlangIDEForm
-            // 
-            this.ClientSize = new System.Drawing.Size(695, 412);
-            this.Name = "SlangIDEForm";
-            this.ResumeLayout(false);
-
-        }
-
         #region Border Color
         private void SlangIDEForm_Paint(object? sender, PaintEventArgs e)
         {
-            Pen actualBorderColour = new Pen(_borderColour);
+            Pen actualBorderColour = new(BorderColour);
             e.Graphics.DrawRectangle(actualBorderColour, 0, 0, this.Width - 1, this.Height - 1);
         }
         #endregion

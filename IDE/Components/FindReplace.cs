@@ -10,7 +10,7 @@ namespace IDE.Components
     public class FindReplace : Component
     {
         #region Fields
-        private SearchFlags _flags;
+        private readonly SearchFlags _flags;
         private IncrementalSearch _incrementalSearch;
         private Indicator _indicator;
         private int _lastReplaceAllOffset = 0;
@@ -77,7 +77,7 @@ namespace IDE.Components
 
                 _window.TextEditor = _textEditor;
                 _window.FindReplace = this;
-                _window.KeyPressed += _window_KeyPressed;
+                _window.KeyPressed += Window_KeyPressed;
 
                 _incrementalSearch = CreateIncrementalSearcherInstance();
                 _incrementalSearch.TextEditor = _textEditor;
@@ -99,10 +99,9 @@ namespace IDE.Components
         /// <param name="e">The key info of the key(s) pressed.</param>
         public delegate void KeyPressedHandler(object sender, KeyEventArgs e);
 
-        private void _window_KeyPressed(object sender, System.Windows.Forms.KeyEventArgs e)
+        private void Window_KeyPressed(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (KeyPressed != null)
-                KeyPressed(this, e);
+            KeyPressed?.Invoke(this, e);
         }
 
         //[Editor(typeof(ScintillaNET.Design.FlagEnumUIEditor), typeof(System.Drawing.Design.UITypeEditor))]

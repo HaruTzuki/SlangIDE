@@ -24,9 +24,11 @@ namespace IDE
         {
             var exception = $"{e.Exception.Message} Inner Exception: {e.Exception.InnerException}";
 
-            var startInfo = new ProcessStartInfo();
-            startInfo.FileName = "crashreport.exe";
-            startInfo.Arguments = $"\"{exception}\"";
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "crashreport.exe",
+                Arguments = $"\"{exception}\""
+            };
 
             Process.Start(startInfo);
             Application.Exit();

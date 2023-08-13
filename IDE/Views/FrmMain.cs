@@ -1,9 +1,12 @@
 ﻿using IDE.Controls;
+using IDE.Events;
 using IDE.Helper;
 using IDE.Helper.Custom;
 using IDE.Preferences;
 using IDE.Views.AdditionViews;
 using IDE.Views.ToolWindows;
+using Slang.IDE.Cache;
+using Slang.IDE.Cache.Queries;
 using Slang.IDE.Shared.Enumerations;
 using System.Diagnostics;
 using WeifenLuo.WinFormsUI.Docking;
@@ -15,21 +18,28 @@ namespace IDE.Views
         private UcFileExplorer FileExplorer;
         private ToolWindowOutput OutputWindow;
         private ToolWindowBreakpoints BreakpointWindow;
+        private ToolWindowBookmarks BookmarkWindow;
+
+
+        #region Custom Events
+        public event EventHandler BookmarkChanged;
+        #endregion
+
+#pragma warning disable CS8618
         public FrmMain()
         {
             InitializeComponent();
             InitialiseToolWindows();
-
+            Text = $"{Sessions.SlangProject.Name} - Slang IDE";
             FileExplorer!.BuildTreeView();
+            InitialiseTreeViewEvents();
+            MainMenuStrip.Renderer = new DarkThemeRenderer();
+            PaintAllComponents();
+
             var s = new Preferences.Shortcut();
             s.Bind();
-            Text = $"{Sessions.SlangProject.Name} - Slang IDE";
-            MainMenuStrip.Renderer = new DarkThemeRenderer();
-
-            InitialiseTreeViewEvents();
-
-            PaintAllComponents();
         }
+#pragma warning restore CS8618
 
         #region Helper Functions 
         private void InitialiseToolWindows()
@@ -52,10 +62,12 @@ namespace IDE.Views
         {
             /* Menu Items */
             #region Headers
-            var _file = new ToolStripMenuItem();
-            _file.Text = "&File";
-            _file.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _file.Name = "{2AD31557-A841-47E2-835B-6BCAE286E486}";
+            var _file = new ToolStripMenuItem
+            {
+                Text = "&File",
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Name = "{2AD31557-A841-47E2-835B-6BCAE286E486}"
+            };
 
             var _newProject = new ToolStripMenuItem();
             _file.DropDownItems.Add(_newProject);
@@ -81,10 +93,12 @@ namespace IDE.Views
             _exitApplication.Name = "{0FC4B816-6630-4A57-8C0D-A5B7A1C6E94D}";
             _exitApplication.Click += Tsi_Exit_Click;
 
-            var _edit = new ToolStripMenuItem();
-            _edit.Text = "&Edit";
-            _edit.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _edit.Name = "{3CB0541E-C0B1-499B-BB10-05C17E8E25A7}";
+            var _edit = new ToolStripMenuItem
+            {
+                Text = "&Edit",
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Name = "{3CB0541E-C0B1-499B-BB10-05C17E8E25A7}"
+            };
 
             var _save = new ToolStripMenuItem();
             _edit.DropDownItems.Add(_save);
@@ -121,7 +135,7 @@ namespace IDE.Views
             _quickFind.ShowShortcutKeys = true;
             _quickFind.ShortcutKeys = Keys.Control | Keys.F;
             _quickFind.Name = "{BD6EBEDC-AB4B-4C02-A98E-8D71A4B2A6AF}";
-            _quickFind.Click += _quickFind_Click;
+            _quickFind.Click += QuickFind;
 
             var _advanceFind = new ToolStripMenuItem();
             _findAndReplace.DropDownItems.Add(_advanceFind);
@@ -130,7 +144,7 @@ namespace IDE.Views
             _advanceFind.ShowShortcutKeys = true;
             _advanceFind.ShortcutKeys = Keys.Control | Keys.Shift | Keys.F;
             _advanceFind.Name = "{F1865F55-1B9F-45B4-8BC7-80E113DD61BA}";
-            _advanceFind.Click += _advanceFind_Click;
+            _advanceFind.Click += AdvanceFind;
 
             _edit.DropDownItems.Add(new DarkThemeToolStripSeparator());
 
@@ -196,10 +210,39 @@ namespace IDE.Views
             _selectAll.Name = "{8412BF81-0790-4527-9E59-C5C005D6F7CD}";
             _selectAll.Click += BtnSelectAll_Click;
 
-            var _view = new ToolStripMenuItem();
-            _view.Text = "&View";
-            _view.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _view.Name = "{2B4BEB13-BA3D-44A2-BD29-95B6329BA6F1}";
+            _edit.DropDownItems.Add(new DarkThemeToolStripSeparator());
+
+            var _bookmarks = new ToolStripMenuItem();
+            _edit.DropDownItems.Add(_bookmarks);
+            _bookmarks.ForeColor = Color.WhiteSmoke;
+            _bookmarks.Text = "Bookmarks";
+            _bookmarks.Name = "{3B40BF38-2782-4A0C-ADD2-0780B289A189}";
+
+            var _toggleBookmark = new ToolStripMenuItem();
+            _bookmarks.DropDownItems.Add(_toggleBookmark);
+            _toggleBookmark.ForeColor = Color.WhiteSmoke;
+            _toggleBookmark.Text = "Toggle Bookmark";
+            _toggleBookmark.Name = "{5FF0043D-C3D1-48D3-94E0-C2777E4ABBA5}";
+            _toggleBookmark.ShowShortcutKeys = true;
+            _toggleBookmark.ShortcutKeys = Keys.Control | Keys.K;
+            _toggleBookmark.Click += ToggleBookmark;
+
+            var _removeAllBookmarks = new ToolStripMenuItem();
+            _bookmarks.DropDownItems.Add(_removeAllBookmarks);
+            _removeAllBookmarks.ForeColor = Color.WhiteSmoke;
+            _removeAllBookmarks.Text = "Remove all Bookmarks";
+            _removeAllBookmarks.Name = "{2bd41a6a-b059-427f-a1be-1cec4bd0b2cb}";
+            _removeAllBookmarks.ShowShortcutKeys = true;
+            _removeAllBookmarks.ShortcutKeys = Keys.Control | Keys.D;
+            _removeAllBookmarks.Click += DeleteAllBookmarks;
+
+
+            var _view = new ToolStripMenuItem
+            {
+                Text = "&View",
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Name = "{2B4BEB13-BA3D-44A2-BD29-95B6329BA6F1}"
+            };
 
             var _fileExplorerView = new ToolStripMenuItem();
             _view.DropDownItems.Add(_fileExplorerView);
@@ -220,20 +263,32 @@ namespace IDE.Views
             var _breakpointView = new ToolStripMenuItem();
             _view.DropDownItems.Add(_breakpointView);
             _breakpointView.ForeColor = Color.WhiteSmoke;
-            _breakpointView.Text = "Breakpoints";
+            _breakpointView.Text = "Breakpoints Window";
             _breakpointView.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _breakpointView.Name = "{098DB9F1-30A8-47D0-9C64-28769CD0A602}";
             _breakpointView.Click += ShowBreakpoints;
 
-            var _build = new ToolStripMenuItem();
-            _build.Text = "&Build";
-            _build.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _build.Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}";
+            var _bookmarkWindow = new ToolStripMenuItem();
+            _view.DropDownItems.Add(_bookmarkWindow);
+            _bookmarkWindow.ForeColor = Color.WhiteSmoke;
+            _bookmarkWindow.Text = "Bookmarks Window";
+            _bookmarkWindow.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _bookmarkWindow.Name = "{8BD5BACE-4F39-4853-A6BA-B81C368F7C20}";
+            _bookmarkWindow.Click += ShowBookmark;
 
-            var _tools = new ToolStripMenuItem();
-            _tools.Text = "&Tools";
-            _tools.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tools.Name = "{203ad593-4af3-4440-8739-503098765556}";
+            var _build = new ToolStripMenuItem
+            {
+                Text = "&Build",
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}"
+            };
+
+            var _tools = new ToolStripMenuItem
+            {
+                Text = "&Tools",
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Name = "{203ad593-4af3-4440-8739-503098765556}"
+            };
 
             var _guidgenerator = new ToolStripMenuItem();
             _tools.DropDownItems.Add(_guidgenerator);
@@ -243,10 +298,12 @@ namespace IDE.Views
             _guidgenerator.Name = "{aa7215ff-8d7e-41e5-910d-66c6f8ef19f6}";
             _guidgenerator.Click += OpenGuidGenerator;
 
-            var _options = new ToolStripMenuItem();
-            _options.Text = "&Options";
-            _options.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _options.Name = "{BAE30586-48BC-44A8-AF3E-BA2399D74B18}";
+            var _options = new ToolStripMenuItem
+            {
+                Text = "&Options",
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Name = "{BAE30586-48BC-44A8-AF3E-BA2399D74B18}"
+            };
 
             var _preferences = new ToolStripMenuItem();
             _options.DropDownItems.Add(_preferences);
@@ -267,40 +324,18 @@ namespace IDE.Views
             _about.Click += OpenAbout;
 
 
-            var _title = new ToolStripLabel();
-            _title.Text = $"{Sessions.SlangProject.Name} - Slang IDE";
-            _title.BackColor = Color.FromArgb(61, 61, 61);
-            _title.ForeColor = Color.WhiteSmoke;
+            var _title = new ToolStripLabel
+            {
+                Text = $"{Sessions.SlangProject.Name} - Slang IDE",
+                BackColor = Color.FromArgb(61, 61, 61),
+                ForeColor = Color.WhiteSmoke
+            };
+
             //Add these controls to main menu
             MainMenuStrip.Items.Add(new ToolStripSeparator());
             MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _tools, _options });
             MainMenuStrip.ForeColor = Color.WhiteSmoke;
             #endregion
-        }
-
-        private ToolStripItemCollection GetRecentProjects()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void _advanceFind_Click(object sender, EventArgs e)
-        {
-            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
-
-            if (selectedForm is null)
-                return;
-
-            selectedForm.ShowAdvancedFind();
-        }
-
-        private void _quickFind_Click(object sender, EventArgs e)
-        {
-            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
-
-            if (selectedForm is null)
-                return;
-
-            selectedForm.ShowQuickFind();
         }
         #endregion
 
@@ -327,12 +362,17 @@ namespace IDE.Views
             // Open the file
             var text = File.ReadAllText(Path.Combine(Sessions.ProjectPath, file.FilePath));
 
-            var uc_textEditor = new SlangTextEditor();
-            uc_textEditor.Text = file.Name;
-            uc_textEditor.EditorText = text;
+            var uc_textEditor = new SlangTextEditor
+            {
+                Text = file.Name,
+                EditorText = text,
+                FilePath = file.FilePath
+            };
             uc_textEditor.CaretPositionChanged += Uc_textEditor_CaretPositionChanged;
             uc_textEditor.BreakpointAdded += Uc_textEditor_BreakpointAdded;
             uc_textEditor.BreakpointDeleted += Uc_textEditor_BreakpointDeleted;
+            uc_textEditor.BookmarkAdded += Uc_textEditor_BookmarkAdded;
+            uc_textEditor.BookmarkDeleted += Uc_textEditor_BookmarkDeleted; ;
 
             if (MainDockPanel.DocumentStyle == WeifenLuo.WinFormsUI.Docking.DocumentStyle.SystemMdi)
             {
@@ -386,15 +426,29 @@ namespace IDE.Views
                 BreakpointWindow.AddBreakpointToList(breakpoint.Name, breakpoint.FilePath, breakpoint.Line.ToString());
             }
         }
+
+        private void Uc_textEditor_BookmarkAdded(object sender, BookmarkEventArgs e)
+        {
+
+            BookmarkQueriesCollection.Insert(e.FileLocation, e.Line);
+            BookmarkChanged?.Invoke(this, new EventArgs());
+
+        }
+
+        private void Uc_textEditor_BookmarkDeleted(object sender, BookmarkEventArgs e)
+        {
+            BookmarkQueriesCollection.Delete(e.FileLocation, e.Line);
+            BookmarkChanged?.Invoke(this, new EventArgs());
+        }
+
         #endregion
 
         #region Menu Strip Events & Tool bar  
         private void BtnSave_Click(object sender, EventArgs e)
         {
             // Check if there is a tab opened
-            var selectedForm = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) as SlangTextEditor;
 
-            if (selectedForm == null)
+            if (MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) is not SlangTextEditor selectedForm)
             {
                 return;
             }
@@ -532,17 +586,21 @@ namespace IDE.Views
             LblStatusMessage.Text = $"Build Started...";
             ShowOutput(sender, e);
             OutputWindow.WriteLine("Compiling has been started...");
-            var startInfo = new ProcessStartInfo();
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardInput = true;
-            startInfo.Arguments = $"{Sessions.ProjectPath}/{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath} -s";
-            startInfo.CreateNoWindow = true;
-            startInfo.FileName = "smc.exe";
+            var startInfo = new ProcessStartInfo
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                Arguments = $"{Sessions.ProjectPath}/{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath} -s",
+                CreateNoWindow = true,
+                FileName = "smc.exe"
+            };
 
-            var process = new Process();
-            process.StartInfo = startInfo;
+            var process = new Process
+            {
+                StartInfo = startInfo
+            };
             process.OutputDataReceived += (ss, ee) =>
             {
                 LblStatusMessage.Text = $"Build Completed...";
@@ -602,8 +660,10 @@ namespace IDE.Views
 
         private void OpenGuidGenerator(object sender, EventArgs e)
         {
-            var startInfo = new ProcessStartInfo();
-            startInfo.FileName = "guidgenerator.exe";
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "guidgenerator.exe"
+            };
             Process.Start(startInfo);
         }
 
@@ -629,32 +689,86 @@ namespace IDE.Views
             if (!recentProjects.Any())
                 return Task.CompletedTask;
 
-            foreach(var recentProject in  recentProjects)
+            foreach (var recentProject in recentProjects)
             {
-                var toolStripMenu = new ToolStripMenuItem();
-                toolStripMenu.Name = Guid.NewGuid().ToString("B");
-                toolStripMenu.Tag = recentProject;
-                toolStripMenu.ForeColor = Color.WhiteSmoke;
-                toolStripMenu.Text = $"{recentProject.Name} ({recentProject.Path})";
-                toolStripMenu.Click += OpenRenceProject;
-                ToolStripMenuItem recentMenu = (ToolStripMenuItem) MainMenuStrip.Items.Find("{A843B137-28E3-4842-BEB0-17A7C7D41437}", true)[0]!;
+                var toolStripMenu = new ToolStripMenuItem
+                {
+                    Name = Guid.NewGuid().ToString("B"),
+                    Tag = recentProject,
+                    ForeColor = Color.WhiteSmoke,
+                    Text = $"{recentProject.Name} ({recentProject.Path})"
+                };
+                toolStripMenu.Click += OpenRencentProject;
+                ToolStripMenuItem recentMenu = (ToolStripMenuItem)MainMenuStrip.Items.Find("{A843B137-28E3-4842-BEB0-17A7C7D41437}", true)[0]!;
                 recentMenu.DropDownItems.Add(toolStripMenu);
             }
 
             return Task.CompletedTask;
         }
 
-        private void OpenRenceProject(object sender, EventArgs e)
+        private void OpenRencentProject(object sender, EventArgs e)
         {
             var recentProject = (RecentProject)((ToolStripMenuItem)sender).Tag;
 
-            var startInfo = new ProcessStartInfo();
-            startInfo.FileName = "slangdev.exe";
-            startInfo.Arguments = recentProject.Path;
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "slangdev.exe",
+                Arguments = recentProject.Path
+            };
 
-            var process = new Process();
-            process.StartInfo = startInfo;
+            var process = new Process
+            {
+                StartInfo = startInfo
+            };
             process.Start();
+        }
+
+        private void DeleteAllBookmarks(object sender, EventArgs e)
+        {
+            BookmarkQueriesCollection.RemoveAllBookmarks();
+            BookmarkChanged?.Invoke(this, new EventArgs());
+
+            foreach (SlangTextEditor form in MainDockPanel.Documents.Cast<SlangTextEditor>())
+            {
+                form.DeleteAllBookmarks();
+            }
+        }
+
+        private void ShowBookmark(object sender, EventArgs e)
+        {
+            if (BookmarkWindow is null || BookmarkWindow.IsDisposed)
+            {
+                BookmarkWindow = new ToolWindowBookmarks(this);
+            }
+
+            BookmarkWindow.Show(MainDockPanel, DockState.DockBottom);
+        }
+
+        private void ToggleBookmark(object sender, EventArgs e)
+        {
+            if (MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) is not SlangTextEditor selectedForm)
+            {
+                return;
+            }
+
+            selectedForm.ToggleBookmark();
+        }
+
+
+        private void AdvanceFind(object sender, EventArgs e)
+        {
+            if (MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) is not SlangTextEditor selectedForm)
+                return;
+
+            selectedForm.ShowAdvancedFind();
+        }
+
+        private void QuickFind(object sender, EventArgs e)
+        {
+            if (MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.IsActivated) is not SlangTextEditor selectedForm)
+                return;
+
+            selectedForm.ShowQuickFind();
         }
         #endregion
 
@@ -665,5 +779,11 @@ namespace IDE.Views
 
             Console.WriteLine(v / d);
         }
+
+
+        #region Methods
+        #endregion
+
+        
     }
 }

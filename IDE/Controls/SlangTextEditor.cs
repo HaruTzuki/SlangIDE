@@ -1,23 +1,32 @@
 ﻿using IDE.Components;
+using IDE.Events;
 using IDE.Helper;
 using IDE.Preferences;
 using IDE.Properties;
 using IDE.Views.TextEditorViews;
 using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.FileIO;
 using ScintillaNET;
+using Slang.IDE.Cache.Queries;
 using Slang.IDE.Shared.Extensions;
 using Slang.IDE.Shared.Helpers;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace IDE.Controls
 {
+    /// <summary>
+    /// TODO Add new property for file path
+    /// </summary>
     public partial class SlangTextEditor : DockContent
     {
         #region Constants
         private const int NUMBER_MARGIN = 1;
         private const int BREAKPOINT_MARGIN = 2;
         private const int BREAKPOINT_MARKER = 2;
+        private const int BOOKMARK_MARKER = 4;
+        private const int BOOKMARK_MARGIN = -2;
         private const int FOLDING_MARGIN = 3;
         private const bool CODEFOLDING_CIRCULAR = true;
 
@@ -27,7 +36,7 @@ namespace IDE.Controls
         #endregion
 
         #region Zoom Lists
-        private IReadOnlyDictionary<string, int> _zoomValues = new Dictionary<string, int>() { { "20%", -10 }, { "50%", -6 }, { "100%", 0 }, { "150%", 7 }, { "200%", 14 }, { "250%", 20 } };
+        private readonly IReadOnlyDictionary<string, int> _zoomValues = new Dictionary<string, int>() { { "20%", -10 }, { "50%", -6 }, { "100%", 0 }, { "150%", 7 }, { "200%", 14 }, { "250%", 20 } };
         #endregion
         #endregion
 
@@ -43,17 +52,22 @@ namespace IDE.Controls
                 textEditor.Text = value;
             }
         }
+#pragma warning disable S1104
+        public string FilePath = string.Empty;
+#pragma warning restore S1104
         #endregion
 
         #region Events 
         public event EventHandler<CaretPositionEventArgs> CaretPositionChanged;
         public event EventHandler BreakpointAdded;
         public event EventHandler BreakpointDeleted;
+        public event EventHandler<BookmarkEventArgs> BookmarkAdded;
+        public event EventHandler<BookmarkEventArgs> BookmarkDeleted;
         #endregion
 
-        private FindReplace _findReplace;
+        private readonly FindReplace _findReplace;
 
-
+#pragma warning disable CS8618
         public SlangTextEditor()
         {
             InitializeComponent();
@@ -64,21 +78,11 @@ namespace IDE.Controls
             InitEvents();
 
             _findReplace = new FindReplace(textEditor);
-            //_findReplace.FindAllResults += _findReplace_FindAllResults;
-            //_findReplace.KeyPressed += _findReplace_KeyPressed;
 
             incrementalSearch1.FindReplace = _findReplace;
         }
+#pragma warning restore CS8618
 
-        private void _findReplace_KeyPressed(object sender, KeyEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void _findReplace_FindAllResults(object sender, FindResultsEventArgs FindAllResults)
-        {
-            throw new NotImplementedException();
-        }
 
         #region Initial Functions
 
@@ -93,6 +97,7 @@ namespace IDE.Controls
             textEditor.MouseUp += TextEditor_MouseUp;
             textEditor.TextChanged += TextEditor_TextChanged;
             textEditor.ZoomChanged += TextEditor_ZoomChanged;
+           
 
             CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
         }
@@ -117,25 +122,6 @@ namespace IDE.Controls
 
         private void TextEditor_KeyDown(object sender, KeyEventArgs e)
         {
-            //if(e.KeyCode == Keys.Control | e.KeyCode == Keys.Shift | e.KeyCode == Keys.F)
-            //{
-            //    ShowAdvancedFind();
-            //    e.SuppressKeyPress = true;
-            //}
-
-            //if (e.KeyCode == Keys.Control | e.KeyCode == Keys.F)
-            //{
-            //    ShowQuickFind();
-            //    e.SuppressKeyPress = true;
-            //}
-
-
-            //if (e.Control && e.Shift && e.KeyData == Keys.H)
-            //{
-            //    _findReplace.ShowReplace();
-            //    e.SuppressKeyPress = true;
-            //}
-
             // Go To Line
             if (e.KeyCode == Keys.Control | e.KeyCode == Keys.G)
             {
@@ -146,6 +132,22 @@ namespace IDE.Controls
                 {
                     textEditor.GotoPosition(textEditor.Lines[frmGoToLine.ReturnedLine].Position);
                 }
+            }
+        }
+
+        public void ToggleBookmark()
+        {
+            const uint mask = (1 << BOOKMARK_MARKER);
+            var line = textEditor.Lines[textEditor.LineFromPosition(textEditor.CurrentPosition)];
+            if ((line.MarkerGet() & mask) > 0)
+            {
+                line.MarkerDelete(BOOKMARK_MARKER);
+                OnBookmarkDeleted(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath, textEditor.CurrentLine + 1));
+            }
+            else
+            {
+                line.MarkerAdd(BOOKMARK_MARKER);
+                OnBookmarkAdded(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath, textEditor.CurrentLine + 1));
             }
         }
 
@@ -238,6 +240,19 @@ namespace IDE.Controls
             marker.SetBackColor(ColourHelper.IntToColour(0xFF003B));
             marker.SetForeColor(ColourHelper.IntToColour(0x000000));
             marker.SetAlpha(100);
+
+            var bookmarkMargin = textEditor.Margins[BOOKMARK_MARGIN];
+            bookmarkMargin.Width = 20;
+            bookmarkMargin.Sensitive = true;
+            bookmarkMargin.Type = MarginType.Symbol;
+            bookmarkMargin.Mask = (1 << BOOKMARK_MARKER);
+
+
+            var bookmarkMarker = textEditor.Markers[BOOKMARK_MARKER];
+            bookmarkMarker.Symbol = MarkerSymbol.Bookmark;
+            bookmarkMarker.SetBackColor(ColourHelper.IntToColour(0x1f88d9));
+            bookmarkMarker.SetForeColor(ColourHelper.IntToColour(0x000000));
+            bookmarkMarker.SetAlpha(100);
         }
 
         private void InitCodeFolding()
@@ -343,10 +358,10 @@ namespace IDE.Controls
                 string curLineText = textEditor.GetTextRange(startPos, (endPos - startPos)); //Text until the caret so that the whitespace is always equal in every line.
 
                 Match indent = Regex.Match(curLineText, "^[ \\t]*");
-                e.Text = (e.Text + indent.Value);
+                e.Text += indent.Value;
                 if (Regex.IsMatch(curLineText, "{\\s*$"))
                 {
-                    e.Text = (e.Text + Constants.vbTab);
+                    e.Text += Constants.vbTab;
                 }
             }
         }
@@ -440,6 +455,9 @@ namespace IDE.Controls
         private void SlangTextEditor_Shown(object sender, EventArgs e)
         {
             textEditor.Focus();
+
+            // Load Bookmarks
+            LoadBookmarks();
         }
 
         private void CbxZoom_SelectedIndexChanged(object sender, EventArgs e)
@@ -482,6 +500,16 @@ namespace IDE.Controls
         {
             BreakpointDeleted?.Invoke(this, e);
         }
+
+        protected virtual void OnBookmarkAdded(BookmarkEventArgs e)
+        {
+            BookmarkAdded?.Invoke(this, e);
+        }
+
+        protected virtual void OnBookmarkDeleted(BookmarkEventArgs e)
+        {
+            BookmarkDeleted?.Invoke(this, e);
+        }
         #endregion
 
         #region Helper Functions 
@@ -522,6 +550,36 @@ namespace IDE.Controls
             InitBookmarkMargin();
             InitCodeFolding();
         }
+
+        public void DeleteAllBookmarks()
+        {
+            textEditor.MarkerDeleteAll(BOOKMARK_MARKER);
+        }
+
+        private void LoadBookmarks()
+        {
+            var bookmarks = BookmarkQueriesCollection.FetchAll(FilePath);
+
+
+            foreach (var bookmark in bookmarks)
+            {
+                var line = textEditor.Lines[bookmark.Line - 1];
+                line.MarkerAdd(BOOKMARK_MARKER);
+            }
+
+        }
         #endregion
+
+        private void PnlBookmark_Paint(object sender, PaintEventArgs e)
+        {
+            // Clear previous drawings
+            e.Graphics.Clear(PnlBookmark.BackColor);
+
+            // Example: Draw a circle marker at the center of the panel
+            int centerX = PnlBookmark.Width / 2;
+            int centerY = PnlBookmark.Height / 2;
+            int radius = 8;
+            e.Graphics.FillEllipse(Brushes.Red, centerX - radius, centerY - radius, radius * 2, radius * 2);
+        }
     }
 }

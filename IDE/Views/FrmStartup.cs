@@ -26,9 +26,9 @@ namespace IDE.Views
                     Name = $"Btn_{project.Name.Replace(" ", "_")}",
                     Text = $"{project.Name}",
                     Height = 100,
-                    FlatStyle = FlatStyle.Flat
+                    FlatStyle = FlatStyle.Flat,
+                    Dock = DockStyle.Top
                 };
-                btn.Dock = DockStyle.Top;
                 btn.FlatAppearance.BorderSize = 0;
                 btn.TextAlign = ContentAlignment.MiddleLeft;
                 btn.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
@@ -60,9 +60,11 @@ namespace IDE.Views
 
         private void BtnLoadSlangProject_Click(object sender, EventArgs e)
         {
-            var ofd = new OpenFileDialog();
-            ofd.Filter = "Slag Project|*.slangproject";
-            ofd.Title = "Open Slang Project";
+            var ofd = new OpenFileDialog
+            {
+                Filter = "Slag Project|*.slangproject",
+                Title = "Open Slang Project"
+            };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 Functions.LoadProject(ofd.FileName);

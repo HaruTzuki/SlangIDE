@@ -38,6 +38,9 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.BtnRun = new System.Windows.Forms.ToolStripButton();
             this.BtnDebug = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnToggleBookmark = new System.Windows.Forms.ToolStripButton();
+            this.BtnDeleteAllBookmarks = new System.Windows.Forms.ToolStripButton();
             this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusProgress = new System.Windows.Forms.ToolStripProgressBar();
@@ -67,7 +70,10 @@
             this.BtnSaveAll,
             this.toolStripSeparator2,
             this.BtnRun,
-            this.BtnDebug});
+            this.BtnDebug,
+            this.toolStripSeparator3,
+            this.BtnToggleBookmark,
+            this.BtnDeleteAllBookmarks});
             this.EditorsTools.Location = new System.Drawing.Point(0, 24);
             this.EditorsTools.Name = "EditorsTools";
             this.EditorsTools.Padding = new System.Windows.Forms.Padding(4);
@@ -146,6 +152,32 @@
             this.BtnDebug.Size = new System.Drawing.Size(23, 20);
             this.BtnDebug.Text = "Debug";
             this.BtnDebug.Click += new System.EventHandler(this.BtnDebug_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
+            // 
+            // BtnToggleBookmark
+            // 
+            this.BtnToggleBookmark.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnToggleBookmark.Image = ((System.Drawing.Image)(resources.GetObject("BtnToggleBookmark.Image")));
+            this.BtnToggleBookmark.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnToggleBookmark.Name = "BtnToggleBookmark";
+            this.BtnToggleBookmark.Size = new System.Drawing.Size(23, 20);
+            this.BtnToggleBookmark.Text = "Toggle Bookmark";
+            this.BtnToggleBookmark.Click += new System.EventHandler(this.ToggleBookmark);
+            // 
+            // BtnDeleteAllBookmarks
+            // 
+            this.BtnDeleteAllBookmarks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnDeleteAllBookmarks.Image = global::IDE.Properties.Resources.Bookmark_Delete_All;
+            this.BtnDeleteAllBookmarks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnDeleteAllBookmarks.Name = "BtnDeleteAllBookmarks";
+            this.BtnDeleteAllBookmarks.Size = new System.Drawing.Size(23, 20);
+            this.BtnDeleteAllBookmarks.Text = "Delete all Bookmarks";
+            this.BtnDeleteAllBookmarks.ToolTipText = "Delete all Bookmarks from all files";
+            this.BtnDeleteAllBookmarks.Click += new System.EventHandler(this.DeleteAllBookmarks);
             // 
             // MainMenuStrip
             // 
@@ -302,5 +334,8 @@
         private WeifenLuo.WinFormsUI.Docking.DockPanel MainDockPanel;
         private ToolStripStatusLabel LblColumnText;
         private ToolStripStatusLabel LblColumn;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripButton BtnToggleBookmark;
+        private ToolStripButton BtnDeleteAllBookmarks;
     }
 }

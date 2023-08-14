@@ -5,20 +5,15 @@ using IDE.Preferences;
 using IDE.Properties;
 using IDE.Views.TextEditorViews;
 using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.FileIO;
 using ScintillaNET;
 using Slang.IDE.Cache.Queries;
 using Slang.IDE.Shared.Extensions;
 using Slang.IDE.Shared.Helpers;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace IDE.Controls
 {
-    /// <summary>
-    /// TODO Add new property for file path
-    /// </summary>
     public partial class SlangTextEditor : DockContent
     {
         #region Constants
@@ -97,68 +92,9 @@ namespace IDE.Controls
             textEditor.MouseUp += TextEditor_MouseUp;
             textEditor.TextChanged += TextEditor_TextChanged;
             textEditor.ZoomChanged += TextEditor_ZoomChanged;
-           
+
 
             CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
-        }
-
-        private void TextEditor_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar < 32)
-            {
-                e.Handled = true;
-                return;
-            }
-            
-            // If you stored the results in a list, you can now use them as needed.
-            // For example, display them in a message box or update a UI element.
-            CbxAvailableMethods.DataSource = SystemPreferences.UserDefineFunctions;
-            CbxAvailableMethods.DisplayMember = "Name";
-            CbxAvailableMethods.ValueMember = "Column";
-            CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
-            InitSyntaxHighlitning();
-            textEditor.Update();
-        }
-
-        private void TextEditor_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Go To Line
-            if (e.KeyCode == Keys.Control | e.KeyCode == Keys.G)
-            {
-                using var frmGoToLine = new FrmGoToLine(textEditor.LineFromPosition(textEditor.CurrentPosition), textEditor.Lines.Count);
-                var dr = frmGoToLine.ShowDialog();
-
-                if (dr == DialogResult.OK)
-                {
-                    textEditor.GotoPosition(textEditor.Lines[frmGoToLine.ReturnedLine].Position);
-                }
-            }
-        }
-
-        public void ToggleBookmark()
-        {
-            const uint mask = (1 << BOOKMARK_MARKER);
-            var line = textEditor.Lines[textEditor.LineFromPosition(textEditor.CurrentPosition)];
-            if ((line.MarkerGet() & mask) > 0)
-            {
-                line.MarkerDelete(BOOKMARK_MARKER);
-                OnBookmarkDeleted(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath, textEditor.CurrentLine + 1));
-            }
-            else
-            {
-                line.MarkerAdd(BOOKMARK_MARKER);
-                OnBookmarkAdded(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath, textEditor.CurrentLine + 1));
-            }
-        }
-
-        public void ShowQuickFind()
-        {
-            _findReplace.ShowIncrementalSearch();
-        }
-
-        public void ShowAdvancedFind()
-        {
-            _findReplace.ShowFind();
         }
 
         private void SetupInitSettings()
@@ -294,6 +230,39 @@ namespace IDE.Controls
         #endregion
 
         #region Events
+        private void TextEditor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar < 32)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // If you stored the results in a list, you can now use them as needed.
+            // For example, display them in a message box or update a UI element.
+            CbxAvailableMethods.DataSource = SystemPreferences.UserDefineFunctions;
+            CbxAvailableMethods.DisplayMember = "Name";
+            CbxAvailableMethods.ValueMember = "Column";
+            CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
+            InitSyntaxHighlitning();
+            textEditor.Update();
+        }
+
+        private void TextEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Go To Line
+            if (e.KeyCode == Keys.Control | e.KeyCode == Keys.G)
+            {
+                using var frmGoToLine = new FrmGoToLine(textEditor.LineFromPosition(textEditor.CurrentPosition), textEditor.Lines.Count);
+                var dr = frmGoToLine.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    textEditor.GotoPosition(textEditor.Lines[frmGoToLine.ReturnedLine].Position);
+                }
+            }
+        }
+
         private void SlangTextEditor_Load(object sender, EventArgs e)
         {
             InitColours();
@@ -567,6 +536,32 @@ namespace IDE.Controls
                 line.MarkerAdd(BOOKMARK_MARKER);
             }
 
+        }
+
+        public void ToggleBookmark()
+        {
+            const uint mask = (1 << BOOKMARK_MARKER);
+            var line = textEditor.Lines[textEditor.LineFromPosition(textEditor.CurrentPosition)];
+            if ((line.MarkerGet() & mask) > 0)
+            {
+                line.MarkerDelete(BOOKMARK_MARKER);
+                OnBookmarkDeleted(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text && x.FilePath == FilePath).Id.ToString(), FilePath, textEditor.CurrentLine + 1));
+            }
+            else
+            {
+                line.MarkerAdd(BOOKMARK_MARKER);
+                OnBookmarkAdded(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text && x.FilePath == FilePath).Id.ToString(), FilePath, textEditor.CurrentLine + 1));
+            }
+        }
+
+        public void ShowQuickFind()
+        {
+            _findReplace.ShowIncrementalSearch();
+        }
+
+        public void ShowAdvancedFind()
+        {
+            _findReplace.ShowFind();
         }
         #endregion
 

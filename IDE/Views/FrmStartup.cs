@@ -1,7 +1,5 @@
 ﻿using IDE.Helper;
 using IDE.Preferences;
-using IDE.Properties;
-using Newtonsoft.Json;
 
 namespace IDE.Views
 {

@@ -41,10 +41,10 @@ namespace IDE.Views
             Functions.LoadProject(_args[0]);
 
             var recentProjects = Functions.LoadRecent().ToList();
-            
-            if(recentProjects.Exists(x=>x.Path == _args[0]))
+
+            if (recentProjects.Exists(x => x.Path == _args[0]))
             {
-                Functions.UpdateRecendProject(recentProjects.First(x=>x.Path == _args[0]));
+                Functions.UpdateRecendProject(recentProjects.First(x => x.Path == _args[0]));
             }
             else
             {

@@ -30,7 +30,7 @@ namespace Slang.IDE.Tools.CrashReport
                 httpClient.BaseAddress = new Uri("https://api.enaliosnaxos.com");
                 var response = await httpClient.PostAsync("api/crash", new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8));
 
-                if(response.StatusCode != HttpStatusCode.OK)
+                if (response.StatusCode != HttpStatusCode.OK)
                 {
                     throw new HttpRequestException(await response.Content.ReadAsStringAsync());
                 }

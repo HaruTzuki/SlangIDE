@@ -9,7 +9,7 @@ namespace Slang.IDE.Tools.CrashReport
         static void Main(string[] args)
         {
             var exceptionString = "";
-            if(args.Length > 0)
+            if (args.Length > 0)
                 exceptionString = args[0];
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.

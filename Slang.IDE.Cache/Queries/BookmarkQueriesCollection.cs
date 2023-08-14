@@ -3,7 +3,6 @@ using Slang.IDE.Domain.Entities.IDE;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Text;
 
 namespace Slang.IDE.Cache.Queries
 {
@@ -20,14 +19,20 @@ namespace Slang.IDE.Cache.Queries
         {
             CheckConnection();
 
-            using var command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Bookmarks (Name TEXT, FilePath TEXT, Line INTEGER, PRIMARY KEY(FilePath, Line));", _connection);
+            using var command = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Bookmarks (Id TEXT
+, Name TEXT
+, FilePath TEXT
+, Line INTEGER
+, Created INTEGER
+, PRIMARY KEY(Id, FilePath, Line));", _connection);
             command.ExecuteNonQuery();
         }
 
-        public static bool Insert(string filePath, int line)
+        public static bool Insert(string id, string filePath, int line)
         {
-            using var command = new SQLiteCommand("INSERT INTO Bookmarks (Name, FilePath, Line)" +
-                " SELECT @Name || (SELECT ifnull(max(substr(Name, 9, 1)),0)+1 from Bookmarks WHERE Name like '%Bookmark%'), @FilePath, @Line", _connection);
+            using var command = new SQLiteCommand("INSERT INTO Bookmarks (Id, Name, FilePath, Line, Created)" +
+                " SELECT @Id, @Name || (SELECT ifnull(max(substr(Name, 9, 1)),0)+1 from Bookmarks WHERE Name like '%Bookmark%'), @FilePath, @Line, strftime('%s','now')", _connection);
+            command.Parameters.AddWithValue("@Id", id);
             command.Parameters.AddWithValue("@Name", "Bookmark");
             command.Parameters.AddWithValue("@FilePath", filePath);
             command.Parameters.AddWithValue("@Line", line);
@@ -35,9 +40,10 @@ namespace Slang.IDE.Cache.Queries
             return command.ExecuteNonQuery() > 0;
         }
 
-        public static bool Delete(string filePath, int line)
+        public static bool Delete(string id, string filePath, int line)
         {
-            using var command = new SQLiteCommand("DELETE FROM Bookmarks WHERE FilePath = @FilePath AND Line = @Line", _connection);
+            using var command = new SQLiteCommand("DELETE FROM Bookmarks WHERE FilePath = @FilePath AND Line = @Line AND Id = @Id", _connection);
+            command.Parameters.AddWithValue("@Id", id);
             command.Parameters.AddWithValue("@FilePath", filePath);
             command.Parameters.AddWithValue("@Line", line);
 
@@ -64,7 +70,7 @@ namespace Slang.IDE.Cache.Queries
 
         public static IEnumerable<Bookmark> FetchAll()
         {
-            using var command = new SQLiteCommand("SELECT * FROM Bookmarks", _connection);
+            using var command = new SQLiteCommand("SELECT * FROM Bookmarks ORDER BY Created ASC", _connection);
 
             var reader = command.ExecuteReader();
 
@@ -75,7 +81,8 @@ namespace Slang.IDE.Cache.Queries
                 {
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     FilePath = reader.GetString(reader.GetOrdinal("FilePath")),
-                    Line = reader.GetInt32(reader.GetOrdinal("Line"))
+                    Line = reader.GetInt32(reader.GetOrdinal("Line")),
+                    Id = reader.GetString(reader.GetOrdinal("Id"))
                 });
             }
 
@@ -88,7 +95,7 @@ namespace Slang.IDE.Cache.Queries
                 throw new ArgumentNullException(nameof(filter));
             CheckConnection();
 
-            using var command = new SQLiteCommand("SELECT * FROM Bookmarks WHERE FilePath = @FilePath", _connection);
+            using var command = new SQLiteCommand("SELECT * FROM Bookmarks WHERE FilePath = @FilePath ORDER BY Created ASC", _connection);
             command.Parameters.AddWithValue("@FilePath", filter);
 
             var reader = command.ExecuteReader();
@@ -100,7 +107,8 @@ namespace Slang.IDE.Cache.Queries
                 {
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     FilePath = reader.GetString(reader.GetOrdinal("FilePath")),
-                    Line = reader.GetInt32(reader.GetOrdinal("Line"))
+                    Line = reader.GetInt32(reader.GetOrdinal("Line")),
+                    Id = reader.GetString(reader.GetOrdinal("Id"))
                 });
             }
 

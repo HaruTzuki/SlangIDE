@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle4 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle5 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle6 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ToolWindowBookmarks));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.BtnToggleBookmark = new System.Windows.Forms.ToolStripButton();
@@ -41,6 +41,7 @@
             this.BookmarkColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FileColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LineNumberColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.IdColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,18 +86,18 @@
             // 
             // headerFormatStyle1
             // 
-            headerStateStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            headerStateStyle4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            headerStateStyle4.FrameColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.headerFormatStyle1.Hot = headerStateStyle4;
-            headerStateStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            headerStateStyle5.ForeColor = System.Drawing.Color.WhiteSmoke;
-            headerStateStyle5.FrameColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.headerFormatStyle1.Normal = headerStateStyle5;
-            headerStateStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            headerStateStyle6.ForeColor = System.Drawing.Color.WhiteSmoke;
-            headerStateStyle6.FrameColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.headerFormatStyle1.Pressed = headerStateStyle6;
+            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            headerStateStyle1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            headerStateStyle1.FrameColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.headerFormatStyle1.Hot = headerStateStyle1;
+            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            headerStateStyle2.ForeColor = System.Drawing.Color.WhiteSmoke;
+            headerStateStyle2.FrameColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.headerFormatStyle1.Normal = headerStateStyle2;
+            headerStateStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            headerStateStyle3.ForeColor = System.Drawing.Color.WhiteSmoke;
+            headerStateStyle3.FrameColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.headerFormatStyle1.Pressed = headerStateStyle3;
             // 
             // BookmarkListView
             // 
@@ -104,7 +105,8 @@
             this.BookmarkListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.BookmarkColumn,
             this.FileColumn,
-            this.LineNumberColumn});
+            this.LineNumberColumn,
+            this.IdColumn});
             this.BookmarkListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BookmarkListView.HideSelection = false;
             this.BookmarkListView.Location = new System.Drawing.Point(0, 25);
@@ -113,6 +115,7 @@
             this.BookmarkListView.TabIndex = 1;
             this.BookmarkListView.UseCompatibleStateImageBehavior = false;
             this.BookmarkListView.View = System.Windows.Forms.View.Details;
+            this.BookmarkListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.BookmarkListView_MouseDoubleClick);
             // 
             // BookmarkColumn
             // 
@@ -128,6 +131,10 @@
             // 
             this.LineNumberColumn.Text = "Line Number";
             this.LineNumberColumn.Width = 100;
+            // 
+            // IdColumn
+            // 
+            this.IdColumn.Width = 0;
             // 
             // ToolWindowBookmarks
             // 
@@ -157,9 +164,10 @@
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton BtnDeleteBookmark;
         private BrightIdeasSoftware.HeaderFormatStyle headerFormatStyle1;
-        private ListView BookmarkListView;
         private ColumnHeader BookmarkColumn;
         private ColumnHeader FileColumn;
         private ColumnHeader LineNumberColumn;
+        private ListView BookmarkListView;
+        private ColumnHeader IdColumn;
     }
 }

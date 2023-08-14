@@ -1,15 +1,7 @@
-﻿using BrightIdeasSoftware;
-using IDE.Abstraction;
+﻿using IDE.Abstraction;
+using IDE.Events;
 using Slang.IDE.Cache.Queries;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using Slang.IDE.Shared.Extensions;
 
 namespace IDE.Views.ToolWindows
 {
@@ -17,13 +9,19 @@ namespace IDE.Views.ToolWindows
     {
         private readonly FrmMain _frmMain;
 
+        #region Events
+        public event EventHandler<BookmarkDoubleClickEventArgs> ItemDoubleClick;
+        #endregion
+
+#pragma warning disable CS8618
         public ToolWindowBookmarks(FrmMain frmMain)
         {
             InitializeComponent();
             _frmMain = frmMain;
             _frmMain.BookmarkChanged += BookmarkChanged;
-            
+
         }
+#pragma warning restore CS8618
 
         private void BookmarkChanged(object sender, EventArgs e)
         {
@@ -38,7 +36,7 @@ namespace IDE.Views.ToolWindows
 
             foreach (var bookmark in mRet)
             {
-                AddBookmarkToList(bookmark.Name, bookmark.FilePath, bookmark.Line.ToString());
+                AddBookmarkToList(bookmark.Id, bookmark.Name, bookmark.FilePath, bookmark.Line.ToString());
             }
 
             BookmarkListView.Refresh();
@@ -50,11 +48,12 @@ namespace IDE.Views.ToolWindows
         /// <param name="bookmarkName"></param>
         /// <param name="fileLocation"></param>
         /// <param name="lineNumber"></param>
-        public void AddBookmarkToList(string bookmarkName, string fileLocation, string lineNumber)
+        public void AddBookmarkToList(string id, string bookmarkName, string fileLocation, string lineNumber)
         {
             var listViewItem = new ListViewItem(bookmarkName);
             listViewItem.SubItems.Add(fileLocation);
             listViewItem.SubItems.Add(lineNumber);
+            listViewItem.SubItems.Add(id);
 
             BookmarkListView.Items.Add(listViewItem);
         }
@@ -80,10 +79,29 @@ namespace IDE.Views.ToolWindows
             }
         }
 
-
         private void ToolWindowBookmarks_Load(object sender, EventArgs e)
         {
             RetriveBookmarks();
+        }
+
+        private void BookmarkListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var info = BookmarkListView.HitTest(e.X, e.Y);
+            var item = info.Item;
+
+            if (item is null)
+                return;
+
+            ItemDoubleClick?.Invoke(this, new BookmarkDoubleClickEventArgs
+            {
+                Bookmark = new()
+                {
+                    Name = item.SubItems[0].Text,
+                    FilePath = item.SubItems[1].Text,
+                    Line = item.SubItems[2].Text.AsInt(),
+                    Id = item.SubItems[3].Text
+                }
+            });
         }
     }
 }

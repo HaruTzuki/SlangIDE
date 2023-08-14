@@ -5,7 +5,6 @@ using IDE.Helper.Custom;
 using IDE.Preferences;
 using IDE.Views.AdditionViews;
 using IDE.Views.ToolWindows;
-using Slang.IDE.Cache;
 using Slang.IDE.Cache.Queries;
 using Slang.IDE.Shared.Enumerations;
 using System.Diagnostics;
@@ -323,14 +322,6 @@ namespace IDE.Views
             _about.Name = "{3CA68831-6586-4E72-9DCE-7894E4A43D52}";
             _about.Click += OpenAbout;
 
-
-            var _title = new ToolStripLabel
-            {
-                Text = $"{Sessions.SlangProject.Name} - Slang IDE",
-                BackColor = Color.FromArgb(61, 61, 61),
-                ForeColor = Color.WhiteSmoke
-            };
-
             //Add these controls to main menu
             MainMenuStrip.Items.Add(new ToolStripSeparator());
             MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _tools, _options });
@@ -344,46 +335,15 @@ namespace IDE.Views
         {
             var selectedNode = e.Node as TreeNodeExtented;
 
-            if (selectedNode.FileType == TreeFileType.Folder || selectedNode.FileType == TreeFileType.Solution)
+            if (selectedNode!.FileType is TreeFileType.Folder or TreeFileType.Solution)
             {
                 return;
             }
 
-            var file = Sessions.SlangProject.Files.FirstOrDefault(x => x.Id == Guid.Parse(e.Node.Name));
-
-            var dockPanel = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.TabText == file.Name);
-
-            if (dockPanel != null)
-            {
-                dockPanel.DockHandler.Activate();
-                return;
-            }
-
-            // Open the file
-            var text = File.ReadAllText(Path.Combine(Sessions.ProjectPath, file.FilePath));
-
-            var uc_textEditor = new SlangTextEditor
-            {
-                Text = file.Name,
-                EditorText = text,
-                FilePath = file.FilePath
-            };
-            uc_textEditor.CaretPositionChanged += Uc_textEditor_CaretPositionChanged;
-            uc_textEditor.BreakpointAdded += Uc_textEditor_BreakpointAdded;
-            uc_textEditor.BreakpointDeleted += Uc_textEditor_BreakpointDeleted;
-            uc_textEditor.BookmarkAdded += Uc_textEditor_BookmarkAdded;
-            uc_textEditor.BookmarkDeleted += Uc_textEditor_BookmarkDeleted; ;
-
-            if (MainDockPanel.DocumentStyle == WeifenLuo.WinFormsUI.Docking.DocumentStyle.SystemMdi)
-            {
-                uc_textEditor.MdiParent = this;
-                uc_textEditor.Show();
-            }
-            else
-            {
-                uc_textEditor.Show(MainDockPanel);
-            }
+            OpenTextEditor(e.Node.Name);
         }
+
+
         #endregion
 
         #region Form's Events 
@@ -430,14 +390,14 @@ namespace IDE.Views
         private void Uc_textEditor_BookmarkAdded(object sender, BookmarkEventArgs e)
         {
 
-            BookmarkQueriesCollection.Insert(e.FileLocation, e.Line);
+            BookmarkQueriesCollection.Insert(e.FileId, e.FileLocation, e.Line);
             BookmarkChanged?.Invoke(this, new EventArgs());
 
         }
 
         private void Uc_textEditor_BookmarkDeleted(object sender, BookmarkEventArgs e)
         {
-            BookmarkQueriesCollection.Delete(e.FileLocation, e.Line);
+            BookmarkQueriesCollection.Delete(e.FileId, e.FileLocation, e.Line);
             BookmarkChanged?.Invoke(this, new EventArgs());
         }
 
@@ -682,30 +642,6 @@ namespace IDE.Views
             FillRecentProjects();
         }
 
-        private Task FillRecentProjects()
-        {
-            var recentProjects = Functions.LoadRecent();
-
-            if (!recentProjects.Any())
-                return Task.CompletedTask;
-
-            foreach (var recentProject in recentProjects)
-            {
-                var toolStripMenu = new ToolStripMenuItem
-                {
-                    Name = Guid.NewGuid().ToString("B"),
-                    Tag = recentProject,
-                    ForeColor = Color.WhiteSmoke,
-                    Text = $"{recentProject.Name} ({recentProject.Path})"
-                };
-                toolStripMenu.Click += OpenRencentProject;
-                ToolStripMenuItem recentMenu = (ToolStripMenuItem)MainMenuStrip.Items.Find("{A843B137-28E3-4842-BEB0-17A7C7D41437}", true)[0]!;
-                recentMenu.DropDownItems.Add(toolStripMenu);
-            }
-
-            return Task.CompletedTask;
-        }
-
         private void OpenRencentProject(object sender, EventArgs e)
         {
             var recentProject = (RecentProject)((ToolStripMenuItem)sender).Tag;
@@ -739,9 +675,12 @@ namespace IDE.Views
             if (BookmarkWindow is null || BookmarkWindow.IsDisposed)
             {
                 BookmarkWindow = new ToolWindowBookmarks(this);
+                BookmarkWindow.ItemDoubleClick += BookmarkWindow_ItemDoubleClick;
             }
 
             BookmarkWindow.Show(MainDockPanel, DockState.DockBottom);
+
+
         }
 
         private void ToggleBookmark(object sender, EventArgs e)
@@ -753,7 +692,6 @@ namespace IDE.Views
 
             selectedForm.ToggleBookmark();
         }
-
 
         private void AdvanceFind(object sender, EventArgs e)
         {
@@ -772,6 +710,20 @@ namespace IDE.Views
         }
         #endregion
 
+        #region Tool Window Events
+        private void BookmarkWindow_ItemDoubleClick(object sender, BookmarkDoubleClickEventArgs e)
+        {
+            OpenTextEditor(e.Bookmark.Id);
+
+            if (MainDockPanel.Documents.First(x => x.DockHandler.IsActivated) is not SlangTextEditor selectedForm)
+            {
+                return;
+            }
+
+            selectedForm.textEditor.GotoPosition(selectedForm.textEditor.Lines[e.Bookmark.Line - 1].Position);
+        }
+        #endregion
+
         private void BtnDebug_Click(object sender, EventArgs e)
         {
             var d = 0;
@@ -782,8 +734,69 @@ namespace IDE.Views
 
 
         #region Methods
+        private void OpenTextEditor(string fileId)
+        {
+            var file = Sessions.SlangProject.Files.First(x => x.Id == Guid.Parse(fileId));
+
+            var dockPanel = MainDockPanel.Documents.FirstOrDefault(x => x.DockHandler.TabText == file.Name);
+
+            if (dockPanel != null)
+            {
+                dockPanel.DockHandler.Activate();
+                return;
+            }
+
+            // Open the file
+            var text = File.ReadAllText(Path.Combine(Sessions.ProjectPath, file.FilePath));
+
+            var uc_textEditor = new SlangTextEditor
+            {
+                Text = file.Name,
+                EditorText = text,
+                FilePath = file.FilePath
+            };
+            uc_textEditor.CaretPositionChanged += Uc_textEditor_CaretPositionChanged;
+            uc_textEditor.BreakpointAdded += Uc_textEditor_BreakpointAdded;
+            uc_textEditor.BreakpointDeleted += Uc_textEditor_BreakpointDeleted;
+            uc_textEditor.BookmarkAdded += Uc_textEditor_BookmarkAdded;
+            uc_textEditor.BookmarkDeleted += Uc_textEditor_BookmarkDeleted;
+
+            if (MainDockPanel.DocumentStyle == WeifenLuo.WinFormsUI.Docking.DocumentStyle.SystemMdi)
+            {
+                uc_textEditor.MdiParent = this;
+                uc_textEditor.Show();
+            }
+            else
+            {
+                uc_textEditor.Show(MainDockPanel);
+            }
+        }
+
+        private Task FillRecentProjects()
+        {
+            var recentProjects = Functions.LoadRecent();
+
+            if (!recentProjects.Any())
+                return Task.CompletedTask;
+
+            foreach (var recentProject in recentProjects)
+            {
+                var toolStripMenu = new ToolStripMenuItem
+                {
+                    Name = Guid.NewGuid().ToString("B"),
+                    Tag = recentProject,
+                    ForeColor = Color.WhiteSmoke,
+                    Text = $"{recentProject.Name} ({recentProject.Path})"
+                };
+                toolStripMenu.Click += OpenRencentProject;
+                ToolStripMenuItem recentMenu = (ToolStripMenuItem)MainMenuStrip.Items.Find("{A843B137-28E3-4842-BEB0-17A7C7D41437}", true)[0]!;
+                recentMenu.DropDownItems.Add(toolStripMenu);
+            }
+
+            return Task.CompletedTask;
+        }
         #endregion
 
-        
+
     }
 }

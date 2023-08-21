@@ -1,5 +1,6 @@
 ﻿using IDE.Helper;
 using IDE.Preferences;
+using Slang.IDE.Domain.Entities.IDE;
 
 namespace IDE.Views
 {
@@ -17,7 +18,7 @@ namespace IDE.Views
         {
             var projects = Functions.LoadRecent();
 
-            foreach (var project in projects.OrderBy(x => x.Date))
+            foreach (var project in projects.OrderBy(x => x.Updated))
             {
                 var btn = new Button
                 {
@@ -40,7 +41,7 @@ namespace IDE.Views
 
         private void RecentProjectClick(object? sender, EventArgs e)
         {
-            var project = (sender as Button)?.Tag as RecentProject;
+            var project = (sender as Button)?.Tag as Project;
             Functions.LoadProject(project!.Path);
             Functions.UpdateRecendProject(project);
 

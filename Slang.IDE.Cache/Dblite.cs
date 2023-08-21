@@ -7,6 +7,7 @@ namespace Slang.IDE.Cache
     {
         public void CreateModel()
         {
+            ProjectQueriesCollection.CreateTable();
             BookmarkQueriesCollection.CreateTable();
         }
     }

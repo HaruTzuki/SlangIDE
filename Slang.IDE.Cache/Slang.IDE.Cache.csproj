@@ -14,6 +14,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Slang.IDE.Domain\Slang.IDE.Domain.csproj" />
+	  <ProjectReference Include="..\Slang.IDE.Shared\Slang.IDE.Shared.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

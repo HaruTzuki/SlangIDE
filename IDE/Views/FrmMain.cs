@@ -36,6 +36,8 @@ namespace IDE.Views
             PaintAllComponents();
 
             var s = new Preferences.Shortcut();
+            MainDockPanel.DockLeftPortion = 0.15;
+            MainDockPanel.DockRightPortion = 0.15;
             s.Bind();
         }
 #pragma warning restore CS8618

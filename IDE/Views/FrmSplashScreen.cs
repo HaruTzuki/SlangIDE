@@ -2,6 +2,7 @@
 using IDE.Helper.Custom;
 using IDE.Preferences;
 using Slang.IDE.Cache;
+using Slang.IDE.Domain.Entities.IDE;
 
 namespace IDE.Views
 {
@@ -48,15 +49,15 @@ namespace IDE.Views
             }
             else
             {
-                var recentProject = new RecentProject()
+                var recentProject = new Project()
                 {
-                    Date = DateTime.Now,
+                    Id = Sessions.SlangProject.Id.ToString(),
                     Name = Sessions.SlangProject.Name,
-                    Path = _args[0]
+                    Path = _args[0],
+                    IsPinned = false
                 };
 
-                recentProjects.Add(recentProject);
-                Functions.SaveRecent(recentProjects);
+                Functions.SaveRecent(recentProject);
             }
 
             var form = new FrmMain();

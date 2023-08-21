@@ -8,6 +8,7 @@ namespace IDE.Abstraction
         {
             InitializeComponent();
             AutoScaleMode = AutoScaleMode.Dpi;
+            Width = 250;
         }
     }
 }

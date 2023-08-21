@@ -1,6 +1,8 @@
 ﻿using IDE.Preferences;
 using IDE.Properties;
 using Newtonsoft.Json;
+using Slang.IDE.Cache.Queries;
+using Slang.IDE.Domain.Entities.IDE;
 using System.Data;
 
 namespace IDE.Helper
@@ -83,7 +85,7 @@ namespace IDE.Helper
             Sessions.SlangProject = projectFile;
             Sessions.ProjectPath = path;
 
-            SaveToRecent(path, projectFile);
+            SaveRecent(path, projectFile);
         }
 
         public static void UpdateProject()
@@ -117,68 +119,27 @@ namespace IDE.Helper
         #endregion
 
         #region Recent
-        private static void SaveToRecent(string actualPath, SlangProject slangProject)
+        private static void SaveRecent(string actualPath, SlangProject slangProject)
         {
-            if (!Directory.Exists(_recentPath))
-            {
-                Directory.CreateDirectory(_recentPath);
-            }
-
-            if (!File.Exists(_recentFilePath))
-            {
-                File.WriteAllText(_recentFilePath, "[]");
-            }
-
-            using var streamReader = new StreamReader(_recentFilePath);
-            var projects = JsonConvert.DeserializeObject<List<RecentProject>>(streamReader.ReadToEnd()) ?? new List<RecentProject>();
-
-            projects.Add(new RecentProject
-            {
-                Name = slangProject.Name,
-                Path = Path.Combine(actualPath, slangProject.FilePath, slangProject.Name + ".slangproject"),
-                Date = DateTime.Now
-            });
-
-            streamReader.Close();
-
-            SaveRecent(projects);
+            ProjectQueriesCollection.Insert(slangProject.Id.ToString(), slangProject.Name, Path.Combine(actualPath, slangProject.FilePath, slangProject.Name + ".slangproject"));
         }
 
-        public static void SaveRecent(IEnumerable<RecentProject> recentProjects)
+        public static void SaveRecent(Project project)
         {
-            var jsonText = JsonConvert.SerializeObject(recentProjects, Formatting.Indented);
-            using var streamWriter = new StreamWriter(_recentFilePath);
-            streamWriter.WriteLine(jsonText);
-            streamWriter.Close();
+            ProjectQueriesCollection.Insert(project.Id, project.Name, project.Path);
         }
 
-        public static IEnumerable<RecentProject> LoadRecent()
+        public static IEnumerable<Project> LoadRecent()
         {
-
-            if (!Directory.Exists(_recentPath))
-            {
-                Directory.CreateDirectory(_recentPath);
-            }
-
-            if (!File.Exists(_recentFilePath))
-            {
-                File.WriteAllText(_recentFilePath, "[]");
-            }
-
-            using var streamReader = new StreamReader(_recentFilePath);
-            return JsonConvert.DeserializeObject<IEnumerable<RecentProject>>(streamReader.ReadToEnd()) ?? Enumerable.Empty<RecentProject>();
+            return ProjectQueriesCollection.FetchAll();
         }
 
-        public static void UpdateRecendProject(RecentProject project)
+        public static void UpdateRecendProject(Project project)
         {
-            var recentProjects = LoadRecent();
 
-            if (recentProjects.Any(x => x.Name == project.Name && x.Path == project.Path))
-            {
-                recentProjects.First(x => x.Name == project.Name && x.Path == project.Path).Date = DateTime.Now;
-            }
+            if (!ProjectQueriesCollection.Update(project.Id, project.Name))
+                throw new ArgumentException();
 
-            SaveRecent(recentProjects);
         }
         #endregion
 

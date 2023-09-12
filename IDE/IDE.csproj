@@ -10,10 +10,15 @@
 		<AssemblyName>slangdev</AssemblyName>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<BaseOutputPath>C:\SlangIDE</BaseOutputPath>
+		<ApplicationIcon>slang_ide.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Remove="Views\FrmMain.cs~RF48590e.TMP" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="slang_ide.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

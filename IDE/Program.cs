@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Windows.Shell;
 
 namespace IDE
 {

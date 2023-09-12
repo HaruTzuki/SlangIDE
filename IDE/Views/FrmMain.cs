@@ -29,6 +29,7 @@ namespace IDE.Views
         {
             InitializeComponent();
             InitialiseToolWindows();
+            CheckForFeatures();
             Text = $"{Sessions.SlangProject.Name} - Slang IDE";
             FileExplorer!.BuildTreeView();
             InitialiseTreeViewEvents();
@@ -39,6 +40,14 @@ namespace IDE.Views
             MainDockPanel.DockLeftPortion = 0.15;
             MainDockPanel.DockRightPortion = 0.15;
             s.Bind();
+        }
+
+        private void CheckForFeatures()
+        {
+            if (!Features.DebugMode)
+            {
+                this.EditorsTools.Items.Remove(this.BtnDebug);
+            }
         }
 #pragma warning restore CS8618
 
@@ -261,21 +270,27 @@ namespace IDE.Views
             _outputView.Name = "{468A04C9-1A10-4F3F-9937-30A26375E2C4}";
             _outputView.Click += ShowOutput;
 
-            var _breakpointView = new ToolStripMenuItem();
-            _view.DropDownItems.Add(_breakpointView);
-            _breakpointView.ForeColor = Color.WhiteSmoke;
-            _breakpointView.Text = "Breakpoints Window";
-            _breakpointView.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _breakpointView.Name = "{098DB9F1-30A8-47D0-9C64-28769CD0A602}";
-            _breakpointView.Click += ShowBreakpoints;
+            if (Features.BreakpointEnable)
+            {
+                var _breakpointView = new ToolStripMenuItem();
+                _view.DropDownItems.Add(_breakpointView);
+                _breakpointView.ForeColor = Color.WhiteSmoke;
+                _breakpointView.Text = "Breakpoints Window";
+                _breakpointView.DisplayStyle = ToolStripItemDisplayStyle.Text;
+                _breakpointView.Name = "{098DB9F1-30A8-47D0-9C64-28769CD0A602}";
+                _breakpointView.Click += ShowBreakpoints; 
+            }
 
-            var _bookmarkWindow = new ToolStripMenuItem();
-            _view.DropDownItems.Add(_bookmarkWindow);
-            _bookmarkWindow.ForeColor = Color.WhiteSmoke;
-            _bookmarkWindow.Text = "Bookmarks Window";
-            _bookmarkWindow.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _bookmarkWindow.Name = "{8BD5BACE-4F39-4853-A6BA-B81C368F7C20}";
-            _bookmarkWindow.Click += ShowBookmark;
+            if (Features.BookmarkEnable)
+            {
+                var _bookmarkWindow = new ToolStripMenuItem();
+                _view.DropDownItems.Add(_bookmarkWindow);
+                _bookmarkWindow.ForeColor = Color.WhiteSmoke;
+                _bookmarkWindow.Text = "Bookmarks Window";
+                _bookmarkWindow.DisplayStyle = ToolStripItemDisplayStyle.Text;
+                _bookmarkWindow.Name = "{8BD5BACE-4F39-4853-A6BA-B81C368F7C20}";
+                _bookmarkWindow.Click += ShowBookmark; 
+            }
 
             var _build = new ToolStripMenuItem
             {

@@ -1,4 +1,7 @@
-﻿namespace IDE.Views
+﻿using IDE.Helper;
+using System.Diagnostics;
+
+namespace IDE.Views
 {
     partial class FrmMain
     {
@@ -144,14 +147,14 @@
             this.BtnRun.Click += new System.EventHandler(this.BtnRun_Click);
             // 
             // BtnDebug
-            // 
-            this.BtnDebug.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BtnDebug.Image = global::IDE.Properties.Resources.debug;
-            this.BtnDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BtnDebug.Name = "BtnDebug";
-            this.BtnDebug.Size = new System.Drawing.Size(23, 20);
-            this.BtnDebug.Text = "Debug";
-            this.BtnDebug.Click += new System.EventHandler(this.BtnDebug_Click);
+            //
+                this.BtnDebug.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+                this.BtnDebug.Image = global::IDE.Properties.Resources.debug;
+                this.BtnDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
+                this.BtnDebug.Name = "BtnDebug";
+                this.BtnDebug.Size = new System.Drawing.Size(23, 20);
+                this.BtnDebug.Text = "Debug";
+                this.BtnDebug.Click += new System.EventHandler(this.BtnDebug_Click);
             // 
             // toolStripSeparator3
             // 

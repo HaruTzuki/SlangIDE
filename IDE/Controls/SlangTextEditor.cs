@@ -274,32 +274,35 @@ namespace IDE.Controls
 
         private void TextEditor_MarginClick(object sender, MarginClickEventArgs e)
         {
-            if (e.Margin == BREAKPOINT_MARGIN)
+            if (Features.BreakpointEnable)
             {
-                const uint mask = (1 << BREAKPOINT_MARKER);
-                var line = textEditor.Lines[textEditor.LineFromPosition(e.Position)];
-                if ((line.MarkerGet() & mask) > 0)
+                if (e.Margin == BREAKPOINT_MARGIN)
                 {
-                    line.MarkerDelete(BREAKPOINT_MARKER);
-
-                    var breakpoint = Sessions.Breakpoints.First(x => x.FilePath == Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath
-                    && x.Line == textEditor.LineFromPosition(e.Position));
-                    Sessions.Breakpoints.Remove(breakpoint);
-
-                    OnBreakpointDeleted(new EventArgs());
-                }
-                else
-                {
-                    line.MarkerAdd(BREAKPOINT_MARKER);
-                    Sessions.Breakpoints.Add(new Slang.IDE.Shared.IDE.Breakpoint
+                    const uint mask = (1 << BREAKPOINT_MARKER);
+                    var line = textEditor.Lines[textEditor.LineFromPosition(e.Position)];
+                    if ((line.MarkerGet() & mask) > 0)
                     {
-                        Name = $"Breakpoint {Sessions.Breakpoints.Count + 1}",
-                        FilePath = Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath,
-                        Line = textEditor.LineFromPosition(e.Position)
+                        line.MarkerDelete(BREAKPOINT_MARKER);
 
-                    });
+                        var breakpoint = Sessions.Breakpoints.First(x => x.FilePath == Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath
+                        && x.Line == textEditor.LineFromPosition(e.Position));
+                        Sessions.Breakpoints.Remove(breakpoint);
 
-                    OnBreakpointAdded(new EventArgs());
+                        OnBreakpointDeleted(new EventArgs());
+                    }
+                    else
+                    {
+                        line.MarkerAdd(BREAKPOINT_MARKER);
+                        Sessions.Breakpoints.Add(new Slang.IDE.Shared.IDE.Breakpoint
+                        {
+                            Name = $"Breakpoint {Sessions.Breakpoints.Count + 1}",
+                            FilePath = Sessions.SlangProject.Files.First(x => x.Name == this.Text).FilePath,
+                            Line = textEditor.LineFromPosition(e.Position)
+
+                        });
+
+                        OnBreakpointAdded(new EventArgs());
+                    }
                 }
             }
         }
@@ -529,28 +532,29 @@ namespace IDE.Controls
         {
             var bookmarks = BookmarkQueriesCollection.FetchAll(FilePath);
 
-
             foreach (var bookmark in bookmarks)
             {
                 var line = textEditor.Lines[bookmark.Line - 1];
                 line.MarkerAdd(BOOKMARK_MARKER);
             }
-
         }
 
         public void ToggleBookmark()
         {
-            const uint mask = (1 << BOOKMARK_MARKER);
-            var line = textEditor.Lines[textEditor.LineFromPosition(textEditor.CurrentPosition)];
-            if ((line.MarkerGet() & mask) > 0)
+            if (Features.BookmarkEnable)
             {
-                line.MarkerDelete(BOOKMARK_MARKER);
-                OnBookmarkDeleted(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text && x.FilePath == FilePath).Id.ToString(), FilePath, textEditor.CurrentLine + 1));
-            }
-            else
-            {
-                line.MarkerAdd(BOOKMARK_MARKER);
-                OnBookmarkAdded(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text && x.FilePath == FilePath).Id.ToString(), FilePath, textEditor.CurrentLine + 1));
+                const uint mask = (1 << BOOKMARK_MARKER);
+                var line = textEditor.Lines[textEditor.LineFromPosition(textEditor.CurrentPosition)];
+                if ((line.MarkerGet() & mask) > 0)
+                {
+                    line.MarkerDelete(BOOKMARK_MARKER);
+                    OnBookmarkDeleted(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text && x.FilePath == FilePath).Id.ToString(), FilePath, textEditor.CurrentLine + 1));
+                }
+                else
+                {
+                    line.MarkerAdd(BOOKMARK_MARKER);
+                    OnBookmarkAdded(new BookmarkEventArgs(Sessions.SlangProject.Files.First(x => x.Name == this.Text && x.FilePath == FilePath).Id.ToString(), FilePath, textEditor.CurrentLine + 1));
+                } 
             }
         }
 
@@ -564,17 +568,5 @@ namespace IDE.Controls
             _findReplace.ShowFind();
         }
         #endregion
-
-        private void PnlBookmark_Paint(object sender, PaintEventArgs e)
-        {
-            // Clear previous drawings
-            e.Graphics.Clear(PnlBookmark.BackColor);
-
-            // Example: Draw a circle marker at the center of the panel
-            int centerX = PnlBookmark.Width / 2;
-            int centerY = PnlBookmark.Height / 2;
-            int radius = 8;
-            e.Graphics.FillEllipse(Brushes.Red, centerX - radius, centerY - radius, radius * 2, radius * 2);
-        }
     }
 }

@@ -34,7 +34,6 @@
             this.CbxZoom = new IDE.Controls.FlatCombo();
             this.panel2 = new System.Windows.Forms.Panel();
             this.incrementalSearch1 = new IDE.Views.TextEditorViews.IncrementalSearch();
-            this.PnlBookmark = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +47,7 @@
             this.textEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textEditor.Location = new System.Drawing.Point(0, 0);
             this.textEditor.Name = "textEditor";
-            this.textEditor.Size = new System.Drawing.Size(397, 239);
+            this.textEditor.Size = new System.Drawing.Size(419, 239);
             this.textEditor.TabIndex = 0;
             // 
             // panel1
@@ -100,7 +99,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 25);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(397, 239);
+            this.panel2.Size = new System.Drawing.Size(419, 239);
             this.panel2.TabIndex = 2;
             // 
             // incrementalSearch1
@@ -119,23 +118,12 @@
             this.incrementalSearch1.TextEditor = null;
             this.incrementalSearch1.ToolItem = true;
             // 
-            // PnlBookmark
-            // 
-            this.PnlBookmark.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
-            this.PnlBookmark.Dock = System.Windows.Forms.DockStyle.Right;
-            this.PnlBookmark.Location = new System.Drawing.Point(397, 25);
-            this.PnlBookmark.Name = "PnlBookmark";
-            this.PnlBookmark.Size = new System.Drawing.Size(22, 239);
-            this.PnlBookmark.TabIndex = 2;
-            this.PnlBookmark.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlBookmark_Paint);
-            // 
             // SlangTextEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(419, 264);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.PnlBookmark);
             this.Controls.Add(this.panel1);
             this.Name = "SlangTextEditor";
             this.Load += new System.EventHandler(this.SlangTextEditor_Load);
@@ -155,6 +143,5 @@
         private FlatCombo CbxAvailableMethods;
         private FlatCombo CbxZoom;
         private Views.TextEditorViews.IncrementalSearch incrementalSearch1;
-        private Panel PnlBookmark;
     }
 }

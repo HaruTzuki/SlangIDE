@@ -31,7 +31,7 @@ if (!content.Contains("main"))
 
 buildTheFile(sb, sourceFilePath, sourceFile);
 
-sb.AppendLine("main();");
+//sb.Append("startup();");
 
 
 var startInfo = new ProcessStartInfo();
@@ -39,9 +39,9 @@ startInfo.UseShellExecute = false;
 startInfo.RedirectStandardOutput = true;
 startInfo.RedirectStandardError = true;
 startInfo.RedirectStandardInput = true;
-startInfo.Arguments = "10 0";
+startInfo.Arguments = $"\"{sb.ToString()}\"";
 startInfo.CreateNoWindow = true;
-startInfo.FileName = "C:\\Users\\SYCADA_USER\\Downloads\\main.exe";
+startInfo.FileName = "C:\\Users\\SYCADA_USER\\Downloads\\bcl1.exe";
 
 var process = new Process();
 process.StartInfo = startInfo;
@@ -86,7 +86,7 @@ static void buildTheFile(StringBuilder sb, string mainFolder, string sourceFile)
         }
         else
         {
-            sb.AppendLine(line);
+            sb.Append(line);
         }
 
     }

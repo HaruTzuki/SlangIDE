@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using SlangMiddleware.Properties;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -27,11 +28,9 @@ if (!content.Contains("main"))
     Console.WriteLine("You must provide the path of the .slang file which has the main function");
 }
 
+buildTheFile(sb, sourceFilePath!, sourceFile);
 
-
-buildTheFile(sb, sourceFilePath, sourceFile);
-
-//sb.Append("startup();");
+var tempFile = createTempFile(sb);
 
 
 var startInfo = new ProcessStartInfo();
@@ -39,12 +38,13 @@ startInfo.UseShellExecute = false;
 startInfo.RedirectStandardOutput = true;
 startInfo.RedirectStandardError = true;
 startInfo.RedirectStandardInput = true;
-startInfo.Arguments = $"\"{sb.ToString()}\"";
+startInfo.Arguments = tempFile;
 startInfo.CreateNoWindow = true;
-startInfo.FileName = "C:\\Users\\SYCADA_USER\\Downloads\\bcl1.exe";
+startInfo.FileName = Resources.SLANG_COMPILER_WIN;
 
 var process = new Process();
 process.StartInfo = startInfo;
+
 process.OutputDataReceived += async (ss, ee) =>
 {
     Console.WriteLine(ee.Data);
@@ -65,9 +65,6 @@ foreach (var arg in arguments)
             break;
     }
 }
-
-
-
 
 static void buildTheFile(StringBuilder sb, string mainFolder, string sourceFile)
 {
@@ -92,4 +89,23 @@ static void buildTheFile(StringBuilder sb, string mainFolder, string sourceFile)
     }
 }
 
+static string createTempFile(StringBuilder sb)
+{
+    if(!Directory.Exists(Resources.TEMP_FILES_PATH))
+    {
+        Directory.CreateDirectory(Resources.TEMP_FILES_PATH);
+    }
 
+    var tempFilePath = Path.Combine(Resources.TEMP_FILES_PATH, $"{Guid.NewGuid():N}.slang");
+
+    try
+    {
+        File.WriteAllText(tempFilePath, sb.ToString());
+    }
+    catch (IOException ex)
+    {
+        throw;
+    }
+
+    return tempFilePath;
+}

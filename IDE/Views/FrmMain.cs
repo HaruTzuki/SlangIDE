@@ -30,7 +30,7 @@ namespace IDE.Views
             InitializeComponent();
             InitialiseToolWindows();
             CheckForFeatures();
-            Text = $"{Sessions.SlangProject.Name} - Slang IDE";
+            Text = $"{Sessions.SlangProject.Name} - Slang IDE | ALPHA 0.0.10.2";
             FileExplorer!.BuildTreeView();
             InitialiseTreeViewEvents();
             MainMenuStrip.Renderer = new DarkThemeRenderer();
@@ -569,7 +569,7 @@ namespace IDE.Views
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
-                Arguments = $"{Sessions.ProjectPath}/{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath} -s",
+                Arguments = $"{Sessions.ProjectPath}/{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath}",
                 CreateNoWindow = true,
                 FileName = "smc.exe"
             };

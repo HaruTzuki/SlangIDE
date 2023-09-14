@@ -142,6 +142,7 @@
             this.LblWebSite.TabIndex = 1;
             this.LblWebSite.TabStop = true;
             this.LblWebSite.Text = "https://slang-lang.com";
+            this.LblWebSite.Visible = false;
             this.LblWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LblWebSite_LinkClicked);
             // 
             // label2

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Slang.IDE.Tools.Compare": {
+      "commandName": "Project",
+      "commandLineArgs": "-source C:\\SlangIDE\\from.txt -to C:\\SlangIDE\\to.txt"
+    }
+  }
+}

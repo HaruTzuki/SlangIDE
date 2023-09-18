@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Slang.IDE.Views;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,10 @@ namespace Slang.IDE
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var winSplashScreen = new WinSplashScreen(e.Args);
+            winSplashScreen.Show();
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace IDE.Helper
         private static readonly string _recentPath = Settings.Default["FileFolder"].ToString();
         private static readonly string _recentFilePath = Path.Combine(_recentPath, Settings.Default["RecentFile"].ToString());
 
+
         #region Project
         public static void CreateProject(string path, string name, Templates templates)
         {

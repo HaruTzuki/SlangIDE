@@ -162,11 +162,6 @@ namespace IDE.Controls
 					CbxAvailableMethods.DisplayMember = "Name";
 					CbxAvailableMethods.ValueMember = "Column";
 					CbxAvailableMethods.SelectedIndexChanged += CbxAvailableMethods_SelectedIndexChanged;
-
-					//if (CbxAvailableMethods.Items.Count > 0)
-					//{
-					//	CbxAvailableMethods.SelectedIndex = 0;
-					//}
 				};
 				CbxAvailableMethods.Invoke(safe);
 			}

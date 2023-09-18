@@ -1,0 +1,53 @@
+﻿<Window x:Class="Slang.IDE.Views.WinStartup"
+        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Slang.IDE.Views"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Title="WinStartup" Height="450" Width="800">
+
+    
+
+
+    <Grid Background="{DynamicResource Background}">
+
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem x:Name="btnLightTheme" Click="btnLightTheme_Click" Header="Light Theme"/>
+                <MenuItem x:Name="btnDarkTheme" Click="btnDarkTheme_Click" Header="Dark Theme"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="6*"/>
+        </Grid.ColumnDefinitions>
+        
+        <GroupBox Grid.Column="0" Margin="5">
+            <GroupBox.Header>
+                <Label Content="Recent Project" Foreground="{DynamicResource Text}"/>
+            </GroupBox.Header>
+            <ScrollViewer>
+                <StackPanel>
+                    <Button Content="Recent Project #1" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}" Height="60" Margin="5"/>
+                    <Button Content="Recent Project #2" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}" Height="60" Margin="5"/>
+                    <Button Content="Recent Project #3" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}" Height="60" Margin="5"/>
+                    <Button Content="Recent Project #4" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}" Height="60" Margin="5"/>
+                    <Button Content="Recent Project #5" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}" Height="60" Margin="5"/>
+                    <Button Content="Recent Project #6" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}" Height="60" Margin="5"/>
+                    <Button Content="Recent Project #7" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}" Height="60" Margin="5"/>
+                </StackPanel>
+            </ScrollViewer>
+        </GroupBox>
+
+        <StackPanel Grid.Column="1">
+            <Button x:Name="BtnNewProject" Content="New Project" Height="70" Margin="5,130,5,5" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}"/>
+            <Button x:Name="BtnOpenProject" Content="Load Project" Height="70" Margin="5,5,5,5" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

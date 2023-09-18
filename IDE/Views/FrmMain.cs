@@ -3,6 +3,7 @@ using IDE.Events;
 using IDE.Helper;
 using IDE.Helper.Custom;
 using IDE.Preferences;
+using IDE.Properties;
 using IDE.Views.AdditionViews;
 using IDE.Views.ToolWindows;
 using Slang.IDE.Cache.Queries;
@@ -560,6 +561,8 @@ namespace IDE.Views
 
         private void BtnRun_Click(object sender, EventArgs e)
         {
+            BtnSaveAll_Click(sender, e);
+
             LblStatusMessage.Text = $"Build Started...";
             ShowOutput(sender, e);
             OutputWindow.WriteLine("Compiling has been started...");
@@ -571,7 +574,7 @@ namespace IDE.Views
                 RedirectStandardInput = true,
                 Arguments = $"{Sessions.ProjectPath}/{Sessions.SlangProject.Files.First(x => x.Name == "main.slang").FilePath}",
                 CreateNoWindow = true,
-                FileName = "smc.exe"
+                FileName = Settings.Default.SlangMiddlewarePath
             };
 
             var process = new Process

@@ -76,5 +76,23 @@ namespace IDE.Properties {
                 return ((bool)(this["TextEditorItalic"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("smc.exe")]
+        public string SlangMiddlewarePath {
+            get {
+                return ((string)(this["SlangMiddlewarePath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("slangcli.exe")]
+        public string SlangCLIPath {
+            get {
+                return ((string)(this["SlangCLIPath"]));
+            }
+        }
     }
 }

@@ -23,12 +23,12 @@ using var streamReader = new StreamReader(sourceFile);
 var content = streamReader.ReadToEnd();
 streamReader.Close();
 
-if (!content.Contains("main"))
-{
-    Console.WriteLine("You must provide the path of the .slang file which has the main function");
-}
-
 buildTheFile(sb, sourceFilePath!, sourceFile);
+
+if (content.Contains("main"))
+{
+    sb.AppendLine("main();");
+}
 
 var tempFile = createTempFile(sb);
 
@@ -53,6 +53,8 @@ process.OutputDataReceived += async (ss, ee) =>
 process.Start();
 process.BeginOutputReadLine();
 await process.WaitForExitAsync();
+
+File.Delete(tempFile);
 
 foreach (var arg in arguments)
 {
@@ -83,7 +85,7 @@ static void buildTheFile(StringBuilder sb, string mainFolder, string sourceFile)
         }
         else
         {
-            sb.Append(line);
+            sb.AppendLine(line);
         }
 
     }

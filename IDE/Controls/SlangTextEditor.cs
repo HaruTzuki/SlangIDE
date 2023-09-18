@@ -105,7 +105,7 @@ namespace IDE.Controls
 				Action safe = () =>
 				{
 					CbxAvailableMethods.SelectedIndexChanged -= CbxAvailableMethods_SelectedIndexChanged;
-					SystemPreferences.UserDefineFunctions.Clear();
+					//SystemPreferences.UserDefineFunctions.Clear();
 					CbxAvailableMethods.DataSource = null;
 					CbxAvailableMethods.Items.Clear();
 				};
@@ -114,7 +114,7 @@ namespace IDE.Controls
 			else
 			{
 				CbxAvailableMethods.SelectedIndexChanged -= CbxAvailableMethods_SelectedIndexChanged;
-				SystemPreferences.UserDefineFunctions.Clear();
+				//SystemPreferences.UserDefineFunctions.Clear();
 				CbxAvailableMethods.DataSource = null;
 				CbxAvailableMethods.Items.Clear();
 			}
@@ -143,7 +143,11 @@ namespace IDE.Controls
 				// Extract the text between "fn" and "{"
 				string result = fullText.Substring(fnIndex + 2, openBraceIndex - fnIndex - 2).Trim();
 
-				SystemPreferences.UserDefineFunctions.Add(new UserDefineFunction { Name = result, Column = fnIndex + 2 });
+				if(!SystemPreferences.UserDefineFunctions.Any(x=>x.Name == result && x.Column == fnIndex + 2))
+				{
+					SystemPreferences.UserDefineFunctions.Add(new UserDefineFunction { Name = result, Column = fnIndex + 2 });
+				}
+
 				// Update your UI or perform any other action with the extracted text
 				// For example, display the result in a label or add it to the list.
 

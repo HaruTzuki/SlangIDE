@@ -20,5 +20,11 @@
     <Setting Name="TextEditorItalic" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="SlangMiddlewarePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smc.exe</Value>
+    </Setting>
+    <Setting Name="SlangCLIPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">slangcli.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

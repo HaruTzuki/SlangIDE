@@ -41,7 +41,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slang.IDE", "Slang.IDE\Slan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slang.IDE.Tools.Compare", "Slang.IDE.Tools.Compare\Slang.IDE.Tools.Compare.csproj", "{93D17F90-7AE2-47A8-8C8A-2778A7B244F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.IDE.App", "Slang.IDE.App\Slang.IDE.App.csproj", "{3C9803C4-A7B8-49EB-B78D-E5EC3E9E19B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slang.IDE.App", "Slang.IDE.App\Slang.IDE.App.csproj", "{3C9803C4-A7B8-49EB-B78D-E5EC3E9E19B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{41936872-B8F2-4AB9-9EC0-5955DBD5D9C2}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Users\dvldev\Desktop\SLANGIDE.md = ..\..\Users\dvldev\Desktop\SLANGIDE.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

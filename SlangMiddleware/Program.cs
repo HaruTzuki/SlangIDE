@@ -11,6 +11,9 @@ if (args.Length < 0)
 var sourceFile = args[0];
 var sourceFilePath = Path.GetDirectoryName(sourceFile);
 
+Console.WriteLine($"{sourceFile}");
+
+
 // Gets all other arguments
 var arguments = args.ToList();
 arguments.RemoveAt(0);
@@ -20,7 +23,9 @@ var sb = new StringBuilder();
 // Reads the content of main.slang
 var content = File.ReadAllText(sourceFile);
 
+builtInFunctions(sb);
 buildText(sb, sourceFilePath!, sourceFile);
+
 
 var tempFile = createTempFile(sb);
 
@@ -38,6 +43,8 @@ static void buildText(StringBuilder sb, string mainFolder, string sourceFile)
     var line = string.Empty;
     using var sr = new StreamReader(sourceFile);
 
+   
+
     while ((line = sr.ReadLine()) != null)
     {
         if (line.StartsWith("#add", StringComparison.Ordinal))
@@ -50,6 +57,10 @@ static void buildText(StringBuilder sb, string mainFolder, string sourceFile)
         }
         else
         {
+            if(line.Contains("//"))
+            {
+                return;
+            }
             sb.AppendLine(line);
         }
     }
@@ -58,6 +69,11 @@ static void buildText(StringBuilder sb, string mainFolder, string sourceFile)
     {
         sb.AppendLine("main();");
     }
+}
+
+static void builtInFunctions(StringBuilder sb)
+{
+    sb.AppendLine("fn printer(x:int) { x; }");
 }
 
 // Create Temp File

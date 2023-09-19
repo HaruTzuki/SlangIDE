@@ -2,7 +2,7 @@
   "profiles": {
     "SlangMiddleware": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\SYCADA_USER\\Documents\\Slang\\MySlangProject\\src\\main.slang"
+      "commandLineArgs": "C:\\Users\\dvldev\\Documents\\GoSlang\\ThisIsANewSlang\\src\\main.slang"
     }
   }
 }

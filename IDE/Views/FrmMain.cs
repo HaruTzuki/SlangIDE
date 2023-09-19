@@ -342,7 +342,7 @@ namespace IDE.Views
 
             //Add these controls to main menu
             MainMenuStrip.Items.Add(new ToolStripSeparator());
-            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _build, _tools, _options });
+            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _tools, _options });
             MainMenuStrip.ForeColor = Color.WhiteSmoke;
             #endregion
         }

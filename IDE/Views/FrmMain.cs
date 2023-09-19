@@ -293,12 +293,12 @@ namespace IDE.Views
                 _bookmarkWindow.Click += ShowBookmark; 
             }
 
-            var _build = new ToolStripMenuItem
-            {
-                Text = "&Build",
-                DisplayStyle = ToolStripItemDisplayStyle.Text,
-                Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}"
-            };
+            //var _build = new ToolStripMenuItem
+            //{
+            //    Text = "&Build",
+            //    DisplayStyle = ToolStripItemDisplayStyle.Text,
+            //    Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}"
+            //};
 
             var _tools = new ToolStripMenuItem
             {

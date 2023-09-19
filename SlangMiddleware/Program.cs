@@ -17,58 +17,23 @@ arguments.RemoveAt(0);
 
 var sb = new StringBuilder();
 
-// Check if this is startup file
+// Reads the content of main.slang
+var content = File.ReadAllText(sourceFile);
 
-using var streamReader = new StreamReader(sourceFile);
-var content = streamReader.ReadToEnd();
-streamReader.Close();
-
-buildTheFile(sb, sourceFilePath!, sourceFile);
-
-if (content.Contains("main"))
-{
-    sb.AppendLine("main();");
-}
+buildText(sb, sourceFilePath!, sourceFile);
 
 var tempFile = createTempFile(sb);
 
+await startCli(tempFile);
 
-var startInfo = new ProcessStartInfo();
-startInfo.UseShellExecute = false;
-startInfo.RedirectStandardOutput = true;
-startInfo.RedirectStandardError = true;
-startInfo.RedirectStandardInput = true;
-startInfo.Arguments = tempFile;
-startInfo.CreateNoWindow = true;
-startInfo.FileName = Resources.SLANG_COMPILER_WIN;
-
-var process = new Process();
-process.StartInfo = startInfo;
-
-process.OutputDataReceived += async (ss, ee) =>
-{
-    Console.WriteLine(ee.Data);
-};
-
-process.Start();
-process.BeginOutputReadLine();
-await process.WaitForExitAsync();
-
+// After run remove file.
 File.Delete(tempFile);
 
-foreach (var arg in arguments)
-{
-    switch (arg)
-    {
-        case "-s": // Show the combine code;
-            Console.WriteLine(sb.ToString());
-            break;
-        default:
-            break;
-    }
-}
+searchArguments(arguments, sb);
 
-static void buildTheFile(StringBuilder sb, string mainFolder, string sourceFile)
+
+// Build Text
+static void buildText(StringBuilder sb, string mainFolder, string sourceFile)
 {
     var line = string.Empty;
     using var sr = new StreamReader(sourceFile);
@@ -81,19 +46,24 @@ static void buildTheFile(StringBuilder sb, string mainFolder, string sourceFile)
             var pseudoPath = (from Match match in Regex.Matches(line, "\"([^\"]*)\"")
                               select match.ToString()).First();
 
-            buildTheFile(sb, mainFolder, Path.Combine(mainFolder, $"{pseudoPath.Trim('"')}.slang"));
+            buildText(sb, mainFolder, Path.Combine(mainFolder, $"{pseudoPath.Trim('"')}.slang"));
         }
         else
         {
             sb.AppendLine(line);
         }
+    }
 
+    if (sb.ToString().Contains("main"))
+    {
+        sb.AppendLine("main();");
     }
 }
 
+// Create Temp File
 static string createTempFile(StringBuilder sb)
 {
-    if(!Directory.Exists(Resources.TEMP_FILES_PATH))
+    if (!Directory.Exists(Resources.TEMP_FILES_PATH))
     {
         Directory.CreateDirectory(Resources.TEMP_FILES_PATH);
     }
@@ -110,4 +80,45 @@ static string createTempFile(StringBuilder sb)
     }
 
     return tempFilePath;
+}
+
+// Open Process of CLI
+static async Task startCli(string tempFile)
+{
+    var startInfo = new ProcessStartInfo();
+    startInfo.UseShellExecute = false;
+    startInfo.RedirectStandardOutput = true;
+    startInfo.RedirectStandardError = true;
+    startInfo.RedirectStandardInput = true;
+    startInfo.Arguments = tempFile;
+    startInfo.CreateNoWindow = true;
+    startInfo.FileName = Resources.SLANG_COMPILER_WIN;
+
+    var process = new Process();
+    process.StartInfo = startInfo;
+
+    process.OutputDataReceived += async (ss, ee) =>
+    {
+        Console.WriteLine(ee.Data);
+    };
+
+    process.Start();
+    process.BeginOutputReadLine();
+    await process.WaitForExitAsync();
+}
+
+// Search arguments
+static void searchArguments(List<string> arguments, StringBuilder sb)
+{
+    foreach (var arg in arguments)
+    {
+        switch (arg)
+        {
+            case "-s": // Show the combine code;
+                Console.WriteLine(sb.ToString());
+                break;
+            default:
+                break;
+        }
+    }
 }

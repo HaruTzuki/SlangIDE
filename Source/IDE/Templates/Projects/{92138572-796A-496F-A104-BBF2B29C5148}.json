@@ -1,4 +1,4 @@
 {
   "usings": "",
-  "code": "fn main() {\n print(\"Hello World\");\n}\n"
+  "code": "fn main() {\n printer(\"Hello World\");\n}\n"
 }

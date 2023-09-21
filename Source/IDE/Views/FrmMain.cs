@@ -20,6 +20,8 @@ namespace IDE.Views
         private ToolWindowBreakpoints BreakpointWindow;
         private ToolWindowBookmarks BookmarkWindow;
 
+        private bool isNewProject = false;
+
 
         #region Custom Events
         public event EventHandler BookmarkChanged;
@@ -86,6 +88,7 @@ namespace IDE.Views
             _newProject.ForeColor = Color.WhiteSmoke;
             _newProject.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _newProject.Name = "{5B6D512B-CB86-4A8F-91AF-2DCE0569BE3F}";
+            _newProject.Click += _newProject_Click;
 
             var _recentProjects = new ToolStripMenuItem();
             _file.DropDownItems.Add(_recentProjects);
@@ -293,12 +296,22 @@ namespace IDE.Views
                 _bookmarkWindow.Click += ShowBookmark; 
             }
 
-            //var _build = new ToolStripMenuItem
-            //{
-            //    Text = "&Build",
-            //    DisplayStyle = ToolStripItemDisplayStyle.Text,
-            //    Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}"
-            //};
+            var _debug = new ToolStripMenuItem
+            {
+                Text = "&Debug",
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Name = "{1E4E671A-3C4D-44AD-BFE5-E8C525A7A363}"
+            };
+
+
+            var _runWithoutDebug = new ToolStripMenuItem();
+            _debug.DropDownItems.Add(_runWithoutDebug);
+            _runWithoutDebug.ForeColor = Color.WhiteSmoke;
+            _runWithoutDebug.Text = "Run without Debugging";
+            _runWithoutDebug.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _runWithoutDebug.Name = "{235AC2D7-813A-4084-AC43-8E43FCBC2BFB}";
+            _runWithoutDebug.ShortcutKeys = Keys.F5;
+            _runWithoutDebug.Click += BtnRun_Click;
 
             var _tools = new ToolStripMenuItem
             {
@@ -342,9 +355,17 @@ namespace IDE.Views
 
             //Add these controls to main menu
             MainMenuStrip.Items.Add(new ToolStripSeparator());
-            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit, _view, _tools, _options });
+            MainMenuStrip.Items.AddRange(new ToolStripMenuItem[] { _file, _edit,  _view, _debug, _tools, _options });
             MainMenuStrip.ForeColor = Color.WhiteSmoke;
             #endregion
+        }
+
+        private void _newProject_Click(object sender, EventArgs e)
+        {
+            isNewProject = true;
+            this.Hide();
+            var frm = new FrmProjectsList();
+            frm.ShowDialog();
         }
         #endregion
 
@@ -367,7 +388,12 @@ namespace IDE.Views
         #region Form's Events 
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            if (!isNewProject)
+            {
+                Application.Exit();
+            }
+
+            
         }
         #endregion
 

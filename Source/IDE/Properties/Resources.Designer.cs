@@ -63,6 +63,16 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Background_Without_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Background_Without_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Bookmark_Delete {
             get {
                 object obj = ResourceManager.GetObject("Bookmark_Delete", resourceCulture);
@@ -156,6 +166,16 @@ namespace IDE.Properties {
         internal static System.Drawing.Bitmap slang_ide {
             get {
                 object obj = ResourceManager.GetObject("slang_ide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap slang_ide_new_logo {
+            get {
+                object obj = ResourceManager.GetObject("slang_ide_new_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

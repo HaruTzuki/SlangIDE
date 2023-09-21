@@ -105,7 +105,7 @@ namespace IDE.Controls
 				Action safe = () =>
 				{
 					CbxAvailableMethods.SelectedIndexChanged -= CbxAvailableMethods_SelectedIndexChanged;
-					//SystemPreferences.UserDefineFunctions.Clear();
+					SystemPreferences.UserDefineFunctions.Clear();
 					CbxAvailableMethods.DataSource = null;
 					CbxAvailableMethods.Items.Clear();
 				};
@@ -114,7 +114,7 @@ namespace IDE.Controls
 			else
 			{
 				CbxAvailableMethods.SelectedIndexChanged -= CbxAvailableMethods_SelectedIndexChanged;
-				//SystemPreferences.UserDefineFunctions.Clear();
+				SystemPreferences.UserDefineFunctions.Clear();
 				CbxAvailableMethods.DataSource = null;
 				CbxAvailableMethods.Items.Clear();
 			}

@@ -58,6 +58,7 @@ namespace IDE.Views
             this.DarkTheme = new WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme();
             this.LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.button1 = new System.Windows.Forms.Button();
             this.EditorsTools.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -65,6 +66,7 @@ namespace IDE.Views
             // EditorsTools
             // 
             this.EditorsTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.EditorsTools.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.EditorsTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.BtnUndo,
             this.BtnRedo,
@@ -81,7 +83,7 @@ namespace IDE.Views
             this.EditorsTools.Name = "EditorsTools";
             this.EditorsTools.Padding = new System.Windows.Forms.Padding(4);
             this.EditorsTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.EditorsTools.Size = new System.Drawing.Size(892, 31);
+            this.EditorsTools.Size = new System.Drawing.Size(892, 35);
             this.EditorsTools.TabIndex = 2;
             this.EditorsTools.Text = "toolStrip1";
             // 
@@ -91,7 +93,7 @@ namespace IDE.Views
             this.BtnUndo.Image = ((System.Drawing.Image)(resources.GetObject("BtnUndo.Image")));
             this.BtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnUndo.Name = "BtnUndo";
-            this.BtnUndo.Size = new System.Drawing.Size(23, 20);
+            this.BtnUndo.Size = new System.Drawing.Size(24, 24);
             this.BtnUndo.Text = "Undo";
             this.BtnUndo.ToolTipText = "Undo";
             this.BtnUndo.Click += new System.EventHandler(this.BtnUndo_Click);
@@ -102,14 +104,14 @@ namespace IDE.Views
             this.BtnRedo.Image = global::IDE.Properties.Resources.redo;
             this.BtnRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnRedo.Name = "BtnRedo";
-            this.BtnRedo.Size = new System.Drawing.Size(23, 20);
+            this.BtnRedo.Size = new System.Drawing.Size(24, 24);
             this.BtnRedo.Text = "Redo";
             this.BtnRedo.Click += new System.EventHandler(this.BtnRedo_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // BtnSave
             // 
@@ -117,7 +119,7 @@ namespace IDE.Views
             this.BtnSave.Image = global::IDE.Properties.Resources.save;
             this.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(23, 20);
+            this.BtnSave.Size = new System.Drawing.Size(24, 24);
             this.BtnSave.Text = "Save";
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
@@ -127,14 +129,14 @@ namespace IDE.Views
             this.BtnSaveAll.Image = ((System.Drawing.Image)(resources.GetObject("BtnSaveAll.Image")));
             this.BtnSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnSaveAll.Name = "BtnSaveAll";
-            this.BtnSaveAll.Size = new System.Drawing.Size(23, 20);
+            this.BtnSaveAll.Size = new System.Drawing.Size(24, 24);
             this.BtnSaveAll.Text = "Save All";
             this.BtnSaveAll.Click += new System.EventHandler(this.BtnSaveAll_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
             // BtnRun
             // 
@@ -142,24 +144,24 @@ namespace IDE.Views
             this.BtnRun.Image = global::IDE.Properties.Resources.run;
             this.BtnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnRun.Name = "BtnRun";
-            this.BtnRun.Size = new System.Drawing.Size(23, 20);
+            this.BtnRun.Size = new System.Drawing.Size(24, 24);
             this.BtnRun.Text = "Run Without Debugging";
             this.BtnRun.Click += new System.EventHandler(this.BtnRun_Click);
             // 
             // BtnDebug
-            //
-                this.BtnDebug.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-                this.BtnDebug.Image = global::IDE.Properties.Resources.debug;
-                this.BtnDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
-                this.BtnDebug.Name = "BtnDebug";
-                this.BtnDebug.Size = new System.Drawing.Size(23, 20);
-                this.BtnDebug.Text = "Debug";
-                this.BtnDebug.Click += new System.EventHandler(this.BtnDebug_Click);
+            // 
+            this.BtnDebug.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnDebug.Image = global::IDE.Properties.Resources.debug;
+            this.BtnDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnDebug.Name = "BtnDebug";
+            this.BtnDebug.Size = new System.Drawing.Size(24, 24);
+            this.BtnDebug.Text = "Debug";
+            this.BtnDebug.Click += new System.EventHandler(this.BtnDebug_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 27);
             // 
             // BtnToggleBookmark
             // 
@@ -167,7 +169,7 @@ namespace IDE.Views
             this.BtnToggleBookmark.Image = ((System.Drawing.Image)(resources.GetObject("BtnToggleBookmark.Image")));
             this.BtnToggleBookmark.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnToggleBookmark.Name = "BtnToggleBookmark";
-            this.BtnToggleBookmark.Size = new System.Drawing.Size(23, 20);
+            this.BtnToggleBookmark.Size = new System.Drawing.Size(24, 24);
             this.BtnToggleBookmark.Text = "Toggle Bookmark";
             this.BtnToggleBookmark.Click += new System.EventHandler(this.ToggleBookmark);
             // 
@@ -177,7 +179,7 @@ namespace IDE.Views
             this.BtnDeleteAllBookmarks.Image = global::IDE.Properties.Resources.Bookmark_Delete_All;
             this.BtnDeleteAllBookmarks.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtnDeleteAllBookmarks.Name = "BtnDeleteAllBookmarks";
-            this.BtnDeleteAllBookmarks.Size = new System.Drawing.Size(23, 20);
+            this.BtnDeleteAllBookmarks.Size = new System.Drawing.Size(24, 24);
             this.BtnDeleteAllBookmarks.Text = "Delete all Bookmarks";
             this.BtnDeleteAllBookmarks.ToolTipText = "Delete all Bookmarks from all files";
             this.BtnDeleteAllBookmarks.Click += new System.EventHandler(this.DeleteAllBookmarks);
@@ -275,13 +277,22 @@ namespace IDE.Views
             // 
             this.MainDockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainDockPanel.DockBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.MainDockPanel.Location = new System.Drawing.Point(0, 55);
+            this.MainDockPanel.Location = new System.Drawing.Point(0, 59);
             this.MainDockPanel.Name = "MainDockPanel";
             this.MainDockPanel.Padding = new System.Windows.Forms.Padding(6);
             this.MainDockPanel.ShowAutoHideContentOnHover = false;
-            this.MainDockPanel.Size = new System.Drawing.Size(892, 577);
+            this.MainDockPanel.Size = new System.Drawing.Size(892, 573);
             this.MainDockPanel.TabIndex = 4;
             this.MainDockPanel.Theme = this.DarkTheme;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(474, 230);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // FrmMain
             // 
@@ -289,6 +300,7 @@ namespace IDE.Views
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(892, 654);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.MainDockPanel);
             this.Controls.Add(this.EditorsTools);
             this.Controls.Add(this.MainMenuStrip);
@@ -340,5 +352,6 @@ namespace IDE.Views
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripButton BtnToggleBookmark;
         private ToolStripButton BtnDeleteAllBookmarks;
+        private Button button1;
     }
 }

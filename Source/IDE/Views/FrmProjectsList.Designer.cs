@@ -101,7 +101,7 @@
             this.TxtProjectName.Name = "TxtProjectName";
             this.TxtProjectName.Size = new System.Drawing.Size(369, 25);
             this.TxtProjectName.TabIndex = 3;
-            this.TxtProjectName.Text = "New Project";
+            this.TxtProjectName.Text = "NewProject";
             // 
             // TxtFilePath
             // 
@@ -116,7 +116,7 @@
             this.TxtFilePath.Name = "TxtFilePath";
             this.TxtFilePath.Size = new System.Drawing.Size(336, 25);
             this.TxtFilePath.TabIndex = 5;
-            this.TxtFilePath.Text = "New Project";
+            this.TxtFilePath.Text = "C:\\";
             // 
             // LblPath
             // 

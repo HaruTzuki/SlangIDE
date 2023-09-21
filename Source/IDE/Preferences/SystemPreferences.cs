@@ -15,7 +15,7 @@
 
         public readonly static IReadOnlyCollection<string> SystemFunctions = new List<string>()
         {
-            "printer", "get_date",
+            "printer", "first", "last", "rest", "push", "array", "randPick", "sort", "len", "atoi", "randInt"
         };
 
         public static List<string> UserDefineDataTypes = new List<string>();

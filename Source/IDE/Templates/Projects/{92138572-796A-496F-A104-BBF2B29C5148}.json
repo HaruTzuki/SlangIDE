@@ -1,4 +1,4 @@
 {
   "usings": "",
-  "code": "fn main() {\n printer(\"Hello World\");\n}\n"
+  "code": "printer(\"Welcome to Slang!\")\nprinter(\"Start coding :)\");"
 }

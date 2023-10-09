@@ -38,13 +38,13 @@
             this.BtnLinkedInDimitris = new System.Windows.Forms.PictureBox();
             this.LblWebSite = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
-            this.SlangIDELogo = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BtnLinkedInAlexandros)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BtnLinkedInDimitris)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SlangIDELogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -54,7 +54,7 @@
             this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(482, 28);
+            this.label1.Size = new System.Drawing.Size(339, 28);
             this.label1.TabIndex = 1;
             this.label1.Text = "Slang IDE for Slang Language.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -63,9 +63,9 @@
             // 
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(1, 186);
+            this.panel1.Location = new System.Drawing.Point(1, 219);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(482, 28);
+            this.panel1.Size = new System.Drawing.Size(339, 28);
             this.panel1.TabIndex = 2;
             // 
             // panel2
@@ -73,9 +73,9 @@
             this.panel2.Controls.Add(this.BtnOK);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(1, 214);
+            this.panel2.Location = new System.Drawing.Point(1, 247);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(482, 137);
+            this.panel2.Size = new System.Drawing.Size(339, 104);
             this.panel2.TabIndex = 3;
             // 
             // BtnOK
@@ -86,7 +86,7 @@
             this.BtnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnOK.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnOK.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.BtnOK.Location = new System.Drawing.Point(397, 97);
+            this.BtnOK.Location = new System.Drawing.Point(254, 64);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(82, 33);
             this.BtnOK.TabIndex = 1;
@@ -103,7 +103,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(239, 137);
+            this.panel3.Size = new System.Drawing.Size(239, 104);
             this.panel3.TabIndex = 0;
             // 
             // BtnLinkedInAlexandros
@@ -156,14 +156,16 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Developers:\r\n\r\n- Vlachopoulos Dimitris\r\n\r\n\r\n- Matas Alexandros";
             // 
-            // SlangIDELogo
+            // pictureBox1
             // 
-            this.SlangIDELogo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.SlangIDELogo.Location = new System.Drawing.Point(1, 1);
-            this.SlangIDELogo.Name = "SlangIDELogo";
-            this.SlangIDELogo.Size = new System.Drawing.Size(482, 185);
-            this.SlangIDELogo.TabIndex = 0;
-            this.SlangIDELogo.TabStop = false;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox1.Image = global::IDE.Properties.Resources.slang_ide_new_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(1, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(339, 218);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
             // 
             // FrmAbout
             // 
@@ -171,10 +173,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.BorderColour = System.Drawing.Color.Purple;
-            this.ClientSize = new System.Drawing.Size(484, 352);
+            this.ClientSize = new System.Drawing.Size(341, 352);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.SlangIDELogo);
+            this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmAbout";
             this.ShowIcon = false;
@@ -187,14 +189,12 @@
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BtnLinkedInAlexandros)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BtnLinkedInDimitris)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SlangIDELogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private PictureBox SlangIDELogo;
         private Label label1;
         private Panel panel1;
         private Panel panel2;
@@ -204,5 +204,6 @@
         private Button BtnOK;
         private PictureBox BtnLinkedInDimitris;
         private PictureBox BtnLinkedInAlexandros;
+        private PictureBox pictureBox1;
     }
 }

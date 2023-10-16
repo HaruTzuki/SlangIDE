@@ -58,7 +58,6 @@ namespace IDE.Views
             this.DarkTheme = new WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme();
             this.LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.button1 = new System.Windows.Forms.Button();
             this.EditorsTools.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -285,22 +284,12 @@ namespace IDE.Views
             this.MainDockPanel.TabIndex = 4;
             this.MainDockPanel.Theme = this.DarkTheme;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(474, 230);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(892, 654);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.MainDockPanel);
             this.Controls.Add(this.EditorsTools);
             this.Controls.Add(this.MainMenuStrip);
@@ -352,6 +341,5 @@ namespace IDE.Views
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripButton BtnToggleBookmark;
         private ToolStripButton BtnDeleteAllBookmarks;
-        private Button button1;
     }
 }

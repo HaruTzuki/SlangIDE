@@ -5,7 +5,7 @@
 
         public readonly static IReadOnlyCollection<string> Keywords = new List<string>()
         {
-            "fn", "null", "int" ,"string", "bool", "float", "double", "return", "if", "for", "foreach", "while", "do", "else", "var", "struct", "class"
+            "fn", "null", "int" ,"string", "bool", "float", "double", "return", "if", "for", "foreach", "while", "do", "else", "var", "struct", "class", "truth", "lie"
         };
 
         public readonly static IReadOnlyCollection<string> DataTypes = new List<string>()
@@ -15,7 +15,7 @@
 
         public readonly static IReadOnlyCollection<string> SystemFunctions = new List<string>()
         {
-            "printer", "first", "last", "rest", "push", "array", "randPick", "sort", "len", "atoi", "randInt"
+            "printer", "first", "last", "rest", "push", "array", "randPick", "sort", "len", "Atoi", "randInt"
         };
 
         public static List<string> UserDefineDataTypes = new List<string>();

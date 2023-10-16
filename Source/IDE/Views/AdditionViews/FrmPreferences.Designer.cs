@@ -31,12 +31,6 @@
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TextEditor");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("General", new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Shortcuts");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Editor", new System.Windows.Forms.TreeNode[] {
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Slang");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Languages", new System.Windows.Forms.TreeNode[] {
-            treeNode5});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPreferences));
             this.BasicSettingsTab = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -80,18 +74,8 @@
             treeNode1.Text = "TextEditor";
             treeNode2.Name = "{C205C943-2137-4EEE-9D8F-54F90A2CD3DA}";
             treeNode2.Text = "General";
-            treeNode3.Name = "{07ED30D6-FE3E-4204-A03D-BEC14107DFEA}";
-            treeNode3.Text = "Shortcuts";
-            treeNode4.Name = "{B851D9E9-375F-4506-A9F2-05D8057720D7}";
-            treeNode4.Text = "Editor";
-            treeNode5.Name = "{0E4EC421-5BE1-4A5F-B823-DF58E47CD8DF}";
-            treeNode5.Text = "Slang";
-            treeNode6.Name = "{99DAA8B3-5839-4BFA-8D2C-CACE6FFBF806}";
-            treeNode6.Text = "Languages";
             this.OptionsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode4,
-            treeNode6});
+            treeNode2});
             this.OptionsTreeView.ShowPlusMinus = false;
             this.OptionsTreeView.Size = new System.Drawing.Size(183, 450);
             this.OptionsTreeView.TabIndex = 0;
